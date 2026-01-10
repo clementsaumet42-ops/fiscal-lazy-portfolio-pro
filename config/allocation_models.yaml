@@ -1,0 +1,152 @@
+# Modèles d'allocation d'actifs pré-définis
+
+allocations:
+  defensif:
+    nom: "Défensif"
+    profil_risque: "conservateur"
+    horizon_min_annees: 3
+    allocation:
+      actions: 30.0
+      obligations: 65.0
+      or: 5.0
+    volatilite_cible: 7.0
+    description: "Allocation conservatrice pour préservation du capital"
+  
+  equilibre:
+    nom: "Équilibré"
+    profil_risque: "modere"
+    horizon_min_annees: 5
+    allocation:
+      actions: 60.0
+      obligations: 35.0
+      or: 5.0
+    volatilite_cible: 10.0
+    description: "Allocation équilibrée croissance/sécurité"
+  
+  dynamique:
+    nom: "Dynamique"
+    profil_risque: "agressif"
+    horizon_min_annees: 10
+    allocation:
+      actions: 80.0
+      obligations: 15.0
+      or: 5.0
+    volatilite_cible: 13.0
+    description: "Allocation dynamique orientée croissance"
+  
+  agressif:
+    nom: "Agressif"
+    profil_risque: "tres_agressif"
+    horizon_min_annees: 15
+    allocation:
+      actions: 100.0
+      obligations: 0.0
+      or: 0.0
+    volatilite_cible: 15.0
+    description: "100% actions pour maximiser la croissance long terme"
+
+# Sous-allocations actions
+sous_allocations_actions:
+  monde_equilibre:
+    nom: "Monde Équilibré"
+    allocation:
+      actions_europe: 40.0
+      actions_usa: 40.0
+      actions_emergents: 15.0
+      small_caps: 5.0
+  
+  monde_concentre_usa:
+    nom: "Monde concentré USA"
+    allocation:
+      actions_europe: 20.0
+      actions_usa: 65.0
+      actions_emergents: 10.0
+      small_caps: 5.0
+  
+  monde_concentre_europe:
+    nom: "Monde concentré Europe"
+    allocation:
+      actions_europe: 70.0
+      actions_usa: 20.0
+      actions_emergents: 5.0
+      small_caps: 5.0
+
+# Sous-allocations obligations
+sous_allocations_obligations:
+  gouvernementales_euro:
+    nom: "Gouvernementales Euro"
+    allocation:
+      obligations_gouvernementales: 100.0
+      obligations_corporate: 0.0
+  
+  mixte:
+    nom: "Mixte Gouv + Corporate"
+    allocation:
+      obligations_gouvernementales: 60.0
+      obligations_corporate: 40.0
+  
+  corporate_focus:
+    nom: "Focus Corporate"
+    allocation:
+      obligations_gouvernementales: 30.0
+      obligations_corporate: 70.0
+
+# Lifecycle strategies (glide paths)
+lifecycle_strategies:
+  conservateur:
+    nom: "Lifecycle Conservateur"
+    formule: "50 - age/2"
+    allocation_min_actions: 20.0
+    allocation_max_actions: 50.0
+  
+  equilibre:
+    nom: "Lifecycle Équilibré"
+    formule: "100 - age"
+    allocation_min_actions: 30.0
+    allocation_max_actions: 70.0
+  
+  agressif:
+    nom: "Lifecycle Agressif"
+    formule: "120 - age"
+    allocation_min_actions: 40.0
+    allocation_max_actions: 100.0
+  
+  lifecycle_optimal:
+    nom: "Lifecycle Optimal (non-linéaire)"
+    description: "Allocation dynamique non-linéaire selon âge"
+    regles:
+      - age_max: 40
+        pct_actions: 100
+      - age_max: 50
+        pct_actions: 90
+      - age_max: 60
+        pct_actions_formule: "80 - (age - 50)"
+      - age_max: 70
+        pct_actions_formule: "70 - 2*(age - 60)"
+      - age_min: 70
+        pct_actions_formule: "max(30, 50 - (age - 70))"
+
+# Benchmarks
+benchmarks:
+  monde_actions:
+    nom: "MSCI World"
+    ticker_approx: "IWDA.AS"
+    rendement_historique_annuel: 7.0
+    volatilite_historique: 15.0
+  
+  sp500:
+    nom: "S&P 500"
+    ticker_approx: "CSPX.AS"
+    rendement_historique_annuel: 10.0
+    volatilite_historique: 15.0
+  
+  obligations_monde:
+    nom: "Global Aggregate Bond"
+    ticker_approx: "AGGH.PA"
+    rendement_historique_annuel: 3.0
+    volatilite_historique: 5.0
+  
+  portfolio_60_40:
+    nom: "60/40 Actions/Obligations"
+    rendement_historique_annuel: 6.0
+    volatilite_historique: 10.0
