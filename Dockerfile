@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE $PORT
 
 # Démarrer l'application avec le port dynamique de Railway
-CMD uvicorn api.main:app --host 0.0.0.0 --port $PORT
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port $PORT"]
