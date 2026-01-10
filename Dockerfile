@@ -8,8 +8,12 @@ COPY backend/ .
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copier et rendre exécutable le script de démarrage
+COPY backend/start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 # Exposer le port (dynamique)
 EXPOSE $PORT
 
-# Démarrer l'application avec le port dynamique de Railway
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port $PORT"]
+# Démarrer l'application avec le script
+CMD ["/app/start.sh"]
