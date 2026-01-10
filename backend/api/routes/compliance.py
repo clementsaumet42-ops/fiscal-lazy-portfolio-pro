@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List
 import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from legal.compliance_engine import ComplianceEngine
 from legal.fiscal_rules import FiscalRules

@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from analytics.backtesting import BacktestEngine, FrequenceReequilibrage
 from analytics.monte_carlo import MonteCarloSimulator
