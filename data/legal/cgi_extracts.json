@@ -1,0 +1,84 @@
+{
+  "pea": {
+    "article": "CGI Art. 150-0 A",
+    "titre": "Plan d'Épargne en Actions",
+    "extrait_key_points": [
+      "Plafond versements: 150,000€ (Art. 150-0 A, I-1°)",
+      "Éligibilité: actions UE, ETF ≥75% actions UE (Art. 150-0 A, 2°)",
+      "Retrait <5 ans: clôture + taxation IR (TMI) + 17.2% PS (Art. 150-0 A, II-1°)",
+      "Retrait >5 ans: exonération IR, uniquement 17.2% PS (Art. 150-0 A, II-5°)",
+      "Pas d'abattement pour durée de détention depuis 2018"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042912881"
+  },
+  "assurance_vie": {
+    "article": "CGI Art. 125-0 A, 990 I",
+    "titre": "Assurance-Vie et Contrats de Capitalisation",
+    "extrait_key_points": [
+      "Contrat <4 ans: 35% ou IR + 17.2% PS (Art. 125-0 A, II-1°)",
+      "Contrat 4-8 ans: 15% ou IR + 17.2% PS (Art. 125-0 A, II-2°)",
+      "Contrat >8 ans: 7.5% après abattement + 17.2% PS (Art. 125-0 A, II-5°)",
+      "Abattement annuel >8 ans: 4,600€ (9,200€ couple) (Art. 990 I)",
+      "Transmission: abattement 152,500€ par bénéficiaire si <70 ans (Art. 990 I)"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042912927"
+  },
+  "cto": {
+    "article": "CGI Art. 150-0 A, 200 A",
+    "titre": "Compte-Titres Ordinaire",
+    "extrait_key_points": [
+      "Flat tax 30% (12.8% IR + 17.2% PS) (Art. 200 A, 2)",
+      "Option possible pour barème IR + 17.2% PS",
+      "Pas d'abattement pour durée de détention depuis 2018",
+      "Report de pertes possible sur 10 ans (Art. 150-0 D, 12)",
+      "Tax-loss harvesting autorisé"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000041468984"
+  },
+  "per": {
+    "article": "CGI Art. 163 quatervicies",
+    "titre": "Plan d'Épargne Retraite",
+    "extrait_key_points": [
+      "Versements déductibles du revenu imposable",
+      "Plafond déduction: 10% revenus professionnels (max 35,194€ en 2024)",
+      "Sortie en capital: taxation IR des versements déductibles",
+      "Sortie en rente: taxation comme pension retraite",
+      "Plus-values taxées comme AV >8 ans si sortie capital"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000041470831"
+  },
+  "societe_is_opcvm": {
+    "article": "CGI Art. 219",
+    "titre": "Fiscalité OPCVM pour Sociétés IS",
+    "extrait_key_points": [
+      "OPCVM Actions (≥75% actions): taxation à la réalisation uniquement (Art. 219, I-a ter)",
+      "QPFC 12% déductible si détention >2 ans (Art. 219, I-a quinquies)",
+      "OPCVM Obligations (<75% actions): taxation annuelle sur PV latente (mark-to-market)",
+      "Taux IS standard: 25% (Art. 219, I)",
+      "Taux IS PME: 15% sur premiers 38,120€ (Art. 219, I-b)"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000047654840"
+  },
+  "contrats_capitalisation_is": {
+    "article": "CGI Art. 38-7",
+    "titre": "Contrats de Capitalisation pour Sociétés IS",
+    "extrait_key_points": [
+      "Taxation annuelle sur PV latente pour sociétés IS",
+      "Régime avantageux >8 ans maintenu",
+      "Provisions mathématiques non imposables",
+      "Intérêts capitalisés imposés annuellement"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000047656026"
+  },
+  "prelevement_sociaux": {
+    "article": "CGI Art. 1600-0 S",
+    "titre": "Prélèvements Sociaux",
+    "extrait_key_points": [
+      "Taux global: 17.2%",
+      "Détail: CSG 9.2% + CRDS 0.5% + PS 7.5%",
+      "Applicable sur revenus du capital",
+      "CSG partiellement déductible (6.8%) pour revenus du patrimoine"
+    ],
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000047656534"
+  }
+}
