@@ -8,8 +8,7 @@ COPY backend/ .
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier et rendre exécutable le script de démarrage
-COPY backend/start.sh /app/start.sh
+# Rendre exécutable le script de démarrage
 RUN chmod +x /app/start.sh
 
 # Exposer le port (dynamique)
