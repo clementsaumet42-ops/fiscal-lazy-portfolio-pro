@@ -12,23 +12,23 @@ class RegimeFiscalIS(str, Enum):
 
 class TypeOPCVM(str, Enum):
     """
-    Types d'OPCVM selon CGI Art. 219.
-    
-    ACTIONS: ≥75% actions -> Taxation à la réalisation, QPFC 12% si détention >2 ans
-    OBLIGATIONS: <75% actions -> Taxation annuelle sur PV latente (mark-to-market)
+    Classification OPCVM selon CGI Art. 209-0 A
+    BOFiP-IS-BASE-10-20-10
     """
-    ACTIONS = "actions"  # ≥75% actions
-    OBLIGATIONS = "obligations"  # <75% actions
+    ACTIONS = "actions"  # ≥90% actions (seuil IS, PAS 75%)
+    OBLIGATIONS = "obligations"  # <90% actions
+    MONETAIRE = "monetaire"
+    MIXTE = "mixte"
 
 
 class SocieteIS(BaseModel):
     """
     Modèle représentant une société soumise à l'IS.
     
-    Fiscalité selon CGI Art. 219:
-    - OPCVM Actions (≥75% actions): taxation à la réalisation uniquement
-    - QPFC 12% applicable si détention >2 ans (Quote-Part pour Frais et Charges)
-    - OPCVM Obligations: taxation annuelle sur plus-values latentes (mark-to-market)
+    Fiscalité selon CGI Art. 209-0 A + BOFiP-IS-BASE-10-20-10:
+    - OPCVM Actions (≥90% actions): taxation à la réalisation uniquement
+    - PAS de QPFC 12% pour OPCVM (réservée aux titres de participation directs)
+    - OPCVM Obligations (<90% actions): taxation annuelle sur plus-values latentes (mark-to-market)
     - Contrats de capitalisation: régime spécifique avantageux >8 ans
     """
     id: Optional[str] = None
@@ -69,53 +69,110 @@ class SocieteIS(BaseModel):
     
     def calcul_fiscalite_opcvm(
         self,
-        type_opcvm: TypeOPCVM,
-        plus_value: float,
-        duree_detention_annees: float
+        isin: str,
+        pourcentage_actions: float,
+        plus_value_latente: float = 0,
+        plus_value_realisee: float = 0,
+        exercice: int = 2026
     ) -> dict:
         """
-        Calcule la fiscalité d'un OPCVM selon CGI Art. 219.
+        Calcul fiscalité OPCVM selon CGI Art. 209-0 A
+        
+        RÈGLES FISCALES :
+        - OPCVM Actions (≥90% actions) : taxation à la RÉALISATION uniquement
+        - OPCVM Autres (<90% actions) : taxation LATENTE annuelle (mark-to-market)
+        - PAS de QPFC 12% pour les OPCVM (réservée aux titres de participation)
+        
+        SEUILS :
+        - Société IS : ≥90% actions (CGI 209-0 A)
+        - PEA : ≥75% actions UE (CGI 150-0 A) - DIFFÉRENT !
+        
+        Args:
+            isin: Code ISIN de l'OPCVM
+            pourcentage_actions: % d'actions dans l'OPCVM (ex: 95.0 pour 95%)
+            plus_value_latente: PV latente de l'exercice (non réalisée)
+            plus_value_realisee: PV réalisée lors de cession
+            exercice: Année fiscale
         
         Returns:
-            dict avec keys: impot_du, qpfc, impot_net, taux_effectif
+            dict avec calculs fiscaux détaillés conformes CGI
         """
-        if type_opcvm == TypeOPCVM.ACTIONS:
-            # OPCVM Actions: taxation à la réalisation
-            # QPFC 12% si détention >2 ans
-            if duree_detention_annees > 2:
-                qpfc = plus_value * 0.12
-                base_imposable = plus_value - qpfc
-                impot_brut = base_imposable * (self.taux_is / 100)
-                impot_net = impot_brut
-                taux_effectif = (impot_net / plus_value) * 100 if plus_value > 0 else 0
-                
-                return {
-                    "impot_du": impot_net,
-                    "qpfc": qpfc,
-                    "impot_net": impot_net,
-                    "taux_effectif": taux_effectif,
-                    "regime": "QPFC 12% - Détention >2 ans"
-                }
-            else:
-                # Pas de QPFC si détention ≤2 ans
-                impot = plus_value * (self.taux_is / 100)
-                return {
-                    "impot_du": impot,
-                    "qpfc": 0.0,
-                    "impot_net": impot,
-                    "taux_effectif": self.taux_is,
-                    "regime": "IS standard - Détention ≤2 ans"
-                }
+        
+        # Déterminer le type d'OPCVM selon le seuil IS de 90% (pas 75%)
+        is_opcvm_actions = pourcentage_actions >= 90.0
+        
+        if is_opcvm_actions:
+            # OPCVM Actions (≥90%) : taxation à la réalisation
+            impot_annuel_latent = 0  # Pas de taxation latente
+            impot_a_la_realisation = plus_value_realisee * (self.taux_is / 100)
+            regime_applicable = "Taxation à la réalisation uniquement"
+            
         else:
-            # OPCVM Obligations: taxation annuelle sur PV latente
-            impot = plus_value * (self.taux_is / 100)
-            return {
-                "impot_du": impot,
-                "qpfc": 0.0,
-                "impot_net": impot,
-                "taux_effectif": self.taux_is,
-                "regime": "Mark-to-market annuel"
-            }
+            # OPCVM Obligations/Autres (<90%) : taxation latente annuelle
+            impot_annuel_latent = plus_value_latente * (self.taux_is / 100)
+            impot_a_la_realisation = 0  # Déjà taxé sur latent chaque année
+            regime_applicable = "Taxation latente annuelle (mark-to-market)"
+        
+        return {
+            'isin': isin,
+            'pourcentage_actions': pourcentage_actions,
+            'opcvm_actions_eligible': is_opcvm_actions,
+            'seuil_is': 90.0,  # Seuil IS = 90% (≠ seuil PEA 75%)
+            'impot_annuel_latent': round(impot_annuel_latent, 2),
+            'impot_a_la_realisation': round(impot_a_la_realisation, 2),
+            'impot_total_du': round(impot_annuel_latent + impot_a_la_realisation, 2),
+            'taux_is_applique': self.taux_is,
+            'regime_applicable': regime_applicable,
+            'base_legale': 'CGI Art. 209-0 A + BOFiP-IS-BASE-10-20-10',
+            'note_importante': 'PAS de QPFC 12% pour OPCVM (réservée aux titres de participation directs)'
+        }
+    
+    def optimiser_allocation_is(self) -> dict:
+        """
+        Recommandations optimales pour société IS selon fiscalité OPCVM
+        """
+        return {
+            'actions': {
+                'vehicule_optimal': 'OPCVM Actions (≥90% actions)',
+                'seuil_is': '90% minimum (différent du PEA à 75%)',
+                'fiscalite': f'Taxation à réalisation : {self.taux_is}%',
+                'avantage': 'Pas de taxation latente annuelle',
+                'exemples_etf_eligibles': [
+                    {
+                        'isin': 'IE00B4L5Y983',
+                        'nom': 'iShares Core MSCI World',
+                        'pct_actions': 100,
+                        'eligible_is': True
+                    },
+                    {
+                        'isin': 'IE00B3RBWM25',
+                        'nom': 'Vanguard FTSE All-World',
+                        'pct_actions': 100,
+                        'eligible_is': True
+                    },
+                    {
+                        'isin': 'FR0011869353',
+                        'nom': 'Amundi MSCI World PEA',
+                        'pct_actions': 100,
+                        'eligible_is': True,
+                        'eligible_pea': True
+                    }
+                ]
+            },
+            'obligations': {
+                'vehicule_optimal': 'Contrat de capitalisation',
+                'raison': 'Éviter taxation latente annuelle des OPCVM obligations',
+                'fiscalite': 'Taxation différée à la sortie',
+                'alternative_opcvm': f'OPCVM obligations (<90% actions) : taxation latente {self.taux_is}%/an (TRÈS PÉNALISANT)'
+            },
+            'etf_mixtes_attention': {
+                'exemple': 'ETF avec 80% actions',
+                'eligible_pea': 'OUI (≥75% actions UE)',
+                'eligible_is_optimal': 'NON (<90% actions)',
+                'consequence_is': 'Taxation latente annuelle (pénalisant)'
+            },
+            'base_legale': 'CGI Art. 209-0 A + BOFiP-IS-BASE-10-20-10'
+        }
     
     class Config:
         json_schema_extra = {

@@ -142,54 +142,81 @@ class TaxLossHarvester:
 
 #### 5. Sociétés à l'Impôt sur les Sociétés (IS)
 
-**Code Général des Impôts - Article 219**
+**Code Général des Impôts - Articles 209-0 A et 219**
 
-##### OPCVM Actions (≥75% actions)
-**Règles spécifiques** (Art. 219, I-a ter et quinquies):
+##### OPCVM Actions (≥90% actions)
+**Règles spécifiques** (CGI Art. 209-0 A + BOFiP-IS-BASE-10-20-10):
 - Taxation **uniquement à la réalisation** (pas de mark-to-market)
-- **QPFC 12% déductible** si détention >2 ans
-  - Quote-Part pour Frais et Charges
-  - Base imposable = Plus-value - QPFC
-  - Économie fiscale: 12% × Taux IS
+- **PAS de QPFC 12%** pour les OPCVM
+  - La QPFC 12% (CGI Art. 219 I-a quinquies) s'applique UNIQUEMENT aux **titres de participation** (actions détenues directement)
+  - Les **OPCVM/ETF ne sont PAS des titres de participation**
+  - Les OPCVM ne bénéficient PAS du régime mère-fille
+- Taux IS standard : 25% (ou 15% si PME)
 
 **Exemple:**
 ```
-Plus-value: 100,000€
-Détention: 3 ans
+Plus-value réalisée: 100,000€
 Taux IS: 25%
 
-Sans QPFC: 100,000 × 25% = 25,000€ d'impôt
-Avec QPFC: (100,000 - 12,000) × 25% = 22,000€ d'impôt
-Économie: 3,000€ (soit 3% de la PV)
+Impôt dû: 100,000 × 25% = 25,000€
+PAS de QPFC pour OPCVM (réservée aux titres de participation directs)
 ```
 
-##### OPCVM Obligations (<75% actions)
+##### OPCVM Obligations/Autres (<90% actions)
 - Taxation **annuelle sur plus-values latentes** (mark-to-market)
 - Pas de QPFC applicable
 - Taxation au taux IS standard
+- **Très pénalisant** : impôt chaque année même sans vente
+
+##### ⚠️ Distinction Critique: Seuil PEA vs Société IS
+
+| Critère | PEA (Personne Physique) | Société IS |
+|---------|------------------------|------------|
+| **Seuil actions** | ≥75% actions UE | ≥90% actions tous pays |
+| **Base légale** | CGI Art. 150-0 A | CGI Art. 209-0 A |
+| **Exemple piège** | ETF 80% actions → ✓ Éligible PEA | ETF 80% actions → ✗ Taxation latente IS |
+
+**Cas pratique:**
+- Un ETF avec 80% d'actions est éligible au PEA (≥75% actions UE)
+- Mais en société IS, il subit une taxation latente annuelle (<90% actions)
+- **Impact fiscal majeur** : pénalisation fiscale importante pour la société
 
 ##### Taux d'IS
 - **Taux standard**: 25% (Art. 219, I)
 - **Taux PME**: 15% sur premiers 38,120€ de bénéfice (Art. 219, I-b)
   - Conditions: CA <10M€, détenu ≥75% par personnes physiques
 
+##### Recommandations pour Société IS
+
+**✅ À PRIVILÉGIER :**
+- OPCVM Actions pures (100% actions) pour partie actions
+- Contrats de capitalisation pour partie obligataire (évite taxation latente)
+
+**❌ À ÉVITER :**
+- OPCVM obligations (<90% actions) : taxation latente annuelle très pénalisante
+- ETF mixtes entre 75-90% actions : piège fiscal pour société IS (taxation latente même si éligibles PEA)
+
 **Implémentation:**
 ```python
 # backend/src/models/societe_is.py
 class SocieteIS(BaseModel):
-    def calcul_fiscalite_opcvm(self, type_opcvm, plus_value, 
-                               duree_detention_annees):
-        if type_opcvm == TypeOPCVM.ACTIONS:
-            if duree_detention_annees > 2:
-                qpfc = plus_value * 0.12
-                base_imposable = plus_value - qpfc
-                # Application taux IS
+    def calcul_fiscalite_opcvm(self, isin, pourcentage_actions,
+                               plus_value_latente, plus_value_realisee):
+        # Seuil IS = 90% (différent du seuil PEA à 75%)
+        is_opcvm_actions = pourcentage_actions >= 90.0
+        
+        if is_opcvm_actions:
+            # Taxation à la réalisation uniquement
+            # PAS de QPFC pour OPCVM
+        else:
+            # Taxation latente annuelle (pénalisant)
 ```
 
 **Tests de validation:**
-- ✅ `test_fiscalite_opcvm_actions_detention_longue_qpfc`
-- ✅ `test_fiscalite_opcvm_obligations_mark_to_market`
-- ✅ `test_avantage_fiscal_qpfc`
+- ✅ `test_opcvm_actions_is_seuil_90`
+- ✅ `test_pas_de_qpfc_pour_opcvm`
+- ✅ `test_opcvm_mixte_80_pourcent` (cas piège PEA/IS)
+- ✅ `test_opcvm_obligations_mark_to_market`
 
 ---
 
@@ -287,12 +314,55 @@ Ce logiciel est destiné aux **experts-comptables professionnels** qui possèden
 - ✅ CGI Art. 125-0 A, 990 I (AV): Conforme
 - ✅ CGI Art. 200 A (CTO): Conforme
 - ✅ CGI Art. 163 quatervicies (PER): Conforme
-- ✅ CGI Art. 219 (Société IS): **Conforme avec tests validés**
+- ✅ CGI Art. 209-0 A (Société IS - OPCVM): **Conforme avec tests validés**
+- ✅ CGI Art. 219 (Société IS - Taux): Conforme
 
 **Tests de non-régression:**
-- 16 tests unitaires validant la conformité juridique
-- Tests spécifiques QPFC 12% (Société IS)
+- 18 tests unitaires validant la conformité juridique
+- Tests spécifiques seuil 90% OPCVM Actions (Société IS)
+- Tests distinction PEA (75%) vs IS (90%)
+- Tests cas limites (80% actions : piège fiscal)
 - Vérifications automatiques dans CI/CD
+
+---
+
+### ⚠️ ATTENTION : Fiscalité OPCVM en Société IS
+
+#### Règles strictes selon CGI Art. 209-0 A + BOFiP-IS-BASE-10-20-10
+
+##### OPCVM Actions (≥90% actions)
+- **Seuil : ≥90% actions** (tous pays)
+- Taxation uniquement à la **réalisation** (lors de la cession)
+- Taux IS : 25% (ou 15% si PME <10M€ CA)
+- **PAS de QPFC 12%** : la QPFC est réservée aux titres de participation directs (CGI Art. 219 I-a quinquies)
+
+##### OPCVM Obligations/Mixtes (<90% actions)
+- Taxation **annuelle des plus-values latentes** (mark-to-market)
+- Très pénalisant : impôt chaque année même sans vente
+- Taux IS : 25% (ou 15% si PME)
+
+##### ⚠️ Distinction PEA vs Société IS
+
+**ATTENTION aux pièges fiscaux :**
+
+Un ETF avec 80% d'actions :
+- ✅ **Éligible PEA** (seuil ≥75% actions UE)
+- ❌ **Pénalisant en société IS** (seuil ≥90% requis)
+- Conséquence : taxation latente annuelle en société IS
+
+**Base légale :**
+- PEA : CGI Art. 150-0 A (seuil 75% actions UE)
+- Société IS : CGI Art. 209-0 A (seuil 90% actions tous pays)
+
+##### Recommandations pour Société IS
+
+**✅ À PRIVILÉGIER :**
+- OPCVM Actions pures (100% actions) pour partie actions
+- Contrats de capitalisation pour partie obligataire
+
+**❌ À ÉVITER :**
+- OPCVM obligations (<90% actions) : taxation latente annuelle
+- ETF mixtes entre 75-90% actions : piège fiscal pour société IS
 
 ---
 
