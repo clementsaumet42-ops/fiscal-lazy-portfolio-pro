@@ -2,7 +2,8 @@ from fastapi import APIRouter, HTTPException
 from typing import List
 from pydantic import BaseModel
 import sys
-sys.path.append("backend/src")
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from models.personne_physique import PersonnePhysique
 from models.societe_is import SocieteIS
