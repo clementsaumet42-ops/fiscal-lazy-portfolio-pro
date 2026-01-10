@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional
 import sys
-sys.path.append("backend/src")
+sys.path.append("src")
 
 from providers.comparator import ProviderComparator
 from providers.cost_calculator import CostCalculator

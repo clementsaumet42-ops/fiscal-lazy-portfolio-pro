@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from typing import List
 from pydantic import BaseModel
 import sys
-sys.path.append("backend/src")
+sys.path.append("src")
 
 from models.position import Position
 from models.enveloppe import PEA, CTO, AssuranceVie, PER

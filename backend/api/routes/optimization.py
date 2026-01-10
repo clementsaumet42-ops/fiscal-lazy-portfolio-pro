@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict, List
 import sys
-sys.path.append("backend/src")
+sys.path.append("src")
 
 from optimization.asset_allocation import AssetAllocator, StrategieAllocation
 from optimization.asset_location import AssetLocator

@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 import sys
-sys.path.append("backend/src")
+sys.path.append("src")
 
 from analytics.backtesting import BacktestEngine, FrequenceReequilibrage
 from analytics.monte_carlo import MonteCarloSimulator
