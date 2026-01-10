@@ -1,9 +1,9 @@
-fastapi==0.109.0
+fastapi==0.109.1
 uvicorn[standard]==0.27.0
 pydantic==2.5.3
 pydantic-settings==2.1.0
 sqlalchemy==2.0.25
-python-multipart==0.0.6
+python-multipart==0.0.18
 yfinance==0.2.36
 pandas==2.1.4
 numpy==1.26.3
@@ -19,4 +19,4 @@ openpyxl==3.1.2
 matplotlib==3.8.2
 seaborn==0.13.1
 jupyter==1.0.0
-notebook==7.0.6
+notebook==7.2.2
