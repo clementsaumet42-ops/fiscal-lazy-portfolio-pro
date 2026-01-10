@@ -48,16 +48,19 @@
     "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000041470831"
   },
   "societe_is_opcvm": {
-    "article": "CGI Art. 219",
+    "article": "CGI Art. 209-0 A",
+    "bofip": "BOFiP-IS-BASE-10-20-10",
     "titre": "Fiscalité OPCVM pour Sociétés IS",
     "extrait_key_points": [
-      "OPCVM Actions (≥75% actions): taxation à la réalisation uniquement (Art. 219, I-a ter)",
-      "QPFC 12% déductible si détention >2 ans (Art. 219, I-a quinquies)",
-      "OPCVM Obligations (<75% actions): taxation annuelle sur PV latente (mark-to-market)",
+      "OPCVM Actions (≥90% actions): taxation à la réalisation uniquement (CGI Art. 209-0 A)",
+      "OPCVM Obligations (<90% actions): taxation annuelle sur PV latente (mark-to-market)",
+      "PAS de QPFC 12% pour OPCVM (réservée aux titres de participation directs - CGI Art. 219 I-a quinquies)",
       "Taux IS standard: 25% (Art. 219, I)",
-      "Taux IS PME: 15% sur premiers 38,120€ (Art. 219, I-b)"
+      "Taux IS PME: 15% sur premiers 38,120€ (Art. 219, I-b)",
+      "Alternative obligations: Contrats de capitalisation (taxation différée)"
     ],
-    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000047654840"
+    "lien_legifrance": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000047654840",
+    "note_importante": "Seuil IS (90%) différent du seuil PEA (75% - CGI Art. 150-0 A)"
   },
   "contrats_capitalisation_is": {
     "article": "CGI Art. 38-7",

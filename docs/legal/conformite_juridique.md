@@ -142,31 +142,62 @@ class TaxLossHarvester:
 
 #### 5. Sociétés à l'Impôt sur les Sociétés (IS)
 
-**Code Général des Impôts - Article 219**
+**Code Général des Impôts - Article 209-0 A**
+**BOFiP - IS-BASE-10-20-10**
 
-##### OPCVM Actions (≥75% actions)
-**Règles spécifiques** (Art. 219, I-a ter et quinquies):
+##### OPCVM Actions (≥90% actions)
+**Règles spécifiques** (Art. 209-0 A):
 - Taxation **uniquement à la réalisation** (pas de mark-to-market)
-- **QPFC 12% déductible** si détention >2 ans
-  - Quote-Part pour Frais et Charges
-  - Base imposable = Plus-value - QPFC
-  - Économie fiscale: 12% × Taux IS
+- Pas de taxation latente annuelle
+- Taux IS appliqué : 25% (ou 15% si PME)
+- **IMPORTANT : PAS de QPFC 12%** (réservée aux titres de participation directs, pas aux OPCVM)
 
-**Exemple:**
+**Note critique :**
+- La QPFC 12% (Quote-Part pour Frais et Charges - CGI Art. 219 I-a quinquies) ne s'applique qu'aux titres de participation détenus directement
+- Les OPCVM/ETF ne bénéficient PAS de la QPFC, même avec détention >2 ans
+- Taxation pleine à 25% (ou 15% PME) sur les plus-values réalisées
+
+**Exemple (100% actions) :**
 ```
-Plus-value: 100,000€
-Détention: 3 ans
+Plus-value réalisée: 100,000€
 Taux IS: 25%
-
-Sans QPFC: 100,000 × 25% = 25,000€ d'impôt
-Avec QPFC: (100,000 - 12,000) × 25% = 22,000€ d'impôt
-Économie: 3,000€ (soit 3% de la PV)
+Impôt dû: 100,000 × 25% = 25,000€
+(PAS de déduction QPFC 12%)
 ```
 
-##### OPCVM Obligations (<75% actions)
-- Taxation **annuelle sur plus-values latentes** (mark-to-market)
+##### OPCVM Obligations (<90% actions)
+- Taxation **annuelle des plus-values latentes** (mark-to-market)
+- Très pénalisant : taxation même sans cession
+- Taux IS : 25% (ou 15% si PME)
 - Pas de QPFC applicable
-- Taxation au taux IS standard
+
+**Exemple (0% actions) :**
+```
+Plus-value latente annuelle: 10,000€
+Taux IS: 25%
+Impôt annuel dû: 10,000 × 25% = 2,500€
+(Taxation chaque année, même sans vente)
+```
+
+##### Optimisation pour obligations en société IS
+- **Recommandation : Contrats de capitalisation**
+- Évite la taxation latente annuelle
+- Taxation différée à la sortie
+- Plus avantageux que les OPCVM obligations
+
+##### Comparaison seuils PEA vs IS
+
+| Critère | PEA (Personne Physique) | Société IS |
+|---------|-------------------------|------------|
+| Seuil actions | ≥75% UE | ≥90% tous pays |
+| Base légale | CGI 150-0 A | CGI 209-0 A |
+| Exemple ETF 80% actions | ✅ Eligible PEA | ❌ Taxation latente IS |
+
+##### Cas particulier : ETF 80% actions
+- Eligible PEA (≥75%)
+- NON eligible OPCVM Actions IS (<90%)
+- Taxation latente annuelle en société IS
+- Pénalisant pour les sociétés
 
 ##### Taux d'IS
 - **Taux standard**: 25% (Art. 219, I)
@@ -177,19 +208,26 @@ Avec QPFC: (100,000 - 12,000) × 25% = 22,000€ d'impôt
 ```python
 # backend/src/models/societe_is.py
 class SocieteIS(BaseModel):
-    def calcul_fiscalite_opcvm(self, type_opcvm, plus_value, 
-                               duree_detention_annees):
-        if type_opcvm == TypeOPCVM.ACTIONS:
-            if duree_detention_annees > 2:
-                qpfc = plus_value * 0.12
-                base_imposable = plus_value - qpfc
-                # Application taux IS
+    def calcul_fiscalite_opcvm(self, isin, pourcentage_actions,
+                               plus_value_latente, plus_value_realisee):
+        # Seuil IS : 90% (pas 75%)
+        is_opcvm_actions = pourcentage_actions >= 90.0
+        
+        if is_opcvm_actions:
+            # Taxation à la réalisation
+            # PAS de QPFC pour OPCVM
+            impot = plus_value_realisee * (self.taux_is / 100)
+        else:
+            # Taxation latente annuelle
+            impot = plus_value_latente * (self.taux_is / 100)
 ```
 
 **Tests de validation:**
-- ✅ `test_fiscalite_opcvm_actions_detention_longue_qpfc`
+- ✅ `test_fiscalite_opcvm_actions_100_pourcent`
+- ✅ `test_fiscalite_opcvm_actions_realisation`
 - ✅ `test_fiscalite_opcvm_obligations_mark_to_market`
-- ✅ `test_avantage_fiscal_qpfc`
+- ✅ `test_fiscalite_opcvm_80_pourcent_actions`
+- ✅ `test_fiscalite_opcvm_90_pourcent_seuil`
 
 ---
 
@@ -287,11 +325,13 @@ Ce logiciel est destiné aux **experts-comptables professionnels** qui possèden
 - ✅ CGI Art. 125-0 A, 990 I (AV): Conforme
 - ✅ CGI Art. 200 A (CTO): Conforme
 - ✅ CGI Art. 163 quatervicies (PER): Conforme
-- ✅ CGI Art. 219 (Société IS): **Conforme avec tests validés**
+- ✅ CGI Art. 209-0 A (Société IS): **Conforme - Corrections critiques appliquées**
 
 **Tests de non-régression:**
-- 16 tests unitaires validant la conformité juridique
-- Tests spécifiques QPFC 12% (Société IS)
+- 19 tests unitaires validant la conformité juridique
+- Tests spécifiques seuil 90% OPCVM Actions IS
+- Tests absence QPFC 12% pour OPCVM
+- Tests cas limites (80% actions, 90% seuil exact)
 - Vérifications automatiques dans CI/CD
 
 ---
