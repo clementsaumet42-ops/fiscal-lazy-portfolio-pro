@@ -8,8 +8,8 @@ COPY backend/ .
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Exposer le port
-EXPOSE 8000
+# Exposer le port (dynamique)
+EXPOSE $PORT
 
-# Démarrer l'application
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Démarrer l'application avec le port dynamique de Railway
+CMD uvicorn api.main:app --host 0.0.0.0 --port $PORT
