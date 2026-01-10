@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: fiscal-lazy-portfolio-pro
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: "cd backend && pip install -r requirements.txt"
+    startCommand: "./start.sh"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend/src:/opt/render/project/src/backend

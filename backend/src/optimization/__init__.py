@@ -1,9 +1,9 @@
-from .asset_allocation import AssetAllocator
-from .asset_location import AssetLocator
-from .lifecycle_investing import LifecycleInvestor
-from .rebalancing import RebalancingEngine
-from .withdrawal import WithdrawalOptimizer
-from .tax_loss_harvesting import TaxLossHarvester
+from optimization.asset_allocation import AssetAllocator
+from optimization.asset_location import AssetLocator
+from optimization.lifecycle_investing import LifecycleInvestor
+from optimization.rebalancing import RebalancingEngine
+from optimization.withdrawal import WithdrawalOptimizer
+from optimization.tax_loss_harvesting import TaxLossHarvester
 
 __all__ = [
     "AssetAllocator",

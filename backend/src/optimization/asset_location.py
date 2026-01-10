@@ -1,6 +1,6 @@
 from typing import Dict, List, Tuple
-from ..models.enveloppe import EnveloppeType
-from ..models.etf import TypeDistribution
+from models.enveloppe import EnveloppeType
+from models.etf import TypeDistribution
 
 
 class AssetLocator:

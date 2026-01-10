@@ -10,12 +10,17 @@ Documentation at http://localhost:8000/docs
 """
 
 import sys
+import os
 from pathlib import Path
 
 # Add backend/src to Python path
 backend_dir = Path(__file__).parent
 src_dir = backend_dir / "src"
+sys.path.insert(0, str(backend_dir))
 sys.path.insert(0, str(src_dir))
+
+# Set PYTHONPATH environment variable as well
+os.environ['PYTHONPATH'] = f"{src_dir}:{backend_dir}:{os.environ.get('PYTHONPATH', '')}"
 
 # Now import and run the FastAPI app
 import uvicorn
