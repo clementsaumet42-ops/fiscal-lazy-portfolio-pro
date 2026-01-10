@@ -9,7 +9,7 @@ src_path = str(Path(__file__).parent.parent / "src")
 sys.path.insert(0, backend_path)
 sys.path.insert(0, src_path)
 
-from routes import clients, portfolios, optimization, backtests, compliance, providers
+from api.routes import clients, portfolios, optimization, backtests, compliance, providers
 
 app = FastAPI(
     title="Fiscal Lazy Portfolio Pro API",
