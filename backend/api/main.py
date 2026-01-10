@@ -1,6 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import clients, portfolios, optimization, backtests, compliance, providers
+import sys
+from pathlib import Path
+
+# Add paths for imports
+backend_path = str(Path(__file__).parent.parent)
+src_path = str(Path(__file__).parent.parent / "src")
+sys.path.insert(0, backend_path)
+sys.path.insert(0, src_path)
+
+from routes import clients, portfolios, optimization, backtests, compliance, providers
 
 app = FastAPI(
     title="Fiscal Lazy Portfolio Pro API",
