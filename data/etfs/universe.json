@@ -9,7 +9,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.38,
     "emetteur": "Amundi",
-    "description": "Exposition monde via méthodologie PEA-compatible. Réplication physique."
+    "description": "Exposition monde via méthodologie PEA-compatible. Réplication physique.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "FR0013412285",
@@ -21,7 +22,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.15,
     "emetteur": "Amundi",
-    "description": "Actions large cap Europe. TER très bas."
+    "description": "Actions large cap Europe. TER très bas.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU1681043599",
@@ -31,9 +33,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "capitalisant",
-    "ter": 0.20,
+    "ter": 0.2,
     "emetteur": "Amundi",
-    "description": "Actions marchés émergents. Non PEA (hors UE)."
+    "description": "Actions marchés émergents. Non PEA (hors UE).",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "FR0013412020",
@@ -45,7 +48,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.15,
     "emetteur": "Amundi",
-    "description": "S&P 500 éligible PEA. Réplication synthétique."
+    "description": "S&P 500 éligible PEA. Réplication synthétique.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU0496786574",
@@ -57,7 +61,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.15,
     "emetteur": "Amundi (ex-Lyxor)",
-    "description": "Alternative S&P 500 PEA. Historique long."
+    "description": "Alternative S&P 500 PEA. Historique long.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU1650490474",
@@ -69,7 +74,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.28,
     "emetteur": "Amundi",
-    "description": "MSCI USA large cap éligible PEA."
+    "description": "MSCI USA large cap éligible PEA.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00B4L5Y983",
@@ -79,9 +85,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "capitalisant",
-    "ter": 0.20,
+    "ter": 0.2,
     "emetteur": "BlackRock",
-    "description": "Référence mondiale. Non PEA. TER très bas."
+    "description": "Référence mondiale. Non PEA. TER très bas.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00B3RBWM25",
@@ -93,7 +100,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.22,
     "emetteur": "Vanguard",
-    "description": "Actions monde développés + émergents. Non PEA."
+    "description": "Actions monde développés + émergents. Non PEA.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00B5BMR087",
@@ -105,7 +113,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.07,
     "emetteur": "BlackRock",
-    "description": "S&P 500 non PEA. TER ultra-bas."
+    "description": "S&P 500 non PEA. TER ultra-bas.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00B14X4M10",
@@ -115,9 +124,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "capitalisant",
-    "ter": 0.20,
+    "ter": 0.2,
     "emetteur": "BlackRock",
-    "description": "Actions monde all countries (développés + émergents)."
+    "description": "Actions monde all countries (développés + émergents).",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU1681038672",
@@ -127,9 +137,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": false,
     "type_distribution": "capitalisant",
-    "ter": 0.10,
+    "ter": 0.1,
     "emetteur": "Amundi",
-    "description": "Obligations mondiales couvertes EUR. Non PEA."
+    "description": "Obligations mondiales couvertes EUR. Non PEA.",
+    "pourcentage_actions": 0.0
   },
   {
     "isin": "LU1650028216",
@@ -141,7 +152,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.16,
     "emetteur": "Amundi",
-    "description": "Obligations corporate investment grade zone euro."
+    "description": "Obligations corporate investment grade zone euro.",
+    "pourcentage_actions": 0.0
   },
   {
     "isin": "IE00B4WXJJ64",
@@ -151,9 +163,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": false,
     "type_distribution": "distributif",
-    "ter": 0.10,
+    "ter": 0.1,
     "emetteur": "Vanguard",
-    "description": "Obligations mondiales de qualité. Distributif."
+    "description": "Obligations mondiales de qualité. Distributif.",
+    "pourcentage_actions": 0.0
   },
   {
     "isin": "IE00BZ163K21",
@@ -165,7 +178,8 @@
     "type_distribution": "distributif",
     "ter": 0.07,
     "emetteur": "Vanguard",
-    "description": "Obligations d'État zone euro. TER très bas."
+    "description": "Obligations d'État zone euro. TER très bas.",
+    "pourcentage_actions": 0.0
   },
   {
     "isin": "FR0010754135",
@@ -177,7 +191,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.35,
     "emetteur": "Amundi",
-    "description": "Small caps USA éligible PEA."
+    "description": "Small caps USA éligible PEA.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU1681038086",
@@ -187,9 +202,10 @@
     "eligible_pea": true,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "capitalisant",
-    "ter": 0.30,
+    "ter": 0.3,
     "emetteur": "Amundi",
-    "description": "Small caps Europe éligible PEA."
+    "description": "Small caps Europe éligible PEA.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00B579F325",
@@ -201,7 +217,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.12,
     "emetteur": "Invesco",
-    "description": "Or physique. Non PEA (ETC)."
+    "description": "Or physique. Non PEA (ETC).",
+    "pourcentage_actions": 0.0
   },
   {
     "isin": "FR0013416716",
@@ -213,7 +230,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.07,
     "emetteur": "Amundi",
-    "description": "Actions monde all countries. TER ultra-compétitif."
+    "description": "Actions monde all countries. TER ultra-compétitif.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00BZ0PKT83",
@@ -223,9 +241,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "capitalisant",
-    "ter": 0.20,
+    "ter": 0.2,
     "emetteur": "JPMorgan",
-    "description": "Actions monde avec facteurs (value, quality, momentum)."
+    "description": "Actions monde avec facteurs (value, quality, momentum).",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU2090062782",
@@ -237,7 +256,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.18,
     "emetteur": "Amundi",
-    "description": "Actions monde ISR/ESG éligible PEA. Paris-aligned."
+    "description": "Actions monde ISR/ESG éligible PEA. Paris-aligned.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00BKM4GZ66",
@@ -249,7 +269,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.18,
     "emetteur": "BlackRock",
-    "description": "Émergents large, mid et small caps. Non PEA."
+    "description": "Émergents large, mid et small caps. Non PEA.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00BYX2JD69",
@@ -261,7 +282,8 @@
     "type_distribution": "capitalisant",
     "ter": 0.07,
     "emetteur": "Vanguard",
-    "description": "S&P 500 non PEA. TER ultra-bas. Alternative à iShares."
+    "description": "S&P 500 non PEA. TER ultra-bas. Alternative à iShares.",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "LU1681047236",
@@ -271,9 +293,10 @@
     "eligible_pea": false,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "capitalisant",
-    "ter": 0.20,
+    "ter": 0.2,
     "emetteur": "Amundi",
-    "description": "Actions Japon. Non PEA (hors UE)."
+    "description": "Actions Japon. Non PEA (hors UE).",
+    "pourcentage_actions": 100.0
   },
   {
     "isin": "IE00BFMXXD54",
@@ -283,8 +306,9 @@
     "eligible_pea": true,
     "eligible_opcvm_actions_is": true,
     "type_distribution": "distributif",
-    "ter": 0.10,
+    "ter": 0.1,
     "emetteur": "Vanguard",
-    "description": "Actions Europe. PEA-eligible. Distributif."
+    "description": "Actions Europe. PEA-eligible. Distributif.",
+    "pourcentage_actions": 100.0
   }
 ]

@@ -25,9 +25,14 @@ class ETF(BaseModel):
     Modèle représentant un ETF.
     
     Champs importants:
-    - eligible_pea: Éligibilité au PEA (actions UE, ETF ≥75% actions UE)
-    - eligible_opcvm_actions_is: Pour sociétés IS, ≥75% actions (CGI Art. 219)
+    - eligible_pea: Éligibilité au PEA (actions UE, ETF ≥75% actions UE - CGI Art. 150-0 A)
+    - eligible_opcvm_actions_is: Pour sociétés IS, ≥90% actions (CGI Art. 209-0 A)
+    - pourcentage_actions: % d'actions dans l'ETF (0-100)
     - ter: Total Expense Ratio (frais annuels)
+    
+    IMPORTANT: Distinction PEA vs IS:
+    - PEA: seuil ≥75% actions UE
+    - IS: seuil ≥90% actions tous pays
     """
     isin: str = Field(min_length=12, max_length=12)
     ticker: str
@@ -37,7 +42,13 @@ class ETF(BaseModel):
         description="Éligible au PEA (actions UE, ETF ≥75% actions UE)"
     )
     eligible_opcvm_actions_is: bool = Field(
-        description="OPCVM Actions pour société IS (≥75% actions)"
+        description="OPCVM Actions pour société IS (≥90% actions)"
+    )
+    pourcentage_actions: Optional[float] = Field(
+        default=None,
+        description="Pourcentage d'actions dans l'ETF (0-100)",
+        ge=0,
+        le=100
     )
     type_distribution: TypeDistribution = TypeDistribution.CAPITALISANT
     ter: float = Field(
@@ -57,6 +68,7 @@ class ETF(BaseModel):
                 "classe_actif": "actions_monde",
                 "eligible_pea": True,
                 "eligible_opcvm_actions_is": True,
+                "pourcentage_actions": 100.0,
                 "type_distribution": "capitalisant",
                 "ter": 0.38,
                 "emetteur": "Amundi"

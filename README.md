@@ -11,7 +11,7 @@ Experts-comptables français gérant des portefeuilles d'investissement pour leu
 
 #### 1. Gestion Multi-Clients
 - **Personnes Physiques**: Profil risque, TMI, horizon d'investissement
-- **Sociétés IS**: Fiscalité spécifique OPCVM selon CGI Art. 219
+- **Sociétés IS**: Fiscalité spécifique OPCVM selon CGI Art. 209-0 A (seuil 90%)
 - Import CSV des positions
 - Gestion multi-enveloppes (PEA, CTO, AV, PER)
 
@@ -20,6 +20,7 @@ Experts-comptables français gérant des portefeuilles d'investissement pour leu
 - **Tax-Loss Harvesting**: Optimisation pertes/gains sur CTO
 - **Ordre de retrait optimal**: Minimisation de l'impact fiscal
 - Calculs conformes CGI (Code Général des Impôts)
+- **Distinction PEA/IS** : Gestion spécifique des seuils (75% vs 90%)
 
 #### 3. Lifecycle Investing
 - Glide paths dynamiques selon âge
@@ -49,10 +50,11 @@ Experts-comptables français gérant des portefeuilles d'investissement pour leu
 - Contraintes fiscales intégrées (PEA <5 ans, etc.)
 
 #### 7. Conformité Juridique Totale
-- Code Général des Impôts (CGI): Art. 150-0 A, 219, 125-0 A, 990 I
+- Code Général des Impôts (CGI): Art. 150-0 A, 209-0 A, 219, 125-0 A, 990 I
 - BOFiP (Bulletin Officiel des Finances Publiques)
 - Jurisprudence (Conseil d'État, Cour de Cassation)
 - Vérification éligibilité PEA automatique
+- Distinction PEA (seuil 75%) vs Société IS (seuil 90%)
 - Contrôle des plafonds
 - Rapports de conformité
 
@@ -190,14 +192,15 @@ fiscal-lazy-portfolio-pro/
 ### 🔐 Conformité et Sécurité
 
 #### Références Légales
-- **PEA**: CGI Art. 150-0 A
+- **PEA**: CGI Art. 150-0 A (seuil ≥75% actions UE)
 - **Assurance-Vie**: CGI Art. 125-0 A, 990 I
-- **Société IS OPCVM**: CGI Art. 219
+- **Société IS OPCVM**: CGI Art. 209-0 A (seuil ≥90% actions tous pays)
+- **Société IS Taux**: CGI Art. 219
 - **CTO**: CGI Art. 200 A
 - **PER**: CGI Art. 163 quatervicies
 
 #### QPFC 12% (Sociétés IS)
-Conformité totale avec la Quote-Part pour Frais et Charges sur OPCVM Actions (≥75% actions) détenus >2 ans.
+**IMPORTANT:** La Quote-Part pour Frais et Charges (QPFC) de 12% s'applique UNIQUEMENT aux **titres de participation** détenus directement (CGI Art. 219 I-a quinquies). Les **OPCVM/ETF ne bénéficient PAS de la QPFC** car ils ne sont pas des titres de participation.
 
 #### Disclaimer
 ⚠️ **Ce logiciel est fourni à titre informatif et éducatif uniquement. Il ne constitue pas un conseil financier, juridique ou fiscal. Les utilisateurs doivent consulter des experts-comptables qualifiés avant toute décision financière. Les développeurs ne sont pas responsables des pertes financières ou problèmes juridiques résultant de l'utilisation de ce logiciel.**
@@ -218,7 +221,7 @@ pytest tests/test_compliance.py        # Conformité juridique
 
 #### Exemple 1: Société IS - OPCVM Actions
 ```python
-from backend.src.models.societe_is import SocieteIS, TypeOPCVM
+from backend.src.models.societe_is import SocieteIS
 
 societe = SocieteIS(
     raison_sociale="INVEST SARL",
@@ -227,15 +230,34 @@ societe = SocieteIS(
     taux_is=15.0
 )
 
-# Calcul fiscalité OPCVM Actions (≥75% actions)
+# OPCVM Actions (≥90%) : taxation à la réalisation
 fiscalite = societe.calcul_fiscalite_opcvm(
-    type_opcvm=TypeOPCVM.ACTIONS,
-    plus_value=10000,
-    duree_detention_annees=2.5
+    isin="IE00B4L5Y983",
+    pourcentage_actions=100.0,
+    plus_value_latente=0,
+    plus_value_realisee=10000
 )
+# Retourne: {'impot_a_la_realisation': 1500, 'taux_is_applique': 15.0}
+# Taxation pleine à 15% (PAS de QPFC 12% pour OPCVM)
 
 print(fiscalite)
-# {'impot_du': 1100, 'qpfc': 1200, 'taux_effectif': 11.0, 'regime': 'QPFC 12%'}
+# {
+#   'impot_a_la_realisation': 1500,
+#   'impot_annuel_latent': 0,
+#   'taux_is_applique': 15.0,
+#   'base_legale': 'CGI Art. 209-0 A + BOFiP-IS-BASE-10-20-10',
+#   'note_importante': 'PAS de QPFC 12% pour OPCVM (réservée aux titres de participation directs)'
+# }
+
+# ETF avec 80% actions : piège fiscal pour société IS
+fiscalite_mixte = societe.calcul_fiscalite_opcvm(
+    isin="FR0000000000",
+    pourcentage_actions=80.0,
+    plus_value_latente=10000,
+    plus_value_realisee=0
+)
+# Retourne: {'impot_annuel_latent': 1500}
+# ⚠️ Éligible PEA (≥75%) mais taxation latente en société IS (<90%)
 ```
 
 #### Exemple 2: Lifecycle Investing
@@ -272,7 +294,8 @@ Plateforme institutionnelle complète pour experts-comptables français avec:
 - ✅ Conformité juridique totale (CGI, BOFiP, Jurisprudence)
 - ✅ Backtesting niveau institutionnel
 - ✅ Simulations Monte Carlo 10k+
-- ✅ Fiscalité société IS (QPFC 12%)
+- ✅ Fiscalité société IS (seuil 90% OPCVM Actions, PAS de QPFC pour OPCVM)
+- ✅ Distinction PEA (75%) vs IS (90%)
 - ✅ 21 providers référencés
 - ✅ 24 ETFs couvrant toutes classes d'actifs
 - ✅ API REST complète (FastAPI)
