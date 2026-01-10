@@ -1,0 +1,80 @@
+[
+  {
+    "id": "interactive_brokers_cto",
+    "nom": "Interactive Brokers CTO",
+    "frais_courtage": {
+      "fixe": 1.25,
+      "variable_pct": 0.05,
+      "minimum": 1.25
+    },
+    "frais_tenue_compte": 0.0,
+    "acces_marches": ["NYSE", "NASDAQ", "Euronext", "LSE", "tous marchés mondiaux"],
+    "choix_etfs": "Exceptionnel (5000+ ETFs mondiaux)",
+    "ifu_automatique": true,
+    "services": ["API professionnelle", "Prêt de titres", "Options", "Futures"],
+    "score": 98,
+    "note": "Référence mondiale. Accès tous marchés. Pour investisseurs avancés."
+  },
+  {
+    "id": "trade_republic_cto",
+    "nom": "Trade Republic CTO",
+    "frais_courtage": {
+      "fixe": 1.0,
+      "variable_pct": 0.0
+    },
+    "frais_tenue_compte": 0.0,
+    "acces_marches": ["Xetra", "NYSE", "NASDAQ (limité)"],
+    "choix_etfs": "Bon (1500+ ETFs)",
+    "ifu_automatique": true,
+    "services": ["Application mobile", "Fractionnement", "Plans d'épargne"],
+    "score": 90,
+    "note": "Simplicité maximale. Frais fixes 1€. Idéal débutants."
+  },
+  {
+    "id": "degiro_cto",
+    "nom": "DEGIRO CTO",
+    "frais_courtage": {
+      "fixe": 0.0,
+      "variable_pct": 0.04,
+      "plus": 2.0
+    },
+    "frais_tenue_compte": 0.0,
+    "acces_marches": ["Euronext", "Xetra", "NYSE", "NASDAQ"],
+    "choix_etfs": "Excellent (3000+ ETFs)",
+    "ifu_automatique": false,
+    "services": ["Sélection ETFs gratuits", "Ordre au marché"],
+    "score": 85,
+    "note": "Frais très bas. IFU manuel à faire soi-même."
+  },
+  {
+    "id": "saxo_cto",
+    "nom": "Saxo Banque CTO",
+    "frais_courtage": {
+      "fixe": 0.0,
+      "variable_pct": 0.08,
+      "minimum": 5.0
+    },
+    "frais_tenue_compte": 0.0,
+    "acces_marches": ["Tous marchés mondiaux", "40+ bourses"],
+    "choix_etfs": "Exceptionnel (5000+ ETFs)",
+    "ifu_automatique": true,
+    "services": ["Trading professionnel", "API", "Recherche premium", "Formation"],
+    "score": 92,
+    "note": "Haut de gamme. Outils professionnels. Service client excellent."
+  },
+  {
+    "id": "bourse_direct_cto",
+    "nom": "Bourse Direct CTO",
+    "frais_courtage": {
+      "fixe": 0.99,
+      "variable_pct": 0.0
+    },
+    "frais_tenue_compte": 0.0,
+    "acces_marches": ["Euronext", "NYSE", "NASDAQ"],
+    "choix_etfs": "Bon (1000+ ETFs)",
+    "ifu_automatique": true,
+    "services": ["SRD", "Ordre programmé", "Application mobile"],
+    "score": 87,
+    "note": "Courtier français de référence. Frais fixes avantageux."
+  }
+]

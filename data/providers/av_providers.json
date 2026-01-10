@@ -1,0 +1,82 @@
+[
+  {
+    "id": "linxea_spirit2",
+    "nom": "Linxea Spirit 2",
+    "assureur": "Spirica (Crédit Agricole)",
+    "frais_versement": 0.0,
+    "frais_gestion_uc": 0.5,
+    "frais_gestion_fonds_euros": 0.6,
+    "rendement_fonds_euros_2023": 3.30,
+    "choix_etfs": "Excellent (700+ supports dont 200+ ETFs)",
+    "gestion_pilotee": true,
+    "score": 96,
+    "note": "Référence du marché. Meilleur rapport qualité/prix. Frais très bas."
+  },
+  {
+    "id": "linxea_avenir2",
+    "nom": "Linxea Avenir 2",
+    "assureur": "Suravenir (Crédit Mutuel Arkéa)",
+    "frais_versement": 0.0,
+    "frais_gestion_uc": 0.6,
+    "frais_gestion_fonds_euros": 0.6,
+    "rendement_fonds_euros_2023": 3.00,
+    "choix_etfs": "Excellent (600+ supports dont 150+ ETFs)",
+    "gestion_pilotee": true,
+    "score": 94,
+    "note": "Très bon contrat. Alternative solide à Spirit 2."
+  },
+  {
+    "id": "placement_direct_horizon",
+    "nom": "Placement-direct Horizon",
+    "assureur": "Generali",
+    "frais_versement": 0.0,
+    "frais_gestion_uc": 0.6,
+    "frais_gestion_fonds_euros": 0.85,
+    "rendement_fonds_euros_2023": 3.20,
+    "choix_etfs": "Bon (500+ supports dont 100+ ETFs)",
+    "gestion_pilotee": true,
+    "score": 90,
+    "note": "Bon contrat avec gestion pilotée de qualité."
+  },
+  {
+    "id": "yomoni_av",
+    "nom": "Yomoni Assurance-Vie",
+    "assureur": "Suravenir",
+    "frais_versement": 0.0,
+    "frais_gestion_uc": 1.6,
+    "frais_gestion_fonds_euros": 0.6,
+    "rendement_fonds_euros_2023": 3.00,
+    "choix_etfs": "Limité (10 ETFs)",
+    "gestion_pilotee": true,
+    "gestion_pilotee_obligatoire": true,
+    "score": 82,
+    "note": "Gestion pilotée uniquement. Frais plus élevés mais service premium."
+  },
+  {
+    "id": "nalo_av",
+    "nom": "Nalo Assurance-Vie",
+    "assureur": "Generali",
+    "frais_versement": 0.0,
+    "frais_gestion_uc": 1.5,
+    "frais_gestion_fonds_euros": 0.85,
+    "rendement_fonds_euros_2023": 3.20,
+    "choix_etfs": "Limité (15 ETFs)",
+    "gestion_pilotee": true,
+    "gestion_pilotee_obligatoire": true,
+    "score": 80,
+    "note": "Gestion pilotée uniquement. Accompagnement conseil fort."
+  },
+  {
+    "id": "boursorama_av",
+    "nom": "Boursorama Vie",
+    "assureur": "Generali",
+    "frais_versement": 0.0,
+    "frais_gestion_uc": 0.75,
+    "frais_gestion_fonds_euros": 0.75,
+    "rendement_fonds_euros_2023": 2.80,
+    "choix_etfs": "Moyen (300+ supports dont 50+ ETFs)",
+    "gestion_pilotee": false,
+    "score": 78,
+    "note": "Bon contrat bancaire classique. Moins performant que courtiers."
+  }
+]

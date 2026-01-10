@@ -1,0 +1,72 @@
+[
+  {
+    "id": "linxea_per",
+    "nom": "Linxea PER",
+    "assureur": "Spirica",
+    "frais_versement": 0.0,
+    "frais_gestion_libre": 0.5,
+    "frais_gestion_pilotee": 0.9,
+    "gestion_libre": true,
+    "gestion_pilotee": true,
+    "choix_etfs": "Excellent (500+ supports dont 150+ ETFs)",
+    "portabilite": true,
+    "score": 95,
+    "note": "Meilleur PER du marché. Frais ultra-compétitifs. Gestion libre ou pilotée."
+  },
+  {
+    "id": "yomoni_per",
+    "nom": "Yomoni PER",
+    "assureur": "Suravenir",
+    "frais_versement": 0.0,
+    "frais_gestion_libre": null,
+    "frais_gestion_pilotee": 1.6,
+    "gestion_libre": false,
+    "gestion_pilotee": true,
+    "choix_etfs": "Limité (10 ETFs)",
+    "portabilite": true,
+    "score": 80,
+    "note": "Gestion pilotée uniquement. Service accompagnement premium."
+  },
+  {
+    "id": "placement_direct_per",
+    "nom": "Placement-direct PER",
+    "assureur": "Generali",
+    "frais_versement": 0.0,
+    "frais_gestion_libre": 0.6,
+    "frais_gestion_pilotee": 1.0,
+    "gestion_libre": true,
+    "gestion_pilotee": true,
+    "choix_etfs": "Bon (400+ supports dont 100+ ETFs)",
+    "portabilite": true,
+    "score": 88,
+    "note": "Excellent rapport qualité/prix. Gestion libre ou pilotée."
+  },
+  {
+    "id": "nalo_per",
+    "nom": "Nalo PER",
+    "assureur": "Generali",
+    "frais_versement": 0.0,
+    "frais_gestion_libre": null,
+    "frais_gestion_pilotee": 1.5,
+    "gestion_libre": false,
+    "gestion_pilotee": true,
+    "choix_etfs": "Limité (15 ETFs)",
+    "portabilite": true,
+    "score": 78,
+    "note": "Gestion pilotée uniquement. Accompagnement conseil."
+  },
+  {
+    "id": "mes_placements_liberte_per",
+    "nom": "Mes Placements Liberté PER",
+    "assureur": "Swiss Life",
+    "frais_versement": 0.0,
+    "frais_gestion_libre": 0.6,
+    "frais_gestion_pilotee": 0.95,
+    "gestion_libre": true,
+    "gestion_pilotee": true,
+    "choix_etfs": "Bon (350+ supports dont 80+ ETFs)",
+    "portabilite": true,
+    "score": 85,
+    "note": "Bon contrat avec frais compétitifs. Assureur de qualité."
+  }
+]
