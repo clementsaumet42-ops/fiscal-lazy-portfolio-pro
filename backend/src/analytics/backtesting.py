@@ -209,7 +209,7 @@ class BacktestEngine:
         sortino = self.calculer_sortino_ratio(rendements_ptf)
         
         # Maximum drawdown
-        from .drawdown_analysis import DrawdownAnalyzer
+        from analytics.drawdown_analysis import DrawdownAnalyzer
         max_dd, dd_details = DrawdownAnalyzer.calculer_max_drawdown(serie_valeurs)
         
         calmar = self.calculer_calmar_ratio(cagr, max_dd)

@@ -105,7 +105,7 @@ class PerformanceAnalyzer:
         sharpe_bm = (rendements_bm.mean() * 252) / (rendements_bm.std() * np.sqrt(252)) if rendements_bm.std() > 0 else 0
         
         # Alpha et Beta
-        from .risk_metrics import RiskMetrics
+        from analytics.risk_metrics import RiskMetrics
         beta = RiskMetrics.calculer_beta(rendements_ptf, rendements_bm)
         
         rendement_annuel_ptf = rendements_ptf.mean() * 252 * 100
