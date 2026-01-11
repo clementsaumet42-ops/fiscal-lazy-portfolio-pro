@@ -39,13 +39,18 @@ export function formatPercentage(value: number, decimals: number = 2): string {
 }
 
 /**
- * Format a decimal as percentage (alias for formatPercentage)
+ * Format a decimal as percentage
  * @param value - Decimal value (e.g., 0.0825 for 8.25%)
  * @param decimals - Number of decimal places (default: 2)
  * @returns Formatted string (e.g., "8,25 %")
  */
 export function formatPercent(value: number, decimals: number = 2): string {
-  return formatPercentage(value, decimals)
+  // formatPercent expects decimal values (0.0825), so pass directly
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'percent',
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  }).format(value)
 }
 
 /**
