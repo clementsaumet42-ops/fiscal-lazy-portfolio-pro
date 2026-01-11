@@ -9,18 +9,20 @@ src_path = str(Path(__file__).parent.parent / "src")
 sys.path.insert(0, backend_path)
 sys.path.insert(0, src_path)
 
-from api.routes import clients, portfolios, optimization, backtests, compliance, providers
+from api.routes import clients, portfolios, optimization, backtests, compliance, providers, etfs, audit
 
 app = FastAPI(
     title="Fiscal Lazy Portfolio Pro API",
     description="API B2B pour experts-comptables - Optimisation fiscale et allocation d'actifs",
-    version="1.0.0"
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
 # CORS pour frontend Next.js
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "https://*.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +35,8 @@ app.include_router(optimization.router, prefix="/api/optimization", tags=["Optim
 app.include_router(backtests.router, prefix="/api/backtests", tags=["Backtests"])
 app.include_router(compliance.router, prefix="/api/compliance", tags=["Compliance"])
 app.include_router(providers.router, prefix="/api/providers", tags=["Providers"])
+app.include_router(etfs.router, prefix="/api/etfs", tags=["ETFs"])
+app.include_router(audit.router, prefix="/api/audit", tags=["Audit"])
 
 
 @app.get("/")
