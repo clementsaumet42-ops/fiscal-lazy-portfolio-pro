@@ -31,8 +31,23 @@ class EligibilityService:
     def load_etf_universe(cls, universe_path: str = None) -> None:
         """Charge l'univers d'ETFs depuis JSON"""
         if not universe_path:
-            base_path = Path(__file__).parent.parent.parent.parent
-            universe_path = base_path / "data" / "etfs" / "universe.json"
+            # Try multiple possible paths
+            possible_paths = [
+                Path(__file__).parent.parent.parent.parent / "data" / "etfs" / "universe.json",
+                Path("/home/runner/work/fiscal-lazy-portfolio-pro/fiscal-lazy-portfolio-pro/data/etfs/universe.json"),
+                Path.cwd() / "data" / "etfs" / "universe.json",
+                Path.cwd().parent / "data" / "etfs" / "universe.json"
+            ]
+            
+            universe_path = None
+            for path in possible_paths:
+                if path.exists():
+                    universe_path = path
+                    break
+            
+            if not universe_path:
+                print(f"Warning: Could not find ETF universe in any of: {possible_paths}")
+                return
         
         try:
             with open(universe_path, 'r', encoding='utf-8') as f:
