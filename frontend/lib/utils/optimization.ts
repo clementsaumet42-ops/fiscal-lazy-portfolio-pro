@@ -7,6 +7,25 @@ import { ETF_DATABASE, getETFsByCategory } from '../data/etf-database';
 import type { ETFInfo } from '../types/audit';
 
 /**
+ * Règles de placement optimal par classe d'actifs
+ * Utilisé pour l'asset location et l'optimisation fiscale
+ */
+const ASSET_LOCATION_RULES: Record<string, TypeEnveloppeAudit[]> = {
+  'Actions Europe': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
+  'Actions France': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
+  'Actions Monde': ['AV', 'CTO', 'PER', 'IS', 'PEA'],
+  'Actions USA': ['AV', 'CTO', 'PER', 'IS', 'PEA'],
+  'Actions Émergents': ['AV', 'CTO', 'PER', 'IS', 'PEA'],
+  'Obligations': ['AV', 'PER', 'CTO', 'IS', 'PEA'],
+  'Obligations Euro IG': ['AV', 'PER', 'CTO', 'IS'],
+  'Obligations Euro Souveraines': ['AV', 'PER', 'CTO', 'IS'],
+  'Fonds Euro': ['AV', 'PER'],
+  'Immobilier': ['AV', 'CTO', 'IS', 'PER'],
+  'Immobilier Europe': ['AV', 'CTO', 'IS', 'PER'],
+  'Or': ['CTO', 'AV', 'IS'],
+};
+
+/**
  * Calcule l'économie avec intérêts composés
  * @param economie_annuelle - Économie annuelle en euros
  * @param annees - Nombre d'années
@@ -33,22 +52,7 @@ export function determinerAssetLocation(
   classe_actif: string, 
   enveloppes_disponibles: TypeEnveloppeAudit[]
 ): TypeEnveloppeAudit {
-  // Règles de placement optimal par classe d'actifs
-  const regles: Record<string, TypeEnveloppeAudit[]> = {
-    'Actions Europe': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
-    'Actions France': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
-    'Actions Monde': ['AV', 'CTO', 'PER', 'IS', 'PEA'],
-    'Actions USA': ['AV', 'CTO', 'PER', 'IS', 'PEA'],
-    'Actions Émergents': ['AV', 'CTO', 'PER', 'IS', 'PEA'],
-    'Obligations': ['AV', 'PER', 'CTO', 'IS', 'PEA'],
-    'Obligations Euro IG': ['AV', 'PER', 'CTO', 'IS'],
-    'Obligations Euro Souveraines': ['AV', 'PER', 'CTO', 'IS'],
-    'Fonds Euro': ['AV', 'PER'],
-    'Immobilier': ['AV', 'CTO', 'IS', 'PER'],
-    'Or': ['CTO', 'AV', 'IS'],
-  };
-  
-  const priorite = regles[classe_actif] || ['CTO', 'AV', 'PEA', 'PER', 'IS'];
+  const priorite = ASSET_LOCATION_RULES[classe_actif] || ['CTO', 'AV', 'PEA', 'PER', 'IS'];
   
   // Retourner la première enveloppe disponible selon la priorité
   for (const env of priorite) {
@@ -94,16 +98,7 @@ export function calculerScoreFiscal(
     for (const [classe, montant] of Object.entries(classes)) {
       if (montant === 0) continue;
       
-      const enveloppeOptimale = determinerAssetLocation(classe, Object.keys(allocation) as TypeEnveloppeAudit[]);
-      const priorites: Record<string, TypeEnveloppeAudit[]> = {
-        'Actions Europe': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
-        'Actions France': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
-        'Actions Monde': ['AV', 'CTO', 'PER', 'IS'],
-        'Obligations': ['AV', 'PER', 'CTO', 'IS'],
-        'Fonds Euro': ['AV', 'PER'],
-      };
-      
-      const priorite = priorites[classe] || ['CTO', 'AV', 'PEA', 'PER', 'IS'];
+      const priorite = ASSET_LOCATION_RULES[classe] || ['CTO', 'AV', 'PEA', 'PER', 'IS'];
       const index = priorite.indexOf(enveloppe as TypeEnveloppeAudit);
       
       // Points: 100 pour optimal, 70 pour acceptable, 40 pour suboptimal
@@ -128,17 +123,7 @@ export function evaluerQualiteFiscale(
   classe_actif: string, 
   enveloppe: TypeEnveloppeAudit
 ): 'optimal' | 'acceptable' | 'suboptimal' {
-  const priorites: Record<string, TypeEnveloppeAudit[]> = {
-    'Actions Europe': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
-    'Actions France': ['PEA', 'AV', 'CTO', 'PER', 'IS'],
-    'Actions Monde': ['AV', 'CTO', 'PER', 'IS'],
-    'Actions USA': ['AV', 'CTO', 'PER', 'IS'],
-    'Obligations': ['AV', 'PER', 'CTO', 'IS'],
-    'Fonds Euro': ['AV', 'PER'],
-    'Immobilier': ['AV', 'CTO', 'IS'],
-  };
-  
-  const priorite = priorites[classe_actif] || ['CTO', 'AV', 'PEA', 'PER', 'IS'];
+  const priorite = ASSET_LOCATION_RULES[classe_actif] || ['CTO', 'AV', 'PEA', 'PER', 'IS'];
   const index = priorite.indexOf(enveloppe);
   
   if (index === 0) return 'optimal';
