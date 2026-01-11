@@ -249,7 +249,7 @@ export default function BacktestPage() {
             </p>
             <p className="text-sm">
               <strong>Sharpe Ratio ({performance.sharpe_ratio.toFixed(2)}):</strong> 
-              {' '}Rendement ajusté du risque. Un ratio > 0.5 est considéré comme acceptable.
+              {' '}Rendement ajusté du risque. Un ratio &gt; 0.5 est considéré comme acceptable.
             </p>
           </div>
         </CardContent>

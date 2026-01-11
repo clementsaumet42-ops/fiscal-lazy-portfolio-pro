@@ -226,7 +226,7 @@ export default function RapportPage() {
             <div>
               <p className="text-sm text-gray-600">Sharpe Ratio</p>
               <p className="text-2xl font-bold text-primary">
-                {backtest.performance.sharpe_ratio.toFixed(2)}
+                {backtest.performance.sharpe_ratio?.toFixed(2) || 'N/A'}
               </p>
             </div>
           </div>
