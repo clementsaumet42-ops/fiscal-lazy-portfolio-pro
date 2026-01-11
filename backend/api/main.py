@@ -74,9 +74,15 @@ app = FastAPI(
 )
 
 # CORS pour frontend Next.js
+# NOTE: In production, replace with specific Vercel domain
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "https://*.vercel.app"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        # TODO: Replace with actual Vercel domain in production
+        # "https://your-app.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

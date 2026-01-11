@@ -1,15 +1,15 @@
-"""
-Service d'éligibilité automatique des ETFs par enveloppe.
-Vérifie automatiquement si un ISIN est éligible dans PEA, CTO, AV, PER.
-"""
-
+import logging
 from typing import Dict, List
 import json
 from pathlib import Path
+import os
 
 from models.etf import ETF
 from models.enveloppe import EnveloppeType
 from models.enveloppe_isin_mapping import EligibiliteResult
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 class EligibilityService:
@@ -31,23 +31,28 @@ class EligibilityService:
     def load_etf_universe(cls, universe_path: str = None) -> None:
         """Charge l'univers d'ETFs depuis JSON"""
         if not universe_path:
-            # Try multiple possible paths
-            possible_paths = [
-                Path(__file__).parent.parent.parent.parent / "data" / "etfs" / "universe.json",
-                Path("/home/runner/work/fiscal-lazy-portfolio-pro/fiscal-lazy-portfolio-pro/data/etfs/universe.json"),
-                Path.cwd() / "data" / "etfs" / "universe.json",
-                Path.cwd().parent / "data" / "etfs" / "universe.json"
-            ]
-            
-            universe_path = None
-            for path in possible_paths:
-                if path.exists():
-                    universe_path = path
-                    break
-            
-            if not universe_path:
-                print(f"Warning: Could not find ETF universe in any of: {possible_paths}")
-                return
+            # Check environment variable first
+            universe_path_env = os.getenv('ETF_UNIVERSE_PATH')
+            if universe_path_env and Path(universe_path_env).exists():
+                universe_path = Path(universe_path_env)
+            else:
+                # Try multiple possible paths
+                possible_paths = [
+                    Path(__file__).parent.parent.parent.parent / "data" / "etfs" / "universe.json",
+                    Path("/home/runner/work/fiscal-lazy-portfolio-pro/fiscal-lazy-portfolio-pro/data/etfs/universe.json"),
+                    Path.cwd() / "data" / "etfs" / "universe.json",
+                    Path.cwd().parent / "data" / "etfs" / "universe.json"
+                ]
+                
+                universe_path = None
+                for path in possible_paths:
+                    if path.exists():
+                        universe_path = path
+                        break
+                
+                if not universe_path:
+                    logger.error(f"Could not find ETF universe in any of: {possible_paths}")
+                    return
         
         try:
             with open(universe_path, 'r', encoding='utf-8') as f:
@@ -55,8 +60,9 @@ class EligibilityService:
                 for etf_data in etfs_data:
                     etf = ETF(**etf_data)
                     cls._etf_cache[etf.isin] = etf
+            logger.info(f"Loaded {len(cls._etf_cache)} ETFs from {universe_path}")
         except Exception as e:
-            print(f"Warning: Could not load ETF universe: {e}")
+            logger.error(f"Could not load ETF universe: {e}", exc_info=True)
     
     @classmethod
     def get_etf_by_isin(cls, isin: str) -> ETF:

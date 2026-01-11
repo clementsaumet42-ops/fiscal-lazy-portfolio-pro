@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle, TrendingUp, Info, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import { getClasseActifLabel } from '@/lib/utils';
 
 interface ETF {
   isin: string;
@@ -179,7 +180,7 @@ export default function ETFDetailPage({ params }: { params: Promise<{ isin: stri
           <dl className="grid grid-cols-2 gap-4">
             <div>
               <dt className="text-sm font-medium text-gray-600">Classe d'actif</dt>
-              <dd className="text-gray-900 capitalize">{etf.classe_actif.replace('_', ' ')}</dd>
+              <dd className="text-gray-900">{getClasseActifLabel(etf.classe_actif)}</dd>
             </div>
             <div>
               <dt className="text-sm font-medium text-gray-600">Type de distribution</dt>

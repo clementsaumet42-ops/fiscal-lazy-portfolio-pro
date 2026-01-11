@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Filter, TrendingUp, CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
+import { getClasseActifLabel } from '@/lib/utils';
 
 interface ETF {
   isin: string;
@@ -120,20 +121,6 @@ export default function ETFListPage() {
     }
 
     setFilteredETFs(filtered);
-  };
-
-  const getClasseActifLabel = (classe: string) => {
-    const labels: Record<string, string> = {
-      'actions_monde': 'Actions Monde',
-      'actions_europe': 'Actions Europe',
-      'actions_usa': 'Actions USA',
-      'actions_emergents': 'Actions Émergents',
-      'obligations_gouvernementales': 'Obligations Gouv.',
-      'obligations_corporate': 'Obligations Corp.',
-      'small_caps': 'Small Caps',
-      'or': 'Or'
-    };
-    return labels[classe] || classe;
   };
 
   if (loading) {

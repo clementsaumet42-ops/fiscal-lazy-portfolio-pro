@@ -130,3 +130,26 @@ export function getChartColor(index: number): string {
   ]
   return colors[index % colors.length]
 }
+
+/**
+ * Asset class labels mapping
+ */
+export const ASSET_CLASS_LABELS: Record<string, string> = {
+  'actions_monde': 'Actions Monde',
+  'actions_europe': 'Actions Europe',
+  'actions_usa': 'Actions USA',
+  'actions_emergents': 'Actions Émergents',
+  'obligations_gouvernementales': 'Obligations Gouv.',
+  'obligations_corporate': 'Obligations Corp.',
+  'small_caps': 'Small Caps',
+  'or': 'Or'
+};
+
+/**
+ * Get formatted asset class label
+ * @param classe - Asset class key
+ * @returns Formatted label
+ */
+export function getClasseActifLabel(classe: string): string {
+  return ASSET_CLASS_LABELS[classe] || classe;
+}
