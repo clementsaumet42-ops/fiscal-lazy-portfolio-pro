@@ -195,9 +195,9 @@ export default function ImportRelevesPage() {
               className="hidden"
             />
             <label htmlFor="file-upload">
-              <Button variant="outline" className="cursor-pointer" asChild>
-                <span>Sélectionner des fichiers</span>
-              </Button>
+              <span className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 bg-white hover:bg-gray-50 h-10 px-4 py-2 cursor-pointer">
+                Sélectionner des fichiers
+              </span>
             </label>
             <p className="text-sm text-gray-500 mt-4">
               Formats acceptés : PDF, PNG, JPG (max 10 Mo par fichier)
