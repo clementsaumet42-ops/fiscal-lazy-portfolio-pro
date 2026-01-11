@@ -1,8 +1,8 @@
-from .personne_physique import PersonnePhysique
-from .societe_is import SocieteIS
-from .enveloppe import Enveloppe, EnveloppeType, PEA, CTO, AssuranceVie, PER
-from .etf import ETF, AssetClass
-from .position import Position
+from models.personne_physique import PersonnePhysique
+from models.societe_is import SocieteIS
+from models.enveloppe import Enveloppe, EnveloppeType, PEA, CTO, AssuranceVie, PER
+from models.etf import ETF, AssetClass
+from models.position import Position
 
 __all__ = [
     "PersonnePhysique",

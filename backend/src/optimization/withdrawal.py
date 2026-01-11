@@ -1,5 +1,5 @@
 from typing import Dict, List, Tuple
-from ..models.enveloppe import EnveloppeType
+from models.enveloppe import EnveloppeType
 
 
 class WithdrawalOptimizer:

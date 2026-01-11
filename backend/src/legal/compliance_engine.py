@@ -1,5 +1,5 @@
 from typing import Dict, List
-from .fiscal_rules import FiscalRules
+from legal.fiscal_rules import FiscalRules
 
 
 class ComplianceEngine:
