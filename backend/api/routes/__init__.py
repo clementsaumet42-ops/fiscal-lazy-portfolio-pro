@@ -4,6 +4,8 @@ from .optimization import router as optimization_router
 from .backtests import router as backtests_router
 from .compliance import router as compliance_router
 from .providers import router as providers_router
+from .etfs import router as etfs_router
+from .audit import router as audit_router
 
 __all__ = [
     "clients_router",
@@ -11,5 +13,7 @@ __all__ = [
     "optimization_router",
     "backtests_router",
     "compliance_router",
-    "providers_router"
+    "providers_router",
+    "etfs_router",
+    "audit_router"
 ]
