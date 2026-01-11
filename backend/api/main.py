@@ -13,10 +13,64 @@ from api.routes import clients, portfolios, optimization, backtests, compliance,
 
 app = FastAPI(
     title="Fiscal Lazy Portfolio Pro API",
-    description="API B2B pour experts-comptables - Optimisation fiscale et allocation d'actifs",
+    description="""
+    **API B2B pour experts-comptables français**
+    
+    Plateforme professionnelle d'optimisation fiscale et d'allocation d'actifs.
+    
+    ## Fonctionnalités Principales
+    
+    ### 1. Gestion ETFs
+    - Listing complet de l'univers d'ETFs (24 ETFs)
+    - Vérification automatique d'éligibilité par enveloppe (PEA, CTO, AV, PER)
+    - Recommandations personnalisées selon profil de risque
+    - Détails complets (TER, classe d'actif, distribution, etc.)
+    
+    ### 2. Audit de Portefeuille
+    - Analyse complète de l'allocation (par classe d'actif, enveloppe, zone géo)
+    - Calcul des scores (diversification, fiscal, global)
+    - Détection des problèmes d'éligibilité
+    - Estimation des économies fiscales
+    - Recommandations personnalisées
+    
+    ### 3. Optimisation Fiscale
+    - Asset Location optimale
+    - Tax-Loss Harvesting pour CTO
+    - Calcul de l'ordre de retrait optimal
+    - Lifecycle investing avec glide paths
+    - Rééquilibrage intelligent
+    
+    ### 4. Backtesting & Analytics
+    - Backtests historiques (2000-2024)
+    - Simulations Monte Carlo
+    - Métriques institutionnelles (Sharpe, Sortino, Calmar, VaR, CVaR)
+    - Maximum Drawdown avec tracking
+    
+    ### 5. Conformité Juridique
+    - Vérification automatique selon CGI (Code Général des Impôts)
+    - Références légales: Art. 150-0 A (PEA), 209-0 A (IS), 125-0 A (AV), etc.
+    - Rapports de conformité
+    
+    ## Déploiement
+    
+    - **Backend API**: Déployé sur Railway (https://railway.app)
+    - **Frontend**: Déployé sur Vercel (https://vercel.com)
+    
+    ## Support
+    
+    Pour questions techniques: Voir documentation complète dans /docs
+    """,
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    contact={
+        "name": "Fiscal Lazy Portfolio Pro",
+        "url": "https://github.com/clementsaumet42-ops/fiscal-lazy-portfolio-pro"
+    },
+    license_info={
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+    }
 )
 
 # CORS pour frontend Next.js
