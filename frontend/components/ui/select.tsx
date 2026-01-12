@@ -33,7 +33,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
 )
 Select.displayName = 'Select'
 
-// Compatibility exports for complex select usage
+// Simple compatibility exports for basic select usage
+// Note: These are simplified wrappers around native HTML select element
+// For complex dropdown behavior, consider using a dedicated library like Radix UI or Headless UI
 export const SelectTrigger = Select
 export const SelectValue = ({ placeholder }: { placeholder?: string }) => <>{placeholder}</>
 export const SelectContent = ({ children }: { children: React.ReactNode }) => <>{children}</>

@@ -32,7 +32,7 @@ class TestParametresFiscaux:
         
         assert resultat["revenu_imposable"] == 50_000
         assert resultat["quotient_familial"] == 50_000
-        # 50k tombe dans la 3e tranche (30%)
+        # 50k tombe dans la tranche 28,797€ - 82,341€ (taux marginal 30%)
         assert resultat["taux_marginal"] == 30.0
         # Impôt devrait être calculé progressivement
         assert resultat["impot_brut"] > 0
