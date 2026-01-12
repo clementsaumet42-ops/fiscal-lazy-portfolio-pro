@@ -1,10 +1,14 @@
+'use client'
+
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
+export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  onValueChange?: (value: string) => void
+}
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, onValueChange, ...props }, ref) => {
     return (
       <select
         className={cn(
@@ -12,6 +16,14 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           className
         )}
         ref={ref}
+        onChange={(e) => {
+          if (onValueChange) {
+            onValueChange(e.target.value)
+          }
+          if (props.onChange) {
+            props.onChange(e)
+          }
+        }}
         {...props}
       >
         {children}
@@ -20,5 +32,13 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   }
 )
 Select.displayName = 'Select'
+
+// Compatibility exports for complex select usage
+export const SelectTrigger = Select
+export const SelectValue = ({ placeholder }: { placeholder?: string }) => <>{placeholder}</>
+export const SelectContent = ({ children }: { children: React.ReactNode }) => <>{children}</>
+export const SelectItem = ({ value, children }: { value: string; children: React.ReactNode }) => (
+  <option value={value}>{children}</option>
+)
 
 export { Select }
