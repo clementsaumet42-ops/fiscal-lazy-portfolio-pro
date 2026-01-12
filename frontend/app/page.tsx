@@ -16,14 +16,14 @@ export default function Home() {
             Optimisation fiscale de portefeuilles pour experts-comptables français
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/client/import-releves">
+            <Link href="/client/parcours">
               <Button size="lg" className="text-lg px-8 py-6">
-                🔍 Auditer Épargne Existante
+                🚀 Démarrer le Parcours Complet
               </Button>
             </Link>
-            <Link href="/client/profil">
+            <Link href="/client/bilan/situation">
               <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                ➕ Nouveau Client
+                📋 Bilan Patrimonial
               </Button>
             </Link>
           </div>
@@ -44,10 +44,10 @@ export default function Home() {
                 <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
                   <TrendingUp className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle>Audit d'épargne professionnel</CardTitle>
+                <CardTitle>Bilan patrimonial complet</CardTitle>
                 <CardDescription>
-                  Analysez l'épargne existante de vos clients et proposez des optimisations
-                  sur l'allocation, les frais et la fiscalité
+                  Collectez la situation personnelle, revenus, patrimoine et objectifs
+                  de vos clients en 4 étapes structurées
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -58,10 +58,10 @@ export default function Home() {
                 <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center mb-4">
                   <Shield className="w-6 h-6 text-secondary" />
                 </div>
-                <CardTitle>Optimisation fiscale automatique</CardTitle>
+                <CardTitle>Audit de l'épargne existante</CardTitle>
                 <CardDescription>
-                  Allocation optimale des actifs entre PEA, CTO, Assurance-vie et PER
-                  pour minimiser l'impôt
+                  Analysez les placements actuels, identifiez les points d'amélioration
+                  et calculez le potentiel d'économie
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -72,10 +72,10 @@ export default function Home() {
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
                   <FileText className="w-6 h-6 text-orange-600" />
                 </div>
-                <CardTitle>Rapports PDF personnalisés</CardTitle>
+                <CardTitle>Recommandations personnalisées</CardTitle>
                 <CardDescription>
-                  Génération automatique de rapports détaillés pour vos clients
-                  avec analyses et recommandations
+                  Plan d'action détaillé avec comparaison avant/après, économies potentielles
+                  et priorisation des actions
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -93,14 +93,14 @@ export default function Home() {
             Auditez l'épargne existante ou créez une nouvelle simulation
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/client/import-releves">
+            <Link href="/client/parcours">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-                Auditer Épargne
+                Parcours Client Complet
               </Button>
             </Link>
             <Link href="/client/profil">
               <Button size="lg" variant="outline" className="text-lg px-8 py-6 bg-white">
-                Nouvelle Simulation
+                Workflow Classique
               </Button>
             </Link>
           </div>

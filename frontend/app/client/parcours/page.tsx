@@ -18,6 +18,12 @@ export default function ParcoursPage() {
   const auditCompleted = !!(audit.analyse && audit.diagnostic)
   const recommandationsCompleted = !!recommandations.comparaison
 
+  const getPhaseStatus = (completed: boolean, canStart: boolean): 'completed' | 'in_progress' | 'pending' => {
+    if (completed) return 'completed'
+    if (canStart) return 'in_progress'
+    return 'pending'
+  }
+
   const phases = [
     {
       id: 'bilan',
@@ -25,7 +31,7 @@ export default function ParcoursPage() {
       emoji: '📋',
       etapes: 4,
       href: '/client/bilan/situation',
-      status: bilanCompleted ? 'completed' : 'in_progress' as const,
+      status: getPhaseStatus(bilanCompleted, true),
     },
     {
       id: 'audit',
@@ -33,7 +39,7 @@ export default function ParcoursPage() {
       emoji: '🔍',
       etapes: 3,
       href: '/client/audit/import',
-      status: auditCompleted ? 'completed' : bilanCompleted ? 'in_progress' : 'pending' as const,
+      status: getPhaseStatus(auditCompleted, bilanCompleted),
     },
     {
       id: 'allocation',
@@ -41,7 +47,7 @@ export default function ParcoursPage() {
       emoji: '🎯',
       etapes: 6,
       href: '/client/recommandations',
-      status: recommandationsCompleted ? 'completed' : auditCompleted ? 'in_progress' : 'pending' as const,
+      status: getPhaseStatus(recommandationsCompleted, auditCompleted),
     },
   ]
 
