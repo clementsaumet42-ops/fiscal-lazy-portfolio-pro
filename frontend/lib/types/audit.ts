@@ -161,9 +161,54 @@ export interface OptimisationProposee {
   }>;
 }
 
+// Placement existant avec score de qualité
+export interface PlacementExistant {
+  id: string
+  type: 'livret' | 'assurance_vie' | 'pea' | 'cto' | 'per' | 'immobilier' | 'scpi' | 'autre'
+  nom: string
+  etablissement: string
+  montant: number
+  frais_annuels: number
+  rendement_historique: number
+  score_qualite: number // 0-10
+  liquidite: 'immediate' | 'court_terme' | 'moyen_terme' | 'bloque'
+  date_ouverture?: string
+  fiscalite_note?: number // 0-10
+  diversification_note?: number // 0-10
+}
+
+// Diagnostic d'audit complet
+export interface DiagnosticAudit {
+  points_forts: Array<{
+    titre: string
+    description: string
+    impact: string
+  }>
+  points_attention: Array<{
+    titre: string
+    description: string
+    recommandation: string
+  }>
+  points_faibles: Array<{
+    titre: string
+    description: string
+    consequence: string
+    action_corrective: string
+  }>
+  opportunites: Array<{
+    titre: string
+    description: string
+    gain_potentiel: string
+  }>
+  economie_potentielle_annuelle: number
+  score_global: number // 0-100
+}
+
 // État de l'audit dans le store
 export interface AuditState {
   documents: DocumentImporte[];
+  placements?: PlacementExistant[];
   analyse?: AnalyseExistant;
+  diagnostic?: DiagnosticAudit;
   optimisation?: OptimisationProposee;
 }
