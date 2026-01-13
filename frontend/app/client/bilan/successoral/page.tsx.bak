@@ -104,33 +104,33 @@ export default function BilanSuccessoralPage() {
   const showTestamentFields = formData.testament_existe
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+    <div className="min-h-screen bg-midnight">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-white mb-2">
             📜 Bilan Successoral
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-cream/70 text-lg">
             Étape 4/11 - Planification de la transmission de votre patrimoine
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="w-full bg-gradient-to-br from-blue-50 to-white-lighter rounded-full h-2">
-            <div className="bg-blue-600 h-2 rounded-full transition-all duration-300" style={{ width: '36%' }}></div>
+          <div className="w-full bg-midnight-lighter rounded-full h-2">
+            <div className="bg-gold h-2 rounded-full transition-all duration-300" style={{ width: '36%' }}></div>
           </div>
-          <p className="text-gray-600 text-sm mt-2">Progression: 4 sur 11 étapes</p>
+          <p className="text-cream/70 text-sm mt-2">Progression: 4 sur 11 étapes</p>
         </div>
         
-        <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
+        <Card className="bg-midnight-light border-midnight-lighter">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Heart className="w-6 h-6 text-blue-600" />
-              <CardTitle className="text-gray-900">Transmission et Succession</CardTitle>
+              <Heart className="w-6 h-6 text-gold" />
+              <CardTitle className="text-white">Transmission et Succession</CardTitle>
             </div>
-            <CardDescription className="text-gray-600">
+            <CardDescription className="text-cream/70">
               Organisons la transmission de votre patrimoine selon vos souhaits.
             </CardDescription>
           </CardHeader>
@@ -138,18 +138,18 @@ export default function BilanSuccessoralPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Testament Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-blue-600" />
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-gold" />
                   Testament
                 </h3>
                 
                 <div>
-                  <Label htmlFor="testament_existe" className="text-gray-700">Avez-vous un testament ?</Label>
+                  <Label htmlFor="testament_existe" className="text-cream">Avez-vous un testament ?</Label>
                   <Select
                     id="testament_existe"
                     value={formData.testament_existe ? 'oui' : 'non'}
                     onChange={(e) => handleChange('testament_existe', e.target.value === 'oui')}
-                    className="mt-1 bg-gradient-to-br from-blue-50 to-white border-gray-200 text-gray-900"
+                    className="mt-1 bg-midnight border-midnight-lighter text-white"
                   >
                     <option value="non">Non</option>
                     <option value="oui">Oui</option>
@@ -159,12 +159,12 @@ export default function BilanSuccessoralPage() {
                 {showTestamentFields && (
                   <>
                     <div>
-                      <Label htmlFor="type_testament" className="text-gray-700">Type de testament</Label>
+                      <Label htmlFor="type_testament" className="text-cream">Type de testament</Label>
                       <Select
                         id="type_testament"
                         value={formData.type_testament || ''}
                         onChange={(e) => handleChange('type_testament', e.target.value)}
-                        className="mt-1 bg-gradient-to-br from-blue-50 to-white border-gray-200 text-gray-900"
+                        className="mt-1 bg-midnight border-midnight-lighter text-white"
                       >
                         <option value="">-- Sélectionner --</option>
                         <option value="Olographe">Olographe (manuscrit)</option>
@@ -174,23 +174,23 @@ export default function BilanSuccessoralPage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="date_testament" className="text-gray-700">Date du testament</Label>
+                      <Label htmlFor="date_testament" className="text-cream">Date du testament</Label>
                       <Input
                         id="date_testament"
                         type="date"
                         value={formData.date_testament instanceof Date ? formData.date_testament.toISOString().split('T')[0] : ''}
                         onChange={(e) => handleChange('date_testament', new Date(e.target.value))}
-                        className="mt-1 bg-gradient-to-br from-blue-50 to-white border-gray-200 text-gray-900"
+                        className="mt-1 bg-midnight border-midnight-lighter text-white"
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="notaire" className="text-gray-700">Notaire (nom et coordonnées)</Label>
+                      <Label htmlFor="notaire" className="text-cream">Notaire (nom et coordonnées)</Label>
                       <Input
                         id="notaire"
                         value={formData.notaire || ''}
                         onChange={(e) => handleChange('notaire', e.target.value)}
-                        className="mt-1 bg-gradient-to-br from-blue-50 to-white border-gray-200 text-gray-900"
+                        className="mt-1 bg-midnight border-midnight-lighter text-white"
                         placeholder="Maître Dupont, Paris"
                       />
                     </div>
@@ -199,10 +199,10 @@ export default function BilanSuccessoralPage() {
               </div>
 
               {/* Donations Section */}
-              <div className="space-y-4 pt-6 border-t border-gray-200">
+              <div className="space-y-4 pt-6 border-t border-midnight-lighter">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    <Gift className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Gift className="w-5 h-5 text-gold" />
                     Donations réalisées ({formData.donations_realisees.length})
                   </h3>
                   <Button
@@ -210,7 +210,7 @@ export default function BilanSuccessoralPage() {
                     onClick={addDonation}
                     variant="outline"
                     size="sm"
-                    className="bg-gradient-to-br from-blue-50 to-white-lighter border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-midnight"
+                    className="bg-midnight-lighter border-gold text-gold hover:bg-gold hover:text-midnight"
                   >
                     <Plus className="w-4 h-4 mr-1" />
                     Ajouter une donation
@@ -220,47 +220,47 @@ export default function BilanSuccessoralPage() {
                 {formData.donations_realisees.length > 0 && (
                   <div className="space-y-3">
                     {formData.donations_realisees.map((donation) => (
-                      <Card key={donation.id} className="bg-gradient-to-br from-blue-50 to-white border-gray-200">
+                      <Card key={donation.id} className="bg-midnight border-midnight-lighter">
                         <CardContent className="pt-4">
                           <div className="flex items-start gap-4">
                             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                               <div>
-                                <Label className="text-gray-700 text-sm">Date</Label>
+                                <Label className="text-cream text-sm">Date</Label>
                                 <Input
                                   type="date"
                                   value={donation.date instanceof Date ? donation.date.toISOString().split('T')[0] : ''}
                                   onChange={(e) => updateDonation(donation.id, 'date', new Date(e.target.value))}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                 />
                               </div>
                               
                               <div>
-                                <Label className="text-gray-700 text-sm">Bénéficiaire</Label>
+                                <Label className="text-cream text-sm">Bénéficiaire</Label>
                                 <Input
                                   value={donation.beneficiaire}
                                   onChange={(e) => updateDonation(donation.id, 'beneficiaire', e.target.value)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                   placeholder="Nom du bénéficiaire"
                                 />
                               </div>
                               
                               <div>
-                                <Label className="text-gray-700 text-sm">Montant (€)</Label>
+                                <Label className="text-cream text-sm">Montant (€)</Label>
                                 <Input
                                   type="number"
                                   value={donation.montant}
                                   onChange={(e) => updateDonation(donation.id, 'montant', parseFloat(e.target.value) || 0)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                   placeholder="0"
                                 />
                               </div>
                               
                               <div>
-                                <Label className="text-gray-700 text-sm">Type</Label>
+                                <Label className="text-cream text-sm">Type</Label>
                                 <Select
                                   value={donation.type}
                                   onChange={(e) => updateDonation(donation.id, 'type', e.target.value)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                 >
                                   <option value="Don manuel">Don manuel</option>
                                   <option value="Donation-partage">Donation-partage</option>
@@ -269,12 +269,12 @@ export default function BilanSuccessoralPage() {
                               </div>
                               
                               <div>
-                                <Label className="text-gray-700 text-sm">Abattement utilisé (€)</Label>
+                                <Label className="text-cream text-sm">Abattement utilisé (€)</Label>
                                 <Input
                                   type="number"
                                   value={donation.abattement_utilise}
                                   onChange={(e) => updateDonation(donation.id, 'abattement_utilise', parseFloat(e.target.value) || 0)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                   placeholder="0"
                                 />
                               </div>
@@ -298,10 +298,10 @@ export default function BilanSuccessoralPage() {
               </div>
 
               {/* Assurance-Vie Beneficiaries Section */}
-              <div className="space-y-4 pt-6 border-t border-gray-200">
+              <div className="space-y-4 pt-6 border-t border-midnight-lighter">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    <Heart className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Heart className="w-5 h-5 text-gold" />
                     Bénéficiaires Assurance-Vie ({formData.assurances_vie_beneficiaires.length})
                   </h3>
                   <Button
@@ -309,7 +309,7 @@ export default function BilanSuccessoralPage() {
                     onClick={addBeneficiaire}
                     variant="outline"
                     size="sm"
-                    className="bg-gradient-to-br from-blue-50 to-white-lighter border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-midnight"
+                    className="bg-midnight-lighter border-gold text-gold hover:bg-gold hover:text-midnight"
                   >
                     <Plus className="w-4 h-4 mr-1" />
                     Ajouter une clause
@@ -319,37 +319,37 @@ export default function BilanSuccessoralPage() {
                 {formData.assurances_vie_beneficiaires.length > 0 && (
                   <div className="space-y-3">
                     {formData.assurances_vie_beneficiaires.map((ben, index) => (
-                      <Card key={index} className="bg-gradient-to-br from-blue-50 to-white border-gray-200">
+                      <Card key={index} className="bg-midnight border-midnight-lighter">
                         <CardContent className="pt-4">
                           <div className="flex items-start gap-4">
                             <div className="flex-1 space-y-3">
                               <div>
-                                <Label className="text-gray-700 text-sm">Contrat d'assurance-vie (ID)</Label>
+                                <Label className="text-cream text-sm">Contrat d'assurance-vie (ID)</Label>
                                 <Input
                                   value={ben.contrat_id}
                                   onChange={(e) => updateBeneficiaire(index, 'contrat_id', e.target.value)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                   placeholder="ID du contrat"
                                 />
                               </div>
                               
                               <div>
-                                <Label className="text-gray-700 text-sm">Clause bénéficiaire</Label>
+                                <Label className="text-cream text-sm">Clause bénéficiaire</Label>
                                 <Textarea
                                   value={ben.beneficiaires}
                                   onChange={(e) => updateBeneficiaire(index, 'beneficiaires', e.target.value)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                   placeholder="Ex: Mon conjoint à 100%, à défaut mes enfants à parts égales"
                                   rows={3}
                                 />
                               </div>
                               
                               <div>
-                                <Label className="text-gray-700 text-sm">Type de clause</Label>
+                                <Label className="text-cream text-sm">Type de clause</Label>
                                 <Select
                                   value={ben.clause_type}
                                   onChange={(e) => updateBeneficiaire(index, 'clause_type', e.target.value)}
-                                  className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
+                                  className="mt-1 bg-midnight-light border-midnight-lighter text-white"
                                 >
                                   <option value="Standard">Standard</option>
                                   <option value="Démembrement">Démembrement</option>
@@ -377,16 +377,16 @@ export default function BilanSuccessoralPage() {
               </div>
 
               {/* Transmission Objectives Section */}
-              <div className="space-y-4 pt-6 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900">Objectifs de transmission</h3>
+              <div className="space-y-4 pt-6 border-t border-midnight-lighter">
+                <h3 className="text-lg font-semibold text-white">Objectifs de transmission</h3>
                 
                 <div>
-                  <Label htmlFor="objectif_transmission" className="text-gray-700">Objectif principal</Label>
+                  <Label htmlFor="objectif_transmission" className="text-cream">Objectif principal</Label>
                   <Select
                     id="objectif_transmission"
                     value={formData.objectif_transmission}
                     onChange={(e) => handleChange('objectif_transmission', e.target.value)}
-                    className="mt-1 bg-gradient-to-br from-blue-50 to-white border-gray-200 text-gray-900"
+                    className="mt-1 bg-midnight border-midnight-lighter text-white"
                   >
                     <option value="Conjoint">Protéger le conjoint</option>
                     <option value="Enfants">Transmettre aux enfants</option>
@@ -397,12 +397,12 @@ export default function BilanSuccessoralPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="souhaits_particuliers" className="text-gray-700">Souhaits particuliers</Label>
+                  <Label htmlFor="souhaits_particuliers" className="text-cream">Souhaits particuliers</Label>
                   <Textarea
                     id="souhaits_particuliers"
                     value={formData.souhaits_particuliers}
                     onChange={(e) => handleChange('souhaits_particuliers', e.target.value)}
-                    className="mt-1 bg-gradient-to-br from-blue-50 to-white border-gray-200 text-gray-900"
+                    className="mt-1 bg-midnight border-midnight-lighter text-white"
                     placeholder="Décrivez ici vos souhaits particuliers concernant la transmission de votre patrimoine..."
                     rows={4}
                   />
@@ -415,13 +415,13 @@ export default function BilanSuccessoralPage() {
                   type="button"
                   variant="outline"
                   onClick={() => router.push('/client/bilan/fiscal')}
-                  className="bg-gradient-to-br from-blue-50 to-white-lighter border-gray-200 text-gray-700 hover:bg-gradient-to-br from-blue-50 to-white hover:text-gray-900"
+                  className="bg-midnight-lighter border-midnight-lighter text-cream hover:bg-midnight hover:text-white"
                 >
                   ← Précédent
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-blue-600 text-midnight hover:bg-blue-600/90 font-semibold"
+                  className="bg-gold text-midnight hover:bg-gold/90 font-semibold"
                 >
                   Suivant →
                 </Button>
