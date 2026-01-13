@@ -42,7 +42,7 @@ export default function ImmobilierPage() {
       type: formData.type as any,
       adresse: formData.adresse,
       valeur_venale: formData.valeur_venale,
-      pret: formData.pret,
+      pret: formData.pret || null,
       revenus_locatifs: formData.revenus_locatifs,
       scpi: formData.scpi,
     }
