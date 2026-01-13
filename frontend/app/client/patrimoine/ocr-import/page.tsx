@@ -66,10 +66,11 @@ export default function OCRImportPage() {
       IS: 'cto', // Map IS to CTO for now
     }
     
-    // Add each line as a placement
-    lines.forEach((line) => {
+    // Add each line as a placement with unique ID
+    const timestamp = Date.now()
+    lines.forEach((line, index) => {
       const placement = {
-        id: `${selectedType}-${line.isin}-${Date.now()}`,
+        id: `${selectedType}-${line.isin}-${timestamp}-${index}`,
         type: typeMap[selectedType],
         nom: line.fundName,
         etablissement: 'Importé via OCR',

@@ -445,12 +445,13 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                                     <Input
                                       type="number"
                                       value={editValues.amount ?? line.amount}
-                                      onChange={(e) =>
+                                      onChange={(e) => {
+                                        const value = parseFloat(e.target.value)
                                         setEditValues({
                                           ...editValues,
-                                          amount: parseFloat(e.target.value),
+                                          amount: isNaN(value) ? 0 : value,
                                         })
-                                      }
+                                      }}
                                       className="h-8 text-right"
                                     />
                                   ) : (
