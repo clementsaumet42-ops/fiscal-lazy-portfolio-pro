@@ -1,48 +1,42 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Sparkles, BarChart3, Users, Settings } from 'lucide-react';
 
 export function Header() {
-  const pathname = usePathname()
-  
-  const navigation = [
-    { name: 'Accueil', href: '/' },
-    { name: 'Nouvelle Simulation', href: '/client/profil' },
-    { name: 'Dashboard', href: '/dashboard' },
-  ]
-  
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary">
-                Fiscal Lazy Portfolio Pro
-              </span>
-            </Link>
-          </div>
-          
-          <nav className="flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors',
-                  pathname === item.href
-                    ? 'text-primary border-b-2 border-primary'
-                    : 'text-gray-600 hover:text-gray-900'
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 max-w-7xl items-center">
+        <div className="mr-4 flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Sparkles className="h-6 w-6 text-primary" />
+            <span className="hidden font-bold sm:inline-block bg-gradient-to-r from-primary to-amber-400 bg-clip-text text-transparent">
+              Fiscal Lazy Portfolio Pro
+            </span>
+          </Link>
         </div>
+        <nav className="flex flex-1 items-center justify-end space-x-2">
+          <Link href="/dashboard">
+            <Button variant="ghost" size="sm" className="gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Dashboard
+            </Button>
+          </Link>
+          <Link href="/client/profil">
+            <Button variant="ghost" size="sm" className="gap-2">
+              <Users className="h-4 w-4" />
+              Nouveau Client
+            </Button>
+          </Link>
+          <Link href="/client/parcours">
+            <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90">
+              <Sparkles className="h-4 w-4" />
+              Démarrer
+            </Button>
+          </Link>
+        </nav>
       </div>
     </header>
-  )
+  );
 }

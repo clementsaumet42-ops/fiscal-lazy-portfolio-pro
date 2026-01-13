@@ -1,18 +1,18 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
+import type { Metadata } from "next";
+import "./globals.css";
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'Fiscal Lazy Portfolio Pro',
-  description: 'Plateforme B2B pour experts-comptables français - Optimisation fiscale et allocation d\'actifs',
-}
+  title: "Fiscal Lazy Portfolio Pro",
+  description: "Plateforme d'optimisation fiscale pour experts-comptables",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="fr">
       <body>
@@ -23,5 +23,5 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-  )
+  );
 }
