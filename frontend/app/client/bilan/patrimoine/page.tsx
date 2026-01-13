@@ -9,8 +9,9 @@ import { Input } from '@/components/ui/input'
 import { BilanStepper } from '@/components/bilan/BilanStepper'
 import { PatrimoineCard } from '@/components/bilan/PatrimoineCard'
 import { PatrimoineExistant } from '@/lib/types/bilan'
-import { Home, Wallet, TrendingUp, Plus, X } from 'lucide-react'
+import { Home, Wallet, TrendingUp, Plus, X, CheckCircle, Pencil } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
+import { generateId } from '@/lib/utils/assessment/helpers'
 
 export default function PatrimoineExistantPage() {
   const router = useRouter()
@@ -212,7 +213,7 @@ export default function PatrimoineExistantPage() {
                       ...prev,
                       placements_financiers: {
                         ...prev.placements_financiers,
-                        pea: [...prev.placements_financiers.pea, { etablissement: '', montant: 0 }]
+                        pea: [...prev.placements_financiers.pea, { id: generateId(), etablissement: '', montant: 0 }]
                       }
                     }))
                   }}
@@ -225,7 +226,7 @@ export default function PatrimoineExistantPage() {
               ) : (
                 <div className="space-y-2">
                   {formData.placements_financiers.pea.map((pea: any, index: number) => (
-                    <div key={index} className="flex gap-2">
+                    <div key={pea.id || index} className="flex gap-2 items-center">
                       <Input
                         placeholder="Établissement"
                         value={pea.etablissement}
@@ -245,6 +246,34 @@ export default function PatrimoineExistantPage() {
                           setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, pea: newPea } }))
                         }}
                       />
+                      {pea.id && pea.etablissement && pea.montant > 0 && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant={pea.lignes && pea.lignes.length > 0 ? "default" : "outline"}
+                          onClick={() => {
+                            // Ensure ID exists before navigating
+                            if (!pea.id) {
+                              const newPea = [...formData.placements_financiers.pea]
+                              newPea[index] = { ...newPea[index], id: generateId() }
+                              setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, pea: newPea } }))
+                              setPatrimoine(formData)
+                            }
+                            router.push(`/client/bilan/patrimoine/audit/pea/${pea.id}`)
+                          }}
+                          className="whitespace-nowrap"
+                        >
+                          {pea.lignes && pea.lignes.length > 0 ? (
+                            <>
+                              <CheckCircle className="w-4 h-4 mr-1" /> Audité
+                            </>
+                          ) : (
+                            <>
+                              <Pencil className="w-4 h-4 mr-1" /> Analyser
+                            </>
+                          )}
+                        </Button>
+                      )}
                       <Button
                         type="button"
                         size="sm"
@@ -280,7 +309,7 @@ export default function PatrimoineExistantPage() {
                       ...prev,
                       placements_financiers: {
                         ...prev.placements_financiers,
-                        assurance_vie: [...prev.placements_financiers.assurance_vie, { etablissement: '', montant: 0 }]
+                        assurance_vie: [...prev.placements_financiers.assurance_vie, { id: generateId(), etablissement: '', montant: 0 }]
                       }
                     }))
                   }}
@@ -293,7 +322,7 @@ export default function PatrimoineExistantPage() {
               ) : (
                 <div className="space-y-2">
                   {formData.placements_financiers.assurance_vie.map((av: any, index: number) => (
-                    <div key={index} className="flex gap-2">
+                    <div key={av.id || index} className="flex gap-2 items-center">
                       <Input
                         placeholder="Établissement"
                         value={av.etablissement}
@@ -313,6 +342,33 @@ export default function PatrimoineExistantPage() {
                           setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, assurance_vie: newAv } }))
                         }}
                       />
+                      {av.id && av.etablissement && av.montant > 0 && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant={av.lignes && av.lignes.length > 0 ? "default" : "outline"}
+                          onClick={() => {
+                            if (!av.id) {
+                              const newAv = [...formData.placements_financiers.assurance_vie]
+                              newAv[index] = { ...newAv[index], id: generateId() }
+                              setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, assurance_vie: newAv } }))
+                              setPatrimoine(formData)
+                            }
+                            router.push(`/client/bilan/patrimoine/audit/av/${av.id}`)
+                          }}
+                          className="whitespace-nowrap"
+                        >
+                          {av.lignes && av.lignes.length > 0 ? (
+                            <>
+                              <CheckCircle className="w-4 h-4 mr-1" /> Audité
+                            </>
+                          ) : (
+                            <>
+                              <Pencil className="w-4 h-4 mr-1" /> Analyser
+                            </>
+                          )}
+                        </Button>
+                      )}
                       <Button
                         type="button"
                         size="sm"
@@ -323,6 +379,196 @@ export default function PatrimoineExistantPage() {
                             placements_financiers: {
                               ...prev.placements_financiers,
                               assurance_vie: prev.placements_financiers.assurance_vie.filter((_, i) => i !== index)
+                            }
+                          }))
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* CTO */}
+            <div className="border-t pt-4">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-semibold">CTO - Compte-Titres Ordinaire</h4>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setFormData(prev => ({
+                      ...prev,
+                      placements_financiers: {
+                        ...prev.placements_financiers,
+                        cto: [...prev.placements_financiers.cto, { id: generateId(), etablissement: '', montant: 0 }]
+                      }
+                    }))
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Ajouter CTO
+                </Button>
+              </div>
+              {formData.placements_financiers.cto.length === 0 ? (
+                <p className="text-sm text-gray-500 italic">Aucun CTO renseigné</p>
+              ) : (
+                <div className="space-y-2">
+                  {formData.placements_financiers.cto.map((cto: any, index: number) => (
+                    <div key={cto.id || index} className="flex gap-2 items-center">
+                      <Input
+                        placeholder="Établissement"
+                        value={cto.etablissement}
+                        onChange={(e) => {
+                          const newCto = [...formData.placements_financiers.cto]
+                          newCto[index] = { ...newCto[index], etablissement: e.target.value }
+                          setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, cto: newCto } }))
+                        }}
+                      />
+                      <Input
+                        type="number"
+                        placeholder="Montant"
+                        value={cto.montant}
+                        onChange={(e) => {
+                          const newCto = [...formData.placements_financiers.cto]
+                          newCto[index] = { ...newCto[index], montant: parseFloat(e.target.value) || 0 }
+                          setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, cto: newCto } }))
+                        }}
+                      />
+                      {cto.id && cto.etablissement && cto.montant > 0 && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant={cto.lignes && cto.lignes.length > 0 ? "default" : "outline"}
+                          onClick={() => {
+                            if (!cto.id) {
+                              const newCto = [...formData.placements_financiers.cto]
+                              newCto[index] = { ...newCto[index], id: generateId() }
+                              setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, cto: newCto } }))
+                              setPatrimoine(formData)
+                            }
+                            router.push(`/client/bilan/patrimoine/audit/cto/${cto.id}`)
+                          }}
+                          className="whitespace-nowrap"
+                        >
+                          {cto.lignes && cto.lignes.length > 0 ? (
+                            <>
+                              <CheckCircle className="w-4 h-4 mr-1" /> Audité
+                            </>
+                          ) : (
+                            <>
+                              <Pencil className="w-4 h-4 mr-1" /> Analyser
+                            </>
+                          )}
+                        </Button>
+                      )}
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setFormData(prev => ({
+                            ...prev,
+                            placements_financiers: {
+                              ...prev.placements_financiers,
+                              cto: prev.placements_financiers.cto.filter((_, i) => i !== index)
+                            }
+                          }))
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* PER */}
+            <div className="border-t pt-4">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-semibold">PER - Plan d'Épargne Retraite</h4>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setFormData(prev => ({
+                      ...prev,
+                      placements_financiers: {
+                        ...prev.placements_financiers,
+                        per: [...prev.placements_financiers.per, { id: generateId(), etablissement: '', montant: 0 }]
+                      }
+                    }))
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Ajouter PER
+                </Button>
+              </div>
+              {formData.placements_financiers.per.length === 0 ? (
+                <p className="text-sm text-gray-500 italic">Aucun PER renseigné</p>
+              ) : (
+                <div className="space-y-2">
+                  {formData.placements_financiers.per.map((per: any, index: number) => (
+                    <div key={per.id || index} className="flex gap-2 items-center">
+                      <Input
+                        placeholder="Établissement"
+                        value={per.etablissement}
+                        onChange={(e) => {
+                          const newPer = [...formData.placements_financiers.per]
+                          newPer[index] = { ...newPer[index], etablissement: e.target.value }
+                          setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, per: newPer } }))
+                        }}
+                      />
+                      <Input
+                        type="number"
+                        placeholder="Montant"
+                        value={per.montant}
+                        onChange={(e) => {
+                          const newPer = [...formData.placements_financiers.per]
+                          newPer[index] = { ...newPer[index], montant: parseFloat(e.target.value) || 0 }
+                          setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, per: newPer } }))
+                        }}
+                      />
+                      {per.id && per.etablissement && per.montant > 0 && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant={per.lignes && per.lignes.length > 0 ? "default" : "outline"}
+                          onClick={() => {
+                            if (!per.id) {
+                              const newPer = [...formData.placements_financiers.per]
+                              newPer[index] = { ...newPer[index], id: generateId() }
+                              setFormData(prev => ({ ...prev, placements_financiers: { ...prev.placements_financiers, per: newPer } }))
+                              setPatrimoine(formData)
+                            }
+                            router.push(`/client/bilan/patrimoine/audit/per/${per.id}`)
+                          }}
+                          className="whitespace-nowrap"
+                        >
+                          {per.lignes && per.lignes.length > 0 ? (
+                            <>
+                              <CheckCircle className="w-4 h-4 mr-1" /> Audité
+                            </>
+                          ) : (
+                            <>
+                              <Pencil className="w-4 h-4 mr-1" /> Analyser
+                            </>
+                          )}
+                        </Button>
+                      )}
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setFormData(prev => ({
+                            ...prev,
+                            placements_financiers: {
+                              ...prev.placements_financiers,
+                              per: prev.placements_financiers.per.filter((_, i) => i !== index)
                             }
                           }))
                         }}

@@ -2,6 +2,8 @@
  * Types pour le module Bilan Patrimonial
  */
 
+import type { LigneAudit, DocumentAudit, TCOCalculation } from './bilan-audit'
+
 // Situation personnelle
 export interface SituationPersonnelle {
   nom: string
@@ -60,23 +62,43 @@ export interface PatrimoineExistant {
   }
   placements_financiers: {
     pea: Array<{
+      id?: string
       etablissement: string
       montant: number
       date_ouverture?: string
+      // Ajout audit
+      lignes?: LigneAudit[]
+      document?: DocumentAudit
+      tco?: TCOCalculation
     }>
     cto: Array<{
+      id?: string
       etablissement: string
       montant: number
+      // Ajout audit
+      lignes?: LigneAudit[]
+      document?: DocumentAudit
+      tco?: TCOCalculation
     }>
     assurance_vie: Array<{
+      id?: string
       etablissement: string
       montant: number
       date_ouverture?: string
       fonds_euros_pourcentage?: number
+      // Ajout audit
+      lignes?: LigneAudit[]
+      document?: DocumentAudit
+      tco?: TCOCalculation
     }>
     per: Array<{
+      id?: string
       etablissement: string
       montant: number
+      // Ajout audit
+      lignes?: LigneAudit[]
+      document?: DocumentAudit
+      tco?: TCOCalculation
     }>
   }
   autres_actifs: {

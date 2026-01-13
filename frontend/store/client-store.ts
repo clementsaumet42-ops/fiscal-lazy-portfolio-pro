@@ -4,6 +4,7 @@ import { ClientState, ProfilClient, EnveloppeConfig, Allocation, OptimisationRes
 import { AuditState, DocumentImporte, AnalyseExistant, OptimisationProposee, PlacementExistant, DiagnosticAudit } from '@/lib/types/audit'
 import { BilanPatrimonial, SituationPersonnelle, RevenusCharges, PatrimoineExistant, ObjectifsPatrimoniaux } from '@/lib/types/bilan'
 import { RecommandationsState, ComparaisonAllocation, PlanAction } from '@/lib/types/recommandations'
+import type { LigneAudit, DocumentAudit, TCOCalculation } from '@/lib/types/bilan-audit'
 import { 
   ClientAssessment, 
   PriseConnaissance, 
@@ -40,6 +41,12 @@ interface ClientStore extends ClientState {
   setObjectifs: (objectifs: ObjectifsPatrimoniaux) => void
   setBilan: (bilan: Partial<BilanPatrimonial>) => void
   resetBilan: () => void
+  
+  // Audit intégré dans bilan
+  updatePEAAudit: (id: string, audit: { lignes?: LigneAudit[], document?: DocumentAudit, tco?: TCOCalculation }) => void
+  updateCTOAudit: (id: string, audit: { lignes?: LigneAudit[], document?: DocumentAudit, tco?: TCOCalculation }) => void
+  updateAVAudit: (id: string, audit: { lignes?: LigneAudit[], document?: DocumentAudit, tco?: TCOCalculation }) => void
+  updatePERAudit: (id: string, audit: { lignes?: LigneAudit[], document?: DocumentAudit, tco?: TCOCalculation }) => void
   
   // Workflow audit
   audit: AuditState
@@ -191,6 +198,67 @@ export const useClientStore = create<ClientStore>()(
   })),
   
   resetBilan: () => set({ bilan: initialBilanState }),
+  
+  // Audit intégré dans bilan
+  updatePEAAudit: (id, audit) => set((state) => ({
+    bilan: {
+      ...state.bilan,
+      patrimoine: {
+        ...state.bilan.patrimoine,
+        placements_financiers: {
+          ...state.bilan.patrimoine?.placements_financiers,
+          pea: state.bilan.patrimoine?.placements_financiers?.pea?.map((p) =>
+            p.id === id ? { ...p, ...audit } : p
+          ) || [],
+        },
+      },
+    },
+  })),
+
+  updateCTOAudit: (id, audit) => set((state) => ({
+    bilan: {
+      ...state.bilan,
+      patrimoine: {
+        ...state.bilan.patrimoine,
+        placements_financiers: {
+          ...state.bilan.patrimoine?.placements_financiers,
+          cto: state.bilan.patrimoine?.placements_financiers?.cto?.map((c) =>
+            c.id === id ? { ...c, ...audit } : c
+          ) || [],
+        },
+      },
+    },
+  })),
+
+  updateAVAudit: (id, audit) => set((state) => ({
+    bilan: {
+      ...state.bilan,
+      patrimoine: {
+        ...state.bilan.patrimoine,
+        placements_financiers: {
+          ...state.bilan.patrimoine?.placements_financiers,
+          assurance_vie: state.bilan.patrimoine?.placements_financiers?.assurance_vie?.map((av) =>
+            av.id === id ? { ...av, ...audit } : av
+          ) || [],
+        },
+      },
+    },
+  })),
+
+  updatePERAudit: (id, audit) => set((state) => ({
+    bilan: {
+      ...state.bilan,
+      patrimoine: {
+        ...state.bilan.patrimoine,
+        placements_financiers: {
+          ...state.bilan.patrimoine?.placements_financiers,
+          per: state.bilan.patrimoine?.placements_financiers?.per?.map((p) =>
+            p.id === id ? { ...p, ...audit } : p
+          ) || [],
+        },
+      },
+    },
+  })),
   
   // Workflow audit
   addDocument: (doc) => set((state) => ({
