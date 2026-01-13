@@ -75,7 +75,7 @@ export default function AuditImportPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {audit.documents.map((doc) => (
+              {audit.documents.map((doc: any) => (
                 <div
                   key={doc.id}
                   className="flex items-center justify-between p-3 border rounded hover:bg-gray-50"

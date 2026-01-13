@@ -78,7 +78,7 @@ export default function SuccessionPage({ params }: { params: { id: string } }) {
                   onChange={(e) => setTypeHeritier(e.target.value)}
                   className="w-full bg-midnight-700 border-midnight-600 text-text-primary rounded-lg px-4 py-2 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 outline-none transition-all"
                 >
-                  {TYPES_HERITIERS.map((type) => (
+                  {TYPES_HERITIERS.map((type: any) => (
                     <option key={type.value} value={type.value}>
                       {type.label}
                     </option>

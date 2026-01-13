@@ -119,7 +119,7 @@ export default function RapportPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {enveloppes.map((env, index) => (
+            {enveloppes.map((env: any, index: number) => (
               <div key={index} className="border-l-4 border-primary pl-4">
                 <p className="font-semibold">{env.type}</p>
                 <div className="grid grid-cols-2 gap-2 mt-2 text-sm">

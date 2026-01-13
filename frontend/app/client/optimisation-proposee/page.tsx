@@ -149,7 +149,7 @@ export default function OptimisationProposeePage() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {allocationData.map((entry, index) => (
+                  {allocationData.map((entry: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -159,7 +159,7 @@ export default function OptimisationProposeePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {allocationData.map((item, index) => (
+            {allocationData.map((item: any, index: number) => (
               <div key={item.name} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                 <div 
                   className="w-4 h-4 rounded-full flex-shrink-0" 
@@ -183,13 +183,13 @@ export default function OptimisationProposeePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {optimisation.nouvelle_allocation.par_enveloppe.map((env, idx) => (
+            {optimisation.nouvelle_allocation.par_enveloppe.map((env: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-4">
                 <h3 className="text-lg font-semibold mb-4">{env.type}</h3>
                 
                 {env.supports_recommandes.length > 0 ? (
                   <div className="space-y-2">
-                    {env.supports_recommandes.map((support, sidx) => (
+                    {env.supports_recommandes.map((support: any, sidx: number) => (
                       <div key={sidx} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                         <div className="flex-1">
                           <div className="font-medium">{support.nom}</div>
@@ -221,7 +221,7 @@ export default function OptimisationProposeePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4 mb-6">
-            {optimisation.asset_location.regles.map((regle, idx) => (
+            {optimisation.asset_location.regles.map((regle: any, idx: number) => (
               <div key={idx} className="p-4 border rounded-lg">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -250,10 +250,10 @@ export default function OptimisationProposeePage() {
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(optimisation.asset_location.matrice).map(([classe, enveloppes]) => (
+                {Object.entries(optimisation.asset_location.matrice).map(([classe, enveloppes]: [string, any]) => (
                   <tr key={classe}>
                     <td className="border p-2 font-medium">{classe}</td>
-                    {Object.entries(enveloppes).map(([env, quality]) => (
+                    {Object.entries(enveloppes as any).map(([env, quality]: [string, any]) => (
                       <td key={env} className="border p-2 text-center">
                         <Badge className={getAssetLocationColor(quality as any)}>
                           {quality}
@@ -289,7 +289,7 @@ export default function OptimisationProposeePage() {
                 </tr>
               </thead>
               <tbody>
-                {optimisation.substitutions_frais.map((sub, idx) => (
+                {optimisation.substitutions_frais.map((sub: any, idx: number) => (
                   <tr key={idx} className="border-t">
                     <td className="p-3">
                       <div className="font-medium">{sub.support_actuel.nom}</div>
@@ -348,7 +348,7 @@ export default function OptimisationProposeePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {optimisation.plan_action.map((action, idx) => (
+            {optimisation.plan_action.map((action: any, idx: number) => (
               <div 
                 key={idx}
                 className={`p-4 rounded-lg border-2 ${getPrioriteColor(action.priorite)}`}

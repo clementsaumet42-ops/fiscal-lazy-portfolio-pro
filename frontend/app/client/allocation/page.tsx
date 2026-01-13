@@ -108,7 +108,7 @@ export default function AllocationPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                {ASSET_CLASSES.map((asset) => (
+                {ASSET_CLASSES.map((asset: any) => (
                   <div key={asset.key}>
                     <div className="flex justify-between mb-2">
                       <div>
@@ -173,7 +173,7 @@ export default function AllocationPage() {
                   <p className="text-cream/60 text-sm">Chargement des ETFs...</p>
                 ) : etfs.length > 0 ? (
                   <div className="space-y-3">
-                    {etfs.slice(0, 5).map((etf, index) => (
+                    {etfs.slice(0, 5).map((etf: any, index: number) => (
                       <div key={index} className="border-b border-midnight-lighter pb-2">
                         <p className="font-medium text-sm text-white">{etf.nom}</p>
                         <div className="flex justify-between text-xs text-cream/60 mt-1">

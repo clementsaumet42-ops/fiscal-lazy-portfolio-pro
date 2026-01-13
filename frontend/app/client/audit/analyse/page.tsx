@@ -26,14 +26,14 @@ export default function AuditAnalysePage() {
   }, [bilan, audit, addPlacement])
 
   const placements = audit.placements || []
-  const totalMontant = placements.reduce((sum, p) => sum + p.montant, 0)
-  const totalFrais = placements.reduce((sum, p) => sum + p.frais_annuels, 0)
+  const totalMontant = placements.reduce((sum: number, p: any) => sum + p.montant, 0)
+  const totalFrais = placements.reduce((sum: number, p: any) => sum + p.frais_annuels, 0)
   const rendementMoyen = placements.length > 0
-    ? placements.reduce((sum, p) => sum + p.rendement_historique * p.montant, 0) / totalMontant
+    ? placements.reduce((sum: number, p: any) => sum + p.rendement_historique * p.montant, 0) / totalMontant
     : 0
 
   // Prepare pie chart data
-  const pieData = placements.map(p => ({
+  const pieData = placements.map((p: any) => ({
     name: p.nom,
     value: p.montant,
     type: p.type,
@@ -89,7 +89,7 @@ export default function AuditAnalysePage() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {pieData.map((entry, index) => (
+                  {pieData.map((entry: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -107,7 +107,7 @@ export default function AuditAnalysePage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {placements.map((placement) => (
+              {placements.map((placement: any) => (
                 <div key={placement.id} className="space-y-1">
                   <div className="flex justify-between text-sm">
                     <span className="font-medium">{placement.nom}</span>
@@ -151,7 +151,7 @@ export default function AuditAnalysePage() {
                 </tr>
               </thead>
               <tbody>
-                {placements.map((placement) => (
+                {placements.map((placement: any) => (
                   <tr key={placement.id} className="border-b hover:bg-gray-50">
                     <td className="py-3 px-2 font-medium">{placement.nom}</td>
                     <td className="py-3 px-2 text-gray-600">{placement.etablissement}</td>

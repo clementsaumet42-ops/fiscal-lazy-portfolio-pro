@@ -46,13 +46,13 @@ export default function AnalyseExistantPage() {
   const analyse = audit.analyse
 
   // Préparer les données pour les graphiques
-  const allocationData = Object.entries(analyse.allocation_globale).map(([name, data]) => ({
+  const allocationData = Object.entries(analyse.allocation_globale).map(([name, data]: [string, any]) => ({
     name,
     value: data.pourcentage,
     montant: data.montant,
   }))
 
-  const enveloppeData = analyse.par_enveloppe.map(env => ({
+  const enveloppeData = analyse.par_enveloppe.map((env: any) => ({
     name: env.type,
     montant: env.montant,
   }))
@@ -176,7 +176,7 @@ export default function AnalyseExistantPage() {
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {allocationData.map((entry, index) => (
+                    {allocationData.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -190,7 +190,7 @@ export default function AnalyseExistantPage() {
               </ResponsiveContainer>
             </div>
             <div className="mt-4 space-y-2">
-              {allocationData.map((item, index) => (
+              {allocationData.map((item: any, index: number) => (
                 <div key={item.name} className="flex justify-between items-center text-sm">
                   <div className="flex items-center gap-2">
                     <div 
@@ -239,7 +239,7 @@ export default function AnalyseExistantPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {analyse.par_enveloppe.map((env, idx) => (
+            {analyse.par_enveloppe.map((env: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-4">
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -257,7 +257,7 @@ export default function AnalyseExistantPage() {
                   <div>
                     <h4 className="font-medium mb-2 text-sm text-gray-600">Allocation:</h4>
                     <div className="space-y-1">
-                      {Object.entries(env.allocation).map(([classe, montant]) => (
+                      {Object.entries(env.allocation).map(([classe, montant]: [string, any]) => (
                         <div key={classe} className="flex justify-between text-sm">
                           <span>{classe}</span>
                           <span className="font-medium">{montant.toLocaleString('fr-FR')} €</span>
@@ -291,7 +291,7 @@ export default function AnalyseExistantPage() {
                   <div className="mt-4">
                     <h4 className="font-medium mb-2 text-sm text-gray-600">Supports:</h4>
                     <div className="space-y-1">
-                      {env.supports.map((support, sidx) => (
+                      {env.supports.map((support: any, sidx: number) => (
                         <div key={sidx} className="flex justify-between text-sm bg-gray-50 p-2 rounded">
                           <span>{support.nom} {support.isin && `(${support.isin})`}</span>
                           <span className="font-medium">
@@ -319,7 +319,7 @@ export default function AnalyseExistantPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {analyse.points_amelioration.map((point, idx) => (
+            {analyse.points_amelioration.map((point: any, idx: number) => (
               <div 
                 key={idx}
                 className={`p-4 rounded-lg border-2 ${getSeverityColor(point.severite)}`}

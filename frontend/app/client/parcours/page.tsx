@@ -65,10 +65,10 @@ export default function ParcoursPage() {
       epargne_liquide.comptes_courants
     
     const financierTotal =
-      placements_financiers.pea.reduce((sum, p) => sum + p.montant, 0) +
-      placements_financiers.cto.reduce((sum, p) => sum + p.montant, 0) +
-      placements_financiers.assurance_vie.reduce((sum, p) => sum + p.montant, 0) +
-      placements_financiers.per.reduce((sum, p) => sum + p.montant, 0)
+      placements_financiers.pea.reduce((sum: number, p: any) => sum + p.montant, 0) +
+      placements_financiers.cto.reduce((sum: number, p: any) => sum + p.montant, 0) +
+      placements_financiers.assurance_vie.reduce((sum: number, p: any) => sum + p.montant, 0) +
+      placements_financiers.per.reduce((sum: number, p: any) => sum + p.montant, 0)
     
     const autresTotal =
       autres_actifs.crypto +

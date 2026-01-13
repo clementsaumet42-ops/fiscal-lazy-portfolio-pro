@@ -224,7 +224,7 @@ export default function PatrimoineExistantPage() {
                 <p className="text-sm text-gray-500 italic">Aucun PEA renseigné</p>
               ) : (
                 <div className="space-y-2">
-                  {formData.placements_financiers.pea.map((pea, index) => (
+                  {formData.placements_financiers.pea.map((pea: any, index: number) => (
                     <div key={index} className="flex gap-2">
                       <Input
                         placeholder="Établissement"
@@ -292,7 +292,7 @@ export default function PatrimoineExistantPage() {
                 <p className="text-sm text-gray-500 italic">Aucune assurance-vie renseignée</p>
               ) : (
                 <div className="space-y-2">
-                  {formData.placements_financiers.assurance_vie.map((av, index) => (
+                  {formData.placements_financiers.assurance_vie.map((av: any, index: number) => (
                     <div key={index} className="flex gap-2">
                       <Input
                         placeholder="Établissement"
