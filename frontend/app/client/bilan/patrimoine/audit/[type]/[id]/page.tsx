@@ -178,11 +178,13 @@ export default function AuditEnveloppePage() {
                   className="hidden"
                   id="file-upload"
                 />
-                <label htmlFor="file-upload">
-                  <Button as="span" variant="outline" type="button">
-                    📎 Parcourir les fichiers
-                  </Button>
-                </label>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                >
+                  📎 Parcourir les fichiers
+                </Button>
               </div>
             ) : (
               <div className="p-4 bg-green-50 border border-green-200 rounded flex items-center justify-between">
