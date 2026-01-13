@@ -5,6 +5,7 @@ import { AuditState, DocumentImporte, AnalyseExistant, OptimisationProposee, Pla
 import { BilanPatrimonial, SituationPersonnelle, RevenusCharges, PatrimoineExistant, ObjectifsPatrimoniaux } from '@/lib/types/bilan'
 import { RecommandationsState, ComparaisonAllocation, PlanAction } from '@/lib/types/recommandations'
 import type { LigneAudit, DocumentAudit, TCOCalculation } from '@/lib/types/bilan-audit'
+import type { SituationFiscale } from '@/lib/types/situation-fiscale'
 import { 
   ClientAssessment, 
   PriseConnaissance, 
@@ -41,6 +42,10 @@ interface ClientStore extends ClientState {
   setObjectifs: (objectifs: ObjectifsPatrimoniaux) => void
   setBilan: (bilan: Partial<BilanPatrimonial>) => void
   resetBilan: () => void
+  
+  // Situation fiscale
+  situationFiscale: SituationFiscale
+  setSituationFiscale: (situation: SituationFiscale) => void
   
   // Audit intégré dans bilan
   updatePEAAudit: (id: string, audit: { lignes?: LigneAudit[], document?: DocumentAudit, tco?: TCOCalculation }) => void
@@ -129,6 +134,18 @@ const initialRecommandationsState: RecommandationsState = {
   actions_realisees: [],
 }
 
+const initialSituationFiscale: SituationFiscale = {
+  tmi: 0.30,
+  rfr: 0,
+  nbPartsFiscales: 1,
+  situationFamiliale: 'celibataire',
+  optionBaremeProgressif: false,
+  plafonds: {
+    pea: 150000,
+    per_deductible: 36961,
+  }
+}
+
 const initialAssessmentState: ClientAssessment = {
   prise_connaissance: null,
   bilan_civil: null,
@@ -150,6 +167,7 @@ export const useClientStore = create<ClientStore>()(
       bilan: initialBilanState,
       recommandations: initialRecommandationsState,
       assessment: initialAssessmentState,
+      situationFiscale: initialSituationFiscale,
   
   // Workflow classique
   setProfil: (profil) => set({ profil }),
@@ -198,6 +216,9 @@ export const useClientStore = create<ClientStore>()(
   })),
   
   resetBilan: () => set({ bilan: initialBilanState }),
+  
+  // Situation fiscale
+  setSituationFiscale: (situationFiscale) => set({ situationFiscale }),
   
   // Audit intégré dans bilan
   updatePEAAudit: (id, audit) => set((state) => ({
