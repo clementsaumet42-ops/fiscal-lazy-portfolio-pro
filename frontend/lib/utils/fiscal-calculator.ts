@@ -3,7 +3,7 @@
  * Calcule la fiscalité précise selon le type d'enveloppe, l'ancienneté, et la TMI du client
  */
 
-import type { SituationFiscale, TMI } from '@/lib/types/situation-fiscale'
+import type { SituationFiscale } from '@/lib/types/situation-fiscale'
 import { PRELEVEMENTS_SOCIAUX, PFU, PLAFONDS_2024 } from '@/lib/types/situation-fiscale'
 import { EXPLICATIONS_FISCALES, REFERENCES_CGI, BAREME_RENTE_VIAGERE } from '@/lib/constants/references-cgi'
 import type { ReferenceCGI } from '@/lib/constants/references-cgi'

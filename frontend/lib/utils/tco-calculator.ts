@@ -1,7 +1,6 @@
 import type { LigneAudit, TCOCalculation, TCODetailed } from '@/lib/types/bilan-audit'
 import type { SituationFiscale } from '@/lib/types/situation-fiscale'
 import { estimerDragFiscalAnnuel } from '@/lib/utils/fiscal-calculator'
-import { REFERENCES_CGI } from '@/lib/constants/references-cgi'
 
 // Constants for TCO calculation
 const FONDS_EUROS_RATE = 0.015 // 1.5% rendement moyen fonds euros
