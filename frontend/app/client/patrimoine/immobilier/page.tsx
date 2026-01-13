@@ -222,7 +222,7 @@ export default function ImmobilierPage() {
                         type="number"
                         value={currentBien.pret.capital_restant_du || 0}
                         onChange={(e) => updateBienImmobilier(currentBien.id, {
-                          pret: { ...currentBien.pret, capital_restant_du: parseFloat(e.target.value) || 0 }
+                          pret: { ...currentBien.pret, existe: true, capital_restant_du: parseFloat(e.target.value) || 0 }
                         })}
                         className="mt-1 bg-[#0F172A] border-[#334155] text-white"
                       />
@@ -233,7 +233,7 @@ export default function ImmobilierPage() {
                         type="number"
                         value={currentBien.pret.mensualite || 0}
                         onChange={(e) => updateBienImmobilier(currentBien.id, {
-                          pret: { ...currentBien.pret, mensualite: parseFloat(e.target.value) || 0 }
+                          pret: { ...currentBien.pret, existe: true, mensualite: parseFloat(e.target.value) || 0 }
                         })}
                         className="mt-1 bg-[#0F172A] border-[#334155] text-white"
                       />
@@ -245,7 +245,7 @@ export default function ImmobilierPage() {
                         step="0.01"
                         value={currentBien.pret.taux || 0}
                         onChange={(e) => updateBienImmobilier(currentBien.id, {
-                          pret: { ...currentBien.pret, taux: parseFloat(e.target.value) || 0 }
+                          pret: { ...currentBien.pret, existe: true, taux: parseFloat(e.target.value) || 0 }
                         })}
                         className="mt-1 bg-[#0F172A] border-[#334155] text-white"
                       />
@@ -256,7 +256,7 @@ export default function ImmobilierPage() {
                         type="date"
                         value={currentBien.pret.echeance_finale?.toISOString().split('T')[0] || ''}
                         onChange={(e) => updateBienImmobilier(currentBien.id, {
-                          pret: { ...currentBien.pret, echeance_finale: new Date(e.target.value) }
+                          pret: { ...currentBien.pret, existe: true, echeance_finale: new Date(e.target.value) }
                         })}
                         className="mt-1 bg-[#0F172A] border-[#334155] text-white"
                       />
@@ -267,7 +267,7 @@ export default function ImmobilierPage() {
                         type="number"
                         value={currentBien.pret.assurance_mensuelle || 0}
                         onChange={(e) => updateBienImmobilier(currentBien.id, {
-                          pret: { ...currentBien.pret, assurance_mensuelle: parseFloat(e.target.value) || 0 }
+                          pret: { ...currentBien.pret, existe: true, assurance_mensuelle: parseFloat(e.target.value) || 0 }
                         })}
                         className="mt-1 bg-[#0F172A] border-[#334155] text-white"
                       />
