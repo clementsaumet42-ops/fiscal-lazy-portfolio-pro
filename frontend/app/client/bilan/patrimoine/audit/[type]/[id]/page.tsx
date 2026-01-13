@@ -13,6 +13,7 @@ import { generateId } from '@/lib/utils/assessment/helpers'
 import { calculateTCO, calculateTCODetailed } from '@/lib/utils/tco-calculator'
 import SituationFiscaleForm from '@/components/bilan/SituationFiscaleForm'
 import type { LigneAudit, DocumentAudit, TCODetailed } from '@/lib/types/bilan-audit'
+import type { ReferenceCGI } from '@/lib/constants/references-cgi'
 
 export default function AuditEnveloppePage() {
   const router = useRouter()
@@ -559,7 +560,7 @@ export default function AuditEnveloppePage() {
                     📖 Références légales (Code Général des Impôts)
                   </h4>
                   <div className="space-y-2">
-                    {tco.references_cgi.map((ref, idx) => (
+                    {tco.references_cgi.map((ref: ReferenceCGI, idx: number) => (
                       <div key={idx} className="text-sm">
                         <a
                           href={ref.url}
