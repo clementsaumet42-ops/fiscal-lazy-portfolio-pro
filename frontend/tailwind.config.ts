@@ -24,6 +24,9 @@ const config: Config = {
         },
         // Cream/light backgrounds
         cream: '#FFFBEB',
+        // Semantic colors for alerts and status
+        success: '#10B981',
+        error: '#EF4444',
         // Legacy colors (keep for backward compatibility)
         primary: {
           DEFAULT: '#3b82f6',
@@ -58,8 +61,8 @@ const config: Config = {
         'premium': '0 20px 50px rgba(0, 0, 0, 0.3)',
       },
       backgroundImage: {
-        'gradient-gold': 'linear-gradient(to right, #F59E0B, #FBBF24)',
-        'gradient-gold-hover': 'linear-gradient(to right, #FBBF24, #FCD34D)',
+        'gradient-gold': 'linear-gradient(to right, #F59E0B, #FCD34D)',
+        'gradient-gold-hover': 'linear-gradient(to right, #D97706, #F59E0B)',
         'gradient-midnight': 'linear-gradient(to bottom right, #0F172A, #1E293B)',
       },
     },

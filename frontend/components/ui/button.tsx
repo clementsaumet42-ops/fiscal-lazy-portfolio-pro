@@ -11,7 +11,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
     
     const variants = {
-      default: 'bg-gold text-midnight hover:bg-gold-dark shadow-md hover:shadow-gold font-semibold',
+      default: 'bg-midnight-light text-white hover:bg-midnight-lighter border border-midnight-lighter',
       gold: 'bg-gold text-midnight hover:bg-gold-dark shadow-md hover:shadow-gold font-semibold',
       secondary: 'bg-midnight-light text-white hover:bg-midnight-lighter border border-midnight-lighter',
       outline: 'border-2 border-gold text-gold hover:bg-gold/10 backdrop-blur-sm',

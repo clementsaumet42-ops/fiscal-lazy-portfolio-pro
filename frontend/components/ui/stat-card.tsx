@@ -46,7 +46,7 @@ export function StatCard({ value, label, icon: Icon, trend, className }: StatCar
             <div
               className={cn(
                 'text-xs font-semibold',
-                trend.isPositive ? 'text-green-400' : 'text-red-400'
+                trend.isPositive ? 'text-success' : 'text-error'
               )}
             >
               {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
