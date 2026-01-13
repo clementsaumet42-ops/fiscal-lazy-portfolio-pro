@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts';
-import { AlertTriangle, CheckCircle, TrendingUp, DollarSign, Target, Award } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { AlertTriangle, CheckCircle, DollarSign, Target, Award } from 'lucide-react';
 
 interface AuditResult {
   success: boolean;
@@ -124,7 +124,7 @@ export default function AuditPage() {
   if (!auditData) {
     return (
       <div className="container mx-auto p-6">
-        <p>Aucune donnée d'audit disponible</p>
+        <p>Aucune donnée d&apos;audit disponible</p>
       </div>
     );
   }
@@ -152,10 +152,10 @@ export default function AuditPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Audit de Portefeuille</h1>
-          <p className="text-gray-600 mt-1">Client: {auditData.client_id}</p>
+          <p className="text-gray-600 mt-1">Client&colon; {auditData.client_id}</p>
         </div>
         <Button onClick={runAudit} disabled={loading}>
-          Actualiser l'audit
+          Actualiser l&apos;audit
         </Button>
       </div>
 
@@ -211,7 +211,7 @@ export default function AuditPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Award className="w-5 h-5" />
-            Scores d'Optimisation
+            Scores d&apos;Optimisation
           </CardTitle>
           <CardDescription>Évaluation de la qualité du portefeuille (0-100)</CardDescription>
         </CardHeader>
@@ -233,7 +233,7 @@ export default function AuditPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Allocation par Classe d'Actifs</CardTitle>
+            <CardTitle>Allocation par Classe d&apos;Actifs</CardTitle>
             <CardDescription>Répartition du portefeuille</CardDescription>
           </CardHeader>
           <CardContent>
@@ -330,13 +330,13 @@ export default function AuditPage() {
               <p className="text-xl font-semibold text-green-600">{auditData.analyse_fiscale.cout_fiscal_optimal.toLocaleString('fr-FR')} €</p>
             </div>
             <div>
-              <p className="text-sm text-gray-600">Taux d'optimisation</p>
+              <p className="text-sm text-gray-600">Taux d&apos;optimisation</p>
               <p className="text-xl font-semibold text-blue-600">{auditData.analyse_fiscale.taux_optimisation.toFixed(1)}%</p>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2">Recommandations fiscales:</h4>
+            <h4 className="font-semibold mb-2">Recommandations fiscales&colon;</h4>
             <ul className="space-y-1">
               {auditData.analyse_fiscale.recommandations.map((reco, idx) => (
                 <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
@@ -355,7 +355,7 @@ export default function AuditPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-700">
               <AlertTriangle className="w-5 h-5" />
-              Problèmes d'Éligibilité Détectés
+              Problèmes d&apos;Éligibilité Détectés
             </CardTitle>
           </CardHeader>
           <CardContent>
