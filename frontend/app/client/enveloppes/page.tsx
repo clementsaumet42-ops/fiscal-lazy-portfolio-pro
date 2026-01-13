@@ -103,126 +103,130 @@ export default function EnveloppesPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <Stepper currentStep={2} totalSteps={6} steps={STEPS} />
-      
-      <div className="mt-8 mb-6">
-        <h1 className="text-3xl font-bold mb-2">Choix des enveloppes fiscales</h1>
-        <p className="text-gray-600">
-          Sélectionnez les enveloppes dans lesquelles vous souhaitez investir
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-midnight to-midnight-light">
+      <div className="max-w-5xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4">
+            Enveloppes <span className="text-gold">Fiscales</span>
+          </h1>
+          <p className="text-cream/70 text-lg">
+            Sélectionnez les enveloppes dans lesquelles vous souhaitez investir
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {ENVELOPPES_INFO.map((info) => {
-          const isSelected = selectedEnveloppes.some(e => e.type === info.type)
-          const enveloppe = selectedEnveloppes.find(e => e.type === info.type)
-          
-          return (
-            <Card 
-              key={info.type} 
-              className={isSelected ? 'border-primary border-2' : ''}
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle>{info.nom}</CardTitle>
-                    <CardDescription className="mt-2">
-                      {info.description}
-                    </CardDescription>
-                    {info.plafond && (
-                      <p className="text-sm text-orange-600 mt-2">
-                        Plafond: {formatCurrency(info.plafond)}
-                      </p>
-                    )}
+        <Stepper currentStep={2} totalSteps={6} steps={STEPS} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mb-8">
+          {ENVELOPPES_INFO.map((info) => {
+            const isSelected = selectedEnveloppes.some(e => e.type === info.type)
+            const enveloppe = selectedEnveloppes.find(e => e.type === info.type)
+            
+            return (
+              <Card 
+                key={info.type} 
+                className={isSelected ? 'border-gold border-2 shadow-gold' : ''}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle>{info.nom}</CardTitle>
+                      <CardDescription className="mt-2">
+                        {info.description}
+                      </CardDescription>
+                      {info.plafond && (
+                        <p className="text-sm text-gold mt-2 font-medium">
+                          Plafond: {formatCurrency(info.plafond)}
+                        </p>
+                      )}
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => handleToggle(info.type)}
+                      className="w-5 h-5 text-gold rounded focus:ring-gold accent-gold"
+                    />
                   </div>
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => handleToggle(info.type)}
-                    className="w-5 h-5 text-primary rounded focus:ring-primary"
-                  />
+                </CardHeader>
+                
+                {isSelected && enveloppe && (
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-cream/90">
+                          Montant initial (€)
+                        </label>
+                        <Input
+                          type="number"
+                          min="0"
+                          step="1000"
+                          value={enveloppe.montant_initial}
+                          onChange={(e) => handleUpdate(info.type, 'montant_initial', parseInt(e.target.value) || 0)}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-cream/90">
+                          Versements mensuels (€)
+                        </label>
+                        <Input
+                          type="number"
+                          min="0"
+                          step="100"
+                          value={enveloppe.versements_mensuels}
+                          onChange={(e) => handleUpdate(info.type, 'versements_mensuels', parseInt(e.target.value) || 0)}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-midnight-lighter">
+                      <h4 className="font-medium text-sm mb-2 text-white">Avantages:</h4>
+                      <ul className="space-y-1">
+                        {info.avantages.map((avantage, index) => (
+                          <li key={index} className="text-sm text-cream/70 flex items-start">
+                            <span className="text-gold mr-2 font-bold">✓</span>
+                            {avantage}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
+            )
+          })}
+        </div>
+
+        {selectedEnveloppes.length > 0 && (
+          <Card className="mb-8 bg-gold/10 border-gold">
+            <CardHeader>
+              <CardTitle>Récapitulatif</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <p className="text-sm text-cream/70">Enveloppes sélectionnées</p>
+                  <p className="text-2xl font-bold text-gold">{selectedEnveloppes.length}</p>
                 </div>
-              </CardHeader>
-              
-              {isSelected && enveloppe && (
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Montant initial (€)
-                      </label>
-                      <Input
-                        type="number"
-                        min="0"
-                        step="1000"
-                        value={enveloppe.montant_initial}
-                        onChange={(e) => handleUpdate(info.type, 'montant_initial', parseInt(e.target.value) || 0)}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Versements mensuels (€)
-                      </label>
-                      <Input
-                        type="number"
-                        min="0"
-                        step="100"
-                        value={enveloppe.versements_mensuels}
-                        onChange={(e) => handleUpdate(info.type, 'versements_mensuels', parseInt(e.target.value) || 0)}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 pt-4 border-t">
-                    <h4 className="font-medium text-sm mb-2">Avantages:</h4>
-                    <ul className="space-y-1">
-                      {info.avantages.map((avantage, index) => (
-                        <li key={index} className="text-sm text-gray-600 flex items-start">
-                          <span className="text-secondary mr-2">✓</span>
-                          {avantage}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-          )
-        })}
-      </div>
+                <div>
+                  <p className="text-sm text-cream/70">Montant initial total</p>
+                  <p className="text-2xl font-bold text-gold">{formatCurrency(totalMontantInitial)}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-cream/70">Versements mensuels totaux</p>
+                  <p className="text-2xl font-bold text-gold">{formatCurrency(totalVersementsMensuels)}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
-      {selectedEnveloppes.length > 0 && (
-        <Card className="mb-8 bg-primary-50 border-primary">
-          <CardHeader>
-            <CardTitle>Récapitulatif</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <p className="text-sm text-gray-600">Enveloppes sélectionnées</p>
-                <p className="text-2xl font-bold">{selectedEnveloppes.length}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Montant initial total</p>
-                <p className="text-2xl font-bold">{formatCurrency(totalMontantInitial)}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Versements mensuels totaux</p>
-                <p className="text-2xl font-bold">{formatCurrency(totalVersementsMensuels)}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={() => router.push('/client/profil')}>
-          Retour
-        </Button>
-        <Button onClick={handleSubmit} size="lg" disabled={selectedEnveloppes.length === 0}>
-          Suivant: Allocation
-        </Button>
+        <div className="flex justify-between">
+          <Button variant="outline" onClick={() => router.push('/client/profil')}>
+            ← Retour
+          </Button>
+          <Button onClick={handleSubmit} size="lg" variant="gold" disabled={selectedEnveloppes.length === 0}>
+            Suivant: Allocation →
+          </Button>
+        </div>
       </div>
     </div>
   )

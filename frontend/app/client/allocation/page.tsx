@@ -84,119 +84,123 @@ export default function AllocationPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <Stepper currentStep={3} totalSteps={6} steps={STEPS} />
-      
-      <div className="mt-8 mb-6">
-        <h1 className="text-3xl font-bold mb-2">Allocation d'actifs</h1>
-        <p className="text-gray-600">
-          Définissez la répartition de votre portefeuille entre les différentes classes d'actifs
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-midnight to-midnight-light">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4">
+            Allocation <span className="text-gold">d'Actifs</span>
+          </h1>
+          <p className="text-cream/70 text-lg">
+            Définissez la répartition de votre portefeuille entre les différentes classes d'actifs
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Sliders */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Répartition des actifs</CardTitle>
-              <CardDescription>
-                Ajustez les curseurs pour définir votre allocation
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {ASSET_CLASSES.map((asset) => (
-                <div key={asset.key}>
-                  <div className="flex justify-between mb-2">
-                    <div>
-                      <label className="text-sm font-medium">{asset.label}</label>
-                      <p className="text-xs text-gray-500">{asset.description}</p>
+        <Stepper currentStep={3} totalSteps={6} steps={STEPS} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 mb-8">
+          {/* Sliders */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Répartition des actifs</CardTitle>
+                <CardDescription>
+                  Ajustez les curseurs pour définir votre allocation
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {ASSET_CLASSES.map((asset) => (
+                  <div key={asset.key}>
+                    <div className="flex justify-between mb-2">
+                      <div>
+                        <label className="text-sm font-medium text-white">{asset.label}</label>
+                        <p className="text-xs text-cream/60">{asset.description}</p>
+                      </div>
+                      <span className="text-lg font-bold text-gold">
+                        {formatPercentage(allocation[asset.key as keyof Allocation])}
+                      </span>
                     </div>
-                    <span className="text-lg font-bold text-primary">
-                      {formatPercentage(allocation[asset.key as keyof Allocation])}
+                    <Slider
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={allocation[asset.key as keyof Allocation]}
+                      onValueChange={(value) => handleSliderChange(asset.key as keyof Allocation, value)}
+                    />
+                  </div>
+                ))}
+                
+                <div className="pt-4 border-t border-midnight-lighter">
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-white">Total:</span>
+                    <span className={`text-2xl font-bold ${isValid ? 'text-gold' : 'text-red-400'}`}>
+                      {formatPercentage(total)}
                     </span>
                   </div>
-                  <Slider
-                    min={0}
-                    max={100}
-                    step={1}
-                    value={allocation[asset.key as keyof Allocation]}
-                    onValueChange={(value) => handleSliderChange(asset.key as keyof Allocation, value)}
-                  />
+                  {!isValid && (
+                    <p className="text-sm text-red-400 mt-2">
+                      ⚠️ L'allocation doit totaliser 100%
+                    </p>
+                  )}
                 </div>
-              ))}
-              
-              <div className="pt-4 border-t">
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold">Total:</span>
-                  <span className={`text-2xl font-bold ${isValid ? 'text-secondary' : 'text-red-600'}`}>
-                    {formatPercentage(total)}
-                  </span>
-                </div>
-                {!isValid && (
-                  <p className="text-sm text-red-600 mt-2">
-                    ⚠️ L'allocation doit totaliser 100%
-                  </p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Graphique */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Visualisation</CardTitle>
-              <CardDescription>
-                Aperçu graphique de votre allocation
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <PieChart data={chartData} />
-            </CardContent>
-          </Card>
+          {/* Graphique */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Visualisation</CardTitle>
+                <CardDescription>
+                  Aperçu graphique de votre allocation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <PieChart data={chartData} />
+              </CardContent>
+            </Card>
 
-          {/* ETFs suggérés */}
-          <Card>
-            <CardHeader>
-              <CardTitle>ETFs suggérés</CardTitle>
-              <CardDescription>
-                Exemples d'ETFs pour chaque classe d'actifs
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <p className="text-gray-500 text-sm">Chargement des ETFs...</p>
-              ) : etfs.length > 0 ? (
-                <div className="space-y-3">
-                  {etfs.slice(0, 5).map((etf, index) => (
-                    <div key={index} className="border-b pb-2">
-                      <p className="font-medium text-sm">{etf.nom}</p>
-                      <div className="flex justify-between text-xs text-gray-600 mt-1">
-                        <span>{etf.ticker}</span>
-                        <span className={etf.eligible_pea ? 'text-secondary' : 'text-gray-500'}>
-                          {etf.eligible_pea ? '✓ PEA' : 'CTO'}
-                        </span>
+            {/* ETFs suggérés */}
+            <Card>
+              <CardHeader>
+                <CardTitle>ETFs suggérés</CardTitle>
+                <CardDescription>
+                  Exemples d'ETFs pour chaque classe d'actifs
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <p className="text-cream/60 text-sm">Chargement des ETFs...</p>
+                ) : etfs.length > 0 ? (
+                  <div className="space-y-3">
+                    {etfs.slice(0, 5).map((etf, index) => (
+                      <div key={index} className="border-b border-midnight-lighter pb-2">
+                        <p className="font-medium text-sm text-white">{etf.nom}</p>
+                        <div className="flex justify-between text-xs text-cream/60 mt-1">
+                          <span>{etf.ticker}</span>
+                          <span className={etf.eligible_pea ? 'text-gold' : 'text-cream/50'}>
+                            {etf.eligible_pea ? '✓ PEA' : 'CTO'}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-500 text-sm">Aucun ETF disponible</p>
-              )}
-            </CardContent>
-          </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-cream/60 text-sm">Aucun ETF disponible</p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={() => router.push('/client/enveloppes')}>
-          Retour
-        </Button>
-        <Button onClick={handleSubmit} size="lg" disabled={!isValid}>
-          Suivant: Optimisation fiscale
-        </Button>
+        <div className="flex justify-between">
+          <Button variant="outline" onClick={() => router.push('/client/enveloppes')}>
+            ← Retour
+          </Button>
+          <Button onClick={handleSubmit} size="lg" variant="gold" disabled={!isValid}>
+            Suivant: Optimisation fiscale →
+          </Button>
+        </div>
       </div>
     </div>
   )
