@@ -200,65 +200,77 @@ export const useClientStore = create<ClientStore>()(
   resetBilan: () => set({ bilan: initialBilanState }),
   
   // Audit intégré dans bilan
-  updatePEAAudit: (id, audit) => set((state) => ({
-    bilan: {
-      ...state.bilan,
-      patrimoine: {
-        ...state.bilan.patrimoine,
-        placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          pea: state.bilan.patrimoine?.placements_financiers?.pea?.map((p) =>
-            p.id === id ? { ...p, ...audit } : p
-          ) || [],
+  updatePEAAudit: (id, audit) => set((state) => {
+    if (!state.bilan.patrimoine?.placements_financiers?.pea) return state
+    return {
+      bilan: {
+        ...state.bilan,
+        patrimoine: {
+          ...state.bilan.patrimoine,
+          placements_financiers: {
+            ...state.bilan.patrimoine.placements_financiers,
+            pea: state.bilan.patrimoine.placements_financiers.pea.map((p) =>
+              p.id === id ? { ...p, ...audit } : p
+            ),
+          },
         },
       },
-    },
-  })),
+    }
+  }),
 
-  updateCTOAudit: (id, audit) => set((state) => ({
-    bilan: {
-      ...state.bilan,
-      patrimoine: {
-        ...state.bilan.patrimoine,
-        placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          cto: state.bilan.patrimoine?.placements_financiers?.cto?.map((c) =>
-            c.id === id ? { ...c, ...audit } : c
-          ) || [],
+  updateCTOAudit: (id, audit) => set((state) => {
+    if (!state.bilan.patrimoine?.placements_financiers?.cto) return state
+    return {
+      bilan: {
+        ...state.bilan,
+        patrimoine: {
+          ...state.bilan.patrimoine,
+          placements_financiers: {
+            ...state.bilan.patrimoine.placements_financiers,
+            cto: state.bilan.patrimoine.placements_financiers.cto.map((c) =>
+              c.id === id ? { ...c, ...audit } : c
+            ),
+          },
         },
       },
-    },
-  })),
+    }
+  }),
 
-  updateAVAudit: (id, audit) => set((state) => ({
-    bilan: {
-      ...state.bilan,
-      patrimoine: {
-        ...state.bilan.patrimoine,
-        placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          assurance_vie: state.bilan.patrimoine?.placements_financiers?.assurance_vie?.map((av) =>
-            av.id === id ? { ...av, ...audit } : av
-          ) || [],
+  updateAVAudit: (id, audit) => set((state) => {
+    if (!state.bilan.patrimoine?.placements_financiers?.assurance_vie) return state
+    return {
+      bilan: {
+        ...state.bilan,
+        patrimoine: {
+          ...state.bilan.patrimoine,
+          placements_financiers: {
+            ...state.bilan.patrimoine.placements_financiers,
+            assurance_vie: state.bilan.patrimoine.placements_financiers.assurance_vie.map((av) =>
+              av.id === id ? { ...av, ...audit } : av
+            ),
+          },
         },
       },
-    },
-  })),
+    }
+  }),
 
-  updatePERAudit: (id, audit) => set((state) => ({
-    bilan: {
-      ...state.bilan,
-      patrimoine: {
-        ...state.bilan.patrimoine,
-        placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          per: state.bilan.patrimoine?.placements_financiers?.per?.map((p) =>
-            p.id === id ? { ...p, ...audit } : p
-          ) || [],
+  updatePERAudit: (id, audit) => set((state) => {
+    if (!state.bilan.patrimoine?.placements_financiers?.per) return state
+    return {
+      bilan: {
+        ...state.bilan,
+        patrimoine: {
+          ...state.bilan.patrimoine,
+          placements_financiers: {
+            ...state.bilan.patrimoine.placements_financiers,
+            per: state.bilan.patrimoine.placements_financiers.per.map((p) =>
+              p.id === id ? { ...p, ...audit } : p
+            ),
+          },
         },
       },
-    },
-  })),
+    }
+  }),
   
   // Workflow audit
   addDocument: (doc) => set((state) => ({
