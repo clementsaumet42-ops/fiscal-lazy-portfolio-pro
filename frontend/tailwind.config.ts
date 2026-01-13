@@ -10,29 +10,23 @@ const config: Config = {
       colors: {
         // Premium midnight blue palette
         midnight: {
-          950: '#020617',
-          900: '#0F172A',
-          800: '#1E293B',
-          700: '#334155',
-          600: '#475569',
+          DEFAULT: '#0F172A',
+          light: '#1E293B',
+          lighter: '#334155',
+          dark: '#020617',
         },
         // Premium gold accents
         gold: {
-          300: '#FCD34D',
-          400: '#FBBF24',
-          500: '#F59E0B',
+          DEFAULT: '#F59E0B',
+          dark: '#D97706',
+          light: '#FCD34D',
+          hover: '#D97706',
         },
-        // Text colors
-        text: {
-          primary: '#F8FAFC',
-          secondary: '#CBD5E1',
-          muted: '#94A3B8',
-        },
-        // Semantic colors
+        // Cream/light backgrounds
+        cream: '#FFFBEB',
+        // Semantic colors for alerts and status
         success: '#10B981',
-        warning: '#F59E0B',
-        danger: '#EF4444',
-        info: '#3B82F6',
+        error: '#EF4444',
         // Legacy colors (keep for backward compatibility)
         primary: {
           DEFAULT: '#3b82f6',
@@ -62,13 +56,14 @@ const config: Config = {
         },
       },
       boxShadow: {
-        'gold': '0 0 20px rgba(245, 158, 11, 0.5)',
-        'gold-lg': '0 10px 40px rgba(245, 158, 11, 0.3)',
+        'gold': '0 0 20px rgba(245, 158, 11, 0.3)',
+        'gold-lg': '0 10px 40px rgba(245, 158, 11, 0.2)',
         'premium': '0 20px 50px rgba(0, 0, 0, 0.3)',
       },
       backgroundImage: {
-        'gradient-gold': 'linear-gradient(to right, #F59E0B, #FBBF24)',
-        'gradient-gold-hover': 'linear-gradient(to right, #FBBF24, #FCD34D)',
+        'gradient-gold': 'linear-gradient(to right, #F59E0B, #FCD34D)',
+        'gradient-gold-hover': 'linear-gradient(to right, #D97706, #F59E0B)',
+        'gradient-midnight': 'linear-gradient(to bottom right, #0F172A, #1E293B)',
       },
     },
   },
