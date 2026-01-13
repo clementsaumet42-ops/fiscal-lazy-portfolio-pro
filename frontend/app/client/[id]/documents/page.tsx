@@ -186,7 +186,7 @@ export default function DocumentsClientPage({ params }: { params: { id: string }
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {catDocs.map((doc) => (
+                    {catDocs.map((doc: any) => (
                       <div key={doc.id} className="flex items-center justify-between p-4 bg-midnight-700 rounded-lg hover:bg-midnight-600 border border-midnight-600 hover:border-gold-500/30 transition-all">
                         <div className="flex items-center gap-4">
                           <File className="w-6 h-6 text-gold-400" />

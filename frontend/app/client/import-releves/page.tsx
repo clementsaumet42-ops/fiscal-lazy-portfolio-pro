@@ -147,7 +147,7 @@ export default function ImportRelevesPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            {ENVELOPPE_OPTIONS.map((option) => (
+            {ENVELOPPE_OPTIONS.map((option: any) => (
               <button
                 key={option.value}
                 onClick={() => setSelectedType(option.value)}
@@ -213,7 +213,7 @@ export default function ImportRelevesPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {audit.documents.map((doc) => (
+              {audit.documents.map((doc: any) => (
                 <div
                   key={doc.id}
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"

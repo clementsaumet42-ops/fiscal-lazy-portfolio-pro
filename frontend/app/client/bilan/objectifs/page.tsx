@@ -174,7 +174,7 @@ export default function ObjectifsPatrimoniauxPage() {
                   { value: 'equilibre', label: 'Équilibré', emoji: '⚖️', desc: 'Équilibre risque/rendement' },
                   { value: 'dynamique', label: 'Dynamique', emoji: '📈', desc: 'Croissance privilégiée' },
                   { value: 'offensif', label: 'Offensif', emoji: '🚀', desc: 'Rendement maximal' },
-                ].map((option) => (
+                ].map((option: any) => (
                   <button
                     key={option.value}
                     type="button"
@@ -220,7 +220,7 @@ export default function ObjectifsPatrimoniauxPage() {
                   'Optimiser ma fiscalité',
                   'Diversifier mon patrimoine',
                   'Préparer un projet immobilier',
-                ].map((obj) => (
+                ].map((obj: any) => (
                   <label key={obj} className="flex items-center gap-2 p-3 border rounded hover:bg-gray-50 cursor-pointer">
                     <input
                       type="checkbox"

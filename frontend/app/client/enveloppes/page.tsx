@@ -117,7 +117,7 @@ export default function EnveloppesPage() {
         <Stepper currentStep={2} totalSteps={6} steps={STEPS} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mb-8">
-          {ENVELOPPES_INFO.map((info) => {
+          {ENVELOPPES_INFO.map((info: any) => {
             const isSelected = selectedEnveloppes.some(e => e.type === info.type)
             const enveloppe = selectedEnveloppes.find(e => e.type === info.type)
             
@@ -180,7 +180,7 @@ export default function EnveloppesPage() {
                     <div className="mt-4 pt-4 border-t border-midnight-lighter">
                       <h4 className="font-medium text-sm mb-2 text-white">Avantages:</h4>
                       <ul className="space-y-1">
-                        {info.avantages.map((avantage, index) => (
+                        {info.avantages.map((avantage: any, index: number) => (
                           <li key={index} className="text-sm text-cream/70 flex items-start">
                             <span className="text-gold mr-2 font-bold">✓</span>
                             {avantage}

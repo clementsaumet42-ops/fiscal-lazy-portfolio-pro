@@ -36,8 +36,8 @@ export default function RecommandationsPage() {
   }
 
   // Mock comparison data
-  const totalMontantAvant = placements.reduce((sum, p) => sum + p.montant, 0)
-  const totalFraisAvant = placements.reduce((sum, p) => sum + p.frais_annuels, 0)
+  const totalMontantAvant = placements.reduce((sum: number, p: any) => sum + p.montant, 0)
+  const totalFraisAvant = placements.reduce((sum: number, p: any) => sum + p.frais_annuels, 0)
   const totalFraisApres = totalFraisAvant * 0.6 // 40% reduction
   const economieAnnuelle = totalFraisAvant - totalFraisApres
 
@@ -218,7 +218,7 @@ export default function RecommandationsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {actions.map((action, index) => (
+            {actions.map((action: any, index: number) => (
               <div
                 key={action.id}
                 className={`border-2 rounded-lg p-4 ${

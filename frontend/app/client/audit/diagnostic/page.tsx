@@ -119,7 +119,7 @@ export default function AuditDiagnosticPage() {
               <p className="text-sm text-gray-500 italic">Aucun point fort identifié</p>
             ) : (
               <div className="space-y-4">
-                {diagnostic.points_forts.map((point, index) => (
+                {diagnostic.points_forts.map((point: any, index: number) => (
                   <div key={index} className="border-l-4 border-green-500 pl-4">
                     <h4 className="font-semibold text-green-900 mb-1">{point.titre}</h4>
                     <p className="text-sm text-gray-700 mb-2">{point.description}</p>
@@ -149,7 +149,7 @@ export default function AuditDiagnosticPage() {
               <p className="text-sm text-gray-500 italic">Aucun point d'attention</p>
             ) : (
               <div className="space-y-4">
-                {diagnostic.points_attention.map((point, index) => (
+                {diagnostic.points_attention.map((point: any, index: number) => (
                   <div key={index} className="border-l-4 border-orange-500 pl-4">
                     <h4 className="font-semibold text-orange-900 mb-1">{point.titre}</h4>
                     <p className="text-sm text-gray-700 mb-2">{point.description}</p>
@@ -179,7 +179,7 @@ export default function AuditDiagnosticPage() {
               <p className="text-sm text-gray-500 italic">Aucun point faible majeur</p>
             ) : (
               <div className="space-y-4">
-                {diagnostic.points_faibles.map((point, index) => (
+                {diagnostic.points_faibles.map((point: any, index: number) => (
                   <div key={index} className="border-l-4 border-red-500 pl-4">
                     <h4 className="font-semibold text-red-900 mb-1">{point.titre}</h4>
                     <p className="text-sm text-gray-700 mb-1">{point.description}</p>
@@ -210,7 +210,7 @@ export default function AuditDiagnosticPage() {
               <p className="text-sm text-gray-500 italic">Aucune opportunité identifiée</p>
             ) : (
               <div className="space-y-4">
-                {diagnostic.opportunites.map((point, index) => (
+                {diagnostic.opportunites.map((point: any, index: number) => (
                   <div key={index} className="border-l-4 border-blue-500 pl-4">
                     <h4 className="font-semibold text-blue-900 mb-1">{point.titre}</h4>
                     <p className="text-sm text-gray-700 mb-2">{point.description}</p>
