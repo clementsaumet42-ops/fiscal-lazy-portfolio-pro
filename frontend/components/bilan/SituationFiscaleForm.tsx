@@ -9,6 +9,7 @@ import { AlertCircle, Info } from 'lucide-react'
 import type { SituationFiscale, TMI } from '@/lib/types/situation-fiscale'
 import { BAREMES_IR_2024 } from '@/lib/types/situation-fiscale'
 import { PLAFONDS_2024 } from '@/lib/constants/references-cgi'
+import { calculatePERPlafond } from '@/lib/utils/fiscal-calculator'
 
 interface SituationFiscaleFormProps {
   value: SituationFiscale
@@ -49,11 +50,7 @@ export function SituationFiscaleForm({ value, onChange, revenus }: SituationFisc
   // Calcul automatique du plafond PER si revenus fournis
   useEffect(() => {
     if (revenus && revenus > 0) {
-      const plafondCalcule = Math.min(
-        revenus * PLAFONDS_2024.PER_DEDUCTIBLE_BASE,
-        PLAFONDS_2024.PER_DEDUCTIBLE_MAX
-      )
-      const plafondDeductible = Math.max(plafondCalcule, PLAFONDS_2024.PER_DEDUCTIBLE_MIN)
+      const plafondDeductible = calculatePERPlafond(revenus)
       
       if (localValue.plafonds.per_deductible !== plafondDeductible) {
         handleChange({
@@ -61,7 +58,7 @@ export function SituationFiscaleForm({ value, onChange, revenus }: SituationFisc
         })
       }
     }
-  }, [revenus])
+  }, [revenus, localValue.plafonds.per_deductible])
 
   const tmiOptions: { value: TMI; label: string; range: string }[] = [
     { value: 0, label: '0%', range: `0 - ${BAREMES_IR_2024[0].max.toLocaleString('fr-FR')}€` },

@@ -10,10 +10,17 @@ import { TAUX_PS, PLAFONDS_2024, REFERENCES_CGI } from '@/lib/constants/referenc
  */
 export function calculateAnciennete(dateOuverture: Date | string): number {
   const date = typeof dateOuverture === 'string' ? new Date(dateOuverture) : dateOuverture
+  
+  // Validation de la date
+  if (isNaN(date.getTime())) {
+    console.error('Invalid date provided to calculateAnciennete:', dateOuverture)
+    return 0
+  }
+  
   const now = new Date()
   const diffMs = now.getTime() - date.getTime()
   const diffYears = diffMs / (1000 * 60 * 60 * 24 * 365.25)
-  return diffYears
+  return Math.max(0, diffYears) // Assurer que l'ancienneté est toujours positive
 }
 
 /**
@@ -173,6 +180,17 @@ export function calculateAVDragFiscal(
 }
 
 /**
+ * Calcule le plafond de déduction PER selon les revenus
+ */
+export function calculatePERPlafond(revenus: number): number {
+  const plafondCalcule = Math.min(
+    revenus * PLAFONDS_2024.PER_DEDUCTIBLE_BASE,
+    PLAFONDS_2024.PER_DEDUCTIBLE_MAX
+  )
+  return Math.max(plafondCalcule, PLAFONDS_2024.PER_DEDUCTIBLE_MIN)
+}
+
+/**
  * Calcule l'optimisation fiscale pour un PER (CGI Art. 163 quatervicies)
  * - Économie IR à l'entrée (déduction selon plafond)
  * - Fiscalité sortie capital vs rente
@@ -191,11 +209,7 @@ export function calculatePEROptimization(
   reference: string
 } {
   // Calcul du plafond de déduction PER
-  const plafondCalcule = Math.min(
-    revenusAnnuels * PLAFONDS_2024.PER_DEDUCTIBLE_BASE,
-    PLAFONDS_2024.PER_DEDUCTIBLE_MAX
-  )
-  const plafondDeductible = Math.max(plafondCalcule, PLAFONDS_2024.PER_DEDUCTIBLE_MIN)
+  const plafondDeductible = calculatePERPlafond(revenusAnnuels)
   
   // Économie IR à l'entrée
   const montantDeductible = Math.min(montantVerse, plafondDeductible)

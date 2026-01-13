@@ -13,6 +13,13 @@ import { calculateTCO, calculateTCOPEA, calculateTCOCTO, calculateTCOAV, calcula
 import type { LigneAudit, DocumentAudit } from '@/lib/types/bilan-audit'
 import { SituationFiscaleForm } from '@/components/bilan/SituationFiscaleForm'
 
+// Constants pour valeurs par défaut
+const DEFAULT_AV_VERSEMENT_RATIO = 0.8 // 80% de la valorisation
+const DEFAULT_FONDS_EUROS_PERCENTAGE = 30 // 30%
+const DEFAULT_AV_AGE_YEARS = 10 // 10 ans d'ancienneté par défaut
+const DEFAULT_PER_VERSEMENT_RATIO = 0.9 // 90% de la valorisation
+const DEFAULT_REVENUS_ANNUELS = 50000 // 50k€ par défaut
+
 export default function AuditEnveloppePage() {
   const router = useRouter()
   const params = useParams()
@@ -154,13 +161,13 @@ export default function AuditEnveloppePage() {
       } else if (type === 'cto') {
         return calculateTCOCTO(lignes, situationFiscale)
       } else if (type === 'av' && enveloppe) {
-        const montantVerse = enveloppe.montant || valorisationTotale * 0.8 // Estimation si non fourni
-        const repartitionFE = enveloppe.fonds_euros_pourcentage || 30 // 30% par défaut
-        const dateOuverture = enveloppe.date_ouverture || new Date(Date.now() - 10 * 365 * 24 * 60 * 60 * 1000).toISOString() // 10 ans par défaut
+        const montantVerse = enveloppe.montant || valorisationTotale * DEFAULT_AV_VERSEMENT_RATIO
+        const repartitionFE = enveloppe.fonds_euros_pourcentage || DEFAULT_FONDS_EUROS_PERCENTAGE
+        const dateOuverture = enveloppe.date_ouverture || new Date(Date.now() - DEFAULT_AV_AGE_YEARS * 365 * 24 * 60 * 60 * 1000).toISOString()
         return calculateTCOAV(lignes, dateOuverture, montantVerse, repartitionFE, situationFiscale)
       } else if (type === 'per') {
-        const montantVerse = enveloppe?.montant || valorisationTotale * 0.9 // Estimation
-        const revenus = bilan.revenus?.revenus.salaires_nets_mensuels ? bilan.revenus.revenus.salaires_nets_mensuels * 12 : 50000
+        const montantVerse = enveloppe?.montant || valorisationTotale * DEFAULT_PER_VERSEMENT_RATIO
+        const revenus = bilan.revenus?.revenus.salaires_nets_mensuels ? bilan.revenus.revenus.salaires_nets_mensuels * 12 : DEFAULT_REVENUS_ANNUELS
         return calculateTCOPER(lignes, montantVerse, revenus, situationFiscale)
       }
     } catch (error) {

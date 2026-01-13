@@ -75,6 +75,8 @@ export function calculateTERMoyen(lignes: LigneAudit[]): number {
   if (valorisationTotale === 0) return 0
   
   const fraisPonderes = lignes.reduce((sum, l) => {
+    // Éviter la division par zéro
+    if (l.valorisation === 0) return sum
     const fraisLigne = (l.frais_gestion_annuels || 0) / l.valorisation
     return sum + (fraisLigne * l.valorisation)
   }, 0)
