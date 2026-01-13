@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useClientStore } from '@/store/client-store'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -97,8 +97,13 @@ export default function EnveloppesPage() {
   const totalMontantInitial = selectedEnveloppes.reduce((sum, e) => sum + e.montant_initial, 0)
   const totalVersementsMensuels = selectedEnveloppes.reduce((sum, e) => sum + e.versements_mensuels, 0)
 
+  useEffect(() => {
+    if (!profil) {
+      router.push('/client/profil')
+    }
+  }, [profil, router])
+
   if (!profil) {
-    router.push('/client/profil')
     return null
   }
 

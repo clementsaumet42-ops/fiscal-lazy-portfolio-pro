@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useClientStore } from '@/store/client-store'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,8 +15,13 @@ export default function RapportPage() {
   const router = useRouter()
   const { profil, enveloppes, allocation, optimisation, backtest, reset } = useClientStore()
 
+  useEffect(() => {
+    if (!profil || !allocation || !optimisation || !backtest) {
+      router.push('/client/profil')
+    }
+  }, [profil, allocation, optimisation, backtest, router])
+
   if (!profil || !allocation || !optimisation || !backtest) {
-    router.push('/client/profil')
     return null
   }
 

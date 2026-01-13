@@ -80,8 +80,13 @@ export default function BacktestPage() {
     router.push('/client/rapport')
   }
 
+  useEffect(() => {
+    if (!profil || !allocation || !optimisation) {
+      router.push('/client/profil')
+    }
+  }, [profil, allocation, optimisation, router])
+
   if (!profil || !allocation || !optimisation) {
-    router.push('/client/profil')
     return null
   }
 

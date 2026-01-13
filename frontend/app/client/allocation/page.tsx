@@ -78,8 +78,13 @@ export default function AllocationPage() {
     value: allocation[asset.key as keyof Allocation],
   })).filter(item => item.value > 0)
 
+  useEffect(() => {
+    if (!profil || enveloppes.length === 0) {
+      router.push('/client/profil')
+    }
+  }, [profil, enveloppes, router])
+
   if (!profil || enveloppes.length === 0) {
-    router.push('/client/profil')
     return null
   }
 
