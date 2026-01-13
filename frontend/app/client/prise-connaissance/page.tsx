@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useClientStore } from '@/store/client-store'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,6 +24,13 @@ export default function PriseConnaissancePage() {
       notes: '',
     }
   )
+
+  // Sync form data with assessment state when it changes (for persist hydration)
+  useEffect(() => {
+    if (assessment.prise_connaissance) {
+      setFormData(assessment.prise_connaissance)
+    }
+  }, [assessment.prise_connaissance])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

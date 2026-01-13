@@ -52,6 +52,13 @@ export default function BilanFiscalPage() {
 
   const [openSection, setOpenSection] = useState<'revenus' | 'charges' | 'fiscalite'>('revenus')
 
+  // Sync form data with assessment state when it changes (for persist hydration)
+  useEffect(() => {
+    if (assessment.bilan_fiscal) {
+      setFormData(assessment.bilan_fiscal)
+    }
+  }, [assessment.bilan_fiscal])
+
   // Auto-calculate revenus fonciers nets
   useEffect(() => {
     const nets = formData.revenus_fonciers.loyers_bruts - formData.revenus_fonciers.charges_deductibles

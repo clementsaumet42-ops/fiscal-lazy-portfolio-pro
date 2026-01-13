@@ -27,6 +27,14 @@ export default function LiquiditesPage() {
 
   const [showLEP, setShowLEP] = useState(formData.lep !== null)
 
+  // Sync form data with assessment state when it changes (for persist hydration)
+  useEffect(() => {
+    if (assessment.liquidites) {
+      setFormData(assessment.liquidites)
+      setShowLEP(assessment.liquidites.lep !== null)
+    }
+  }, [assessment.liquidites])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setLiquidites(formData)
