@@ -67,8 +67,13 @@ export default function OptimisationPage() {
     router.push('/client/backtest')
   }
 
+  useEffect(() => {
+    if (!profil || !allocation || enveloppes.length === 0) {
+      router.push('/client/profil')
+    }
+  }, [profil, allocation, enveloppes, router])
+
   if (!profil || !allocation || enveloppes.length === 0) {
-    router.push('/client/profil')
     return null
   }
 
