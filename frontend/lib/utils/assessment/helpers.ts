@@ -141,3 +141,24 @@ export function isValidISIN(isin: string): boolean {
   // Basic ISIN validation (2 letters + 10 alphanumeric)
   return /^[A-Z]{2}[A-Z0-9]{10}$/.test(isin)
 }
+
+/**
+ * Calculate age from birth date
+ */
+export function calculateAge(dateNaissance: Date): number {
+  const today = new Date()
+  const age = today.getFullYear() - dateNaissance.getFullYear()
+  const m = today.getMonth() - dateNaissance.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < dateNaissance.getDate())) {
+    return age - 1
+  }
+  return age
+}
+
+/**
+ * Calculate remaining gift allowance (abattement)
+ */
+export function calculateAbattementRestant(donationsUtilisees: number): number {
+  const ABATTEMENT_PARENT_ENFANT = 100000 // In 2024
+  return Math.max(0, ABATTEMENT_PARENT_ENFANT - donationsUtilisees)
+}
