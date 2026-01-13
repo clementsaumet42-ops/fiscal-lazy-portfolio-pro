@@ -159,24 +159,24 @@ export default function EnveloppeBoursePage() {
   }
 
   return (
-    <div className="min-h-screen bg-midnight">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             📊 Enveloppes Boursières
           </h1>
-          <p className="text-cream/70 text-lg">
+          <p className="text-gray-600 text-lg">
             Étape 7/11 - PEA, CTO, PER - Suivi détaillé de vos positions
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="w-full bg-midnight-lighter rounded-full h-2">
-            <div className="bg-gold h-2 rounded-full transition-all duration-300" style={{ width: '63%' }}></div>
+          <div className="w-full bg-gradient-to-br from-blue-50 to-white-lighter rounded-full h-2">
+            <div className="bg-blue-600 h-2 rounded-full transition-all duration-300" style={{ width: '63%' }}></div>
           </div>
-          <p className="text-cream/70 text-sm mt-2">Progression: 7 sur 11 étapes</p>
+          <p className="text-gray-600 text-sm mt-2">Progression: 7 sur 11 étapes</p>
         </div>
 
         {/* Envelope Selector */}
@@ -195,7 +195,7 @@ export default function EnveloppeBoursePage() {
           <Button
             variant="outline"
             onClick={() => setShowAddEnveloppe(!showAddEnveloppe)}
-            className="border-gold text-gold"
+            className="border-blue-600 text-blue-600"
           >
             <Plus className="w-4 h-4 mr-2" />
             Nouvelle enveloppe
@@ -204,9 +204,9 @@ export default function EnveloppeBoursePage() {
 
         {/* Add Envelope Form */}
         {showAddEnveloppe && (
-          <Card className="mb-6 bg-midnight-light border-gold/30">
+          <Card className="mb-6 bg-gradient-to-br from-blue-50 to-white-light border-blue-600/30">
             <CardHeader>
-              <CardTitle className="text-white">Nouvelle enveloppe boursière</CardTitle>
+              <CardTitle className="text-gray-900">Nouvelle enveloppe boursière</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -258,23 +258,23 @@ export default function EnveloppeBoursePage() {
         {currentEnveloppe ? (
           <>
             {/* Account Header Card */}
-            <Card className="mb-6 bg-midnight-light border-midnight-lighter">
+            <Card className="mb-6 bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-white text-2xl flex items-center gap-2">
-                      <Wallet className="w-6 h-6 text-gold" />
+                    <CardTitle className="text-gray-900 text-2xl flex items-center gap-2">
+                      <Wallet className="w-6 h-6 text-blue-600" />
                       {currentEnveloppe.type} - {currentEnveloppe.etablissement}
                     </CardTitle>
-                    <CardDescription className="text-cream/70">
+                    <CardDescription className="text-gray-600">
                       Compte n° {currentEnveloppe.numero_compte} • Ouvert le {formatDate(currentEnveloppe.date_ouverture)}
                     </CardDescription>
                   </div>
                   <div className="text-right">
-                    <p className="text-3xl font-bold text-gold">
+                    <p className="text-3xl font-bold text-blue-600">
                       {formatCurrency(currentEnveloppe.montant_total_valorise)}
                     </p>
-                    <p className="text-cream/70 text-sm">Valorisation totale</p>
+                    <p className="text-gray-600 text-sm">Valorisation totale</p>
                   </div>
                 </div>
               </CardHeader>
@@ -282,14 +282,14 @@ export default function EnveloppeBoursePage() {
 
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <Card className="bg-midnight-light border-midnight-lighter">
+              <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-3">
-                    <div className="p-3 bg-gold/10 rounded-lg">
-                      <TrendingUp className="w-6 h-6 text-gold" />
+                    <div className="p-3 bg-blue-600/10 rounded-lg">
+                      <TrendingUp className="w-6 h-6 text-blue-600" />
                     </div>
                     <div>
-                      <p className="text-cream/70 text-sm">Performance globale</p>
+                      <p className="text-gray-600 text-sm">Performance globale</p>
                       <p className={`text-2xl font-bold ${currentEnveloppe.performance_globale_euros >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                         {formatCurrency(currentEnveloppe.performance_globale_euros)}
                       </p>
@@ -301,35 +301,35 @@ export default function EnveloppeBoursePage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-midnight-light border-midnight-lighter">
+              <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-3">
-                    <div className="p-3 bg-gold/10 rounded-lg">
-                      <BarChart3 className="w-6 h-6 text-gold" />
+                    <div className="p-3 bg-blue-600/10 rounded-lg">
+                      <BarChart3 className="w-6 h-6 text-blue-600" />
                     </div>
                     <div>
-                      <p className="text-cream/70 text-sm">Nombre de lignes</p>
-                      <p className="text-2xl font-bold text-white">
+                      <p className="text-gray-600 text-sm">Nombre de lignes</p>
+                      <p className="text-2xl font-bold text-gray-900">
                         {currentEnveloppe.supports.length}
                       </p>
-                      <p className="text-sm text-cream/50">Position(s)</p>
+                      <p className="text-sm text-gray-700/50">Position(s)</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-midnight-light border-midnight-lighter">
+              <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-3">
                     <div className="p-3 bg-orange-500/10 rounded-lg">
                       <TrendingUp className="w-6 h-6 text-orange-400" />
                     </div>
                     <div>
-                      <p className="text-cream/70 text-sm">Frais annuels</p>
+                      <p className="text-gray-600 text-sm">Frais annuels</p>
                       <p className="text-2xl font-bold text-orange-400">
                         {formatCurrency(currentEnveloppe.frais_annuels_totaux)}
                       </p>
-                      <p className="text-sm text-cream/50">TER total</p>
+                      <p className="text-sm text-gray-700/50">TER total</p>
                     </div>
                   </div>
                 </CardContent>
@@ -337,15 +337,15 @@ export default function EnveloppeBoursePage() {
             </div>
 
             {/* Holdings Table */}
-            <Card className="mb-6 bg-midnight-light border-midnight-lighter">
+            <Card className="mb-6 bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-white">Positions</CardTitle>
+                  <CardTitle className="text-gray-900">Positions</CardTitle>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setShowAddSupport(!showAddSupport)}
-                    className="border-gold text-gold"
+                    className="border-blue-600 text-blue-600"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Ajouter une ligne
@@ -354,8 +354,8 @@ export default function EnveloppeBoursePage() {
               </CardHeader>
               <CardContent>
                 {showAddSupport && (
-                  <div className="mb-6 p-4 border border-gold/30 rounded-lg bg-midnight">
-                    <h4 className="text-white font-semibold mb-4">Nouvelle position</h4>
+                  <div className="mb-6 p-4 border border-blue-600/30 rounded-lg bg-gradient-to-br from-blue-50 to-white">
+                    <h4 className="text-gray-900 font-semibold mb-4">Nouvelle position</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                       <div>
                         <Label>Nom du support *</Label>
@@ -449,45 +449,45 @@ export default function EnveloppeBoursePage() {
                   <Table className="bg-[#1E293B]">
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-gold">Support</TableHead>
-                        <TableHead className="text-gold">ISIN</TableHead>
-                        <TableHead className="text-gold">Type</TableHead>
-                        <TableHead className="text-gold text-right">Qté</TableHead>
-                        <TableHead className="text-gold text-right">PRU</TableHead>
-                        <TableHead className="text-gold text-right">Cours</TableHead>
-                        <TableHead className="text-gold text-right">Valeur</TableHead>
-                        <TableHead className="text-gold text-right">+/- Value</TableHead>
-                        <TableHead className="text-gold text-right">Perf %</TableHead>
-                        <TableHead className="text-gold text-right">TER</TableHead>
-                        <TableHead className="text-gold"></TableHead>
+                        <TableHead className="text-blue-600">Support</TableHead>
+                        <TableHead className="text-blue-600">ISIN</TableHead>
+                        <TableHead className="text-blue-600">Type</TableHead>
+                        <TableHead className="text-blue-600 text-right">Qté</TableHead>
+                        <TableHead className="text-blue-600 text-right">PRU</TableHead>
+                        <TableHead className="text-blue-600 text-right">Cours</TableHead>
+                        <TableHead className="text-blue-600 text-right">Valeur</TableHead>
+                        <TableHead className="text-blue-600 text-right">+/- Value</TableHead>
+                        <TableHead className="text-blue-600 text-right">Perf %</TableHead>
+                        <TableHead className="text-blue-600 text-right">TER</TableHead>
+                        <TableHead className="text-blue-600"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {currentEnveloppe.supports.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={11} className="text-center text-cream/50 py-8">
+                          <TableCell colSpan={11} className="text-center text-gray-700/50 py-8">
                             Aucune position. Cliquez sur "Ajouter une ligne" pour commencer.
                           </TableCell>
                         </TableRow>
                       ) : (
                         currentEnveloppe.supports.map(support => (
-                          <TableRow key={support.id} className="hover:bg-midnight-lighter/50">
+                          <TableRow key={support.id} className="hover:bg-gradient-to-br from-blue-50 to-white-lighter/50">
                             <TableCell>
                               <div>
-                                <p className="font-semibold text-white">{support.nom}</p>
-                                <p className="text-xs text-cream/50">{support.zone_geo}</p>
+                                <p className="font-semibold text-gray-900">{support.nom}</p>
+                                <p className="text-xs text-gray-700/50">{support.zone_geo}</p>
                               </div>
                             </TableCell>
-                            <TableCell className="font-mono text-xs text-cream/70">{support.isin}</TableCell>
+                            <TableCell className="font-mono text-xs text-gray-600">{support.isin}</TableCell>
                             <TableCell>
                               <Badge variant={support.type === 'ETF' ? 'default' : 'secondary'}>
                                 {support.type}
                               </Badge>
                             </TableCell>
-                            <TableCell className="text-right text-white">{support.quantite}</TableCell>
-                            <TableCell className="text-right text-white">{formatCurrency(support.pru)}</TableCell>
-                            <TableCell className="text-right text-white">{formatCurrency(support.valeur_actuelle)}</TableCell>
-                            <TableCell className="text-right font-semibold text-white">
+                            <TableCell className="text-right text-gray-900">{support.quantite}</TableCell>
+                            <TableCell className="text-right text-gray-900">{formatCurrency(support.pru)}</TableCell>
+                            <TableCell className="text-right text-gray-900">{formatCurrency(support.valeur_actuelle)}</TableCell>
+                            <TableCell className="text-right font-semibold text-gray-900">
                               {formatCurrency(support.valeur_totale_ligne)}
                             </TableCell>
                             <TableCell className={`text-right font-semibold ${support.plus_value_latente_euros >= 0 ? 'text-green-400' : 'text-red-400'}`}>
@@ -496,7 +496,7 @@ export default function EnveloppeBoursePage() {
                             <TableCell className={`text-right ${support.plus_value_latente_pct >= 0 ? 'text-[#F59E0B]' : 'text-red-400'}`}>
                               {support.plus_value_latente_pct >= 0 ? '+' : ''}{support.plus_value_latente_pct.toFixed(2)}%
                             </TableCell>
-                            <TableCell className="text-right text-cream/70">{support.frais_ter}%</TableCell>
+                            <TableCell className="text-right text-gray-600">{support.frais_ter}%</TableCell>
                             <TableCell>
                               <Button
                                 variant="ghost"
@@ -517,10 +517,10 @@ export default function EnveloppeBoursePage() {
             </Card>
           </>
         ) : (
-          <Card className="bg-midnight-light border-midnight-lighter">
+          <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
             <CardContent className="py-12 text-center">
-              <Building2 className="w-16 h-16 text-gold/50 mx-auto mb-4" />
-              <p className="text-cream/70 text-lg">
+              <Building2 className="w-16 h-16 text-blue-600/50 mx-auto mb-4" />
+              <p className="text-gray-600 text-lg">
                 Aucune enveloppe boursière. Cliquez sur "Nouvelle enveloppe" pour commencer.
               </p>
             </CardContent>

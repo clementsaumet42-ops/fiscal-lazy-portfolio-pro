@@ -185,80 +185,80 @@ export default function AssuranceViePage() {
   }, 0)
 
   return (
-    <div className="min-h-screen bg-midnight">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             🛡️ Assurance-Vie
           </h1>
-          <p className="text-cream/70 text-lg">
+          <p className="text-gray-600 text-lg">
             Étape 6/11 - Détail de vos contrats d'assurance-vie
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="w-full bg-midnight-lighter rounded-full h-2">
-            <div className="bg-gold h-2 rounded-full transition-all duration-300" style={{ width: '54%' }}></div>
+          <div className="w-full bg-gradient-to-br from-blue-50 to-white-lighter rounded-full h-2">
+            <div className="bg-blue-600 h-2 rounded-full transition-all duration-300" style={{ width: '54%' }}></div>
           </div>
-          <p className="text-cream/70 text-sm mt-2">Progression: 6 sur 11 étapes</p>
+          <p className="text-gray-600 text-sm mt-2">Progression: 6 sur 11 étapes</p>
         </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card className="bg-gradient-to-r from-gold/20 to-gold/10 border-gold">
+          <Card className="bg-gradient-to-r from-gold/20 to-gold/10 border-blue-600">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-cream/70 text-sm mb-1">Valorisation Totale</p>
-                  <p className="text-2xl font-bold text-gold">{formatCurrency(totalValorisation)}</p>
+                  <p className="text-gray-600 text-sm mb-1">Valorisation Totale</p>
+                  <p className="text-2xl font-bold text-blue-600">{formatCurrency(totalValorisation)}</p>
                 </div>
-                <DollarSign className="w-10 h-10 text-gold/50" />
+                <DollarSign className="w-10 h-10 text-blue-600/50" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-midnight-light border-midnight-lighter">
+          <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-cream/70 text-sm mb-1">Performance Globale</p>
+                  <p className="text-gray-600 text-sm mb-1">Performance Globale</p>
                   <p className={`text-2xl font-bold ${totalPerformance >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {formatCurrency(totalPerformance)}
                   </p>
                 </div>
-                <TrendingUp className="w-10 h-10 text-cream/30" />
+                <TrendingUp className="w-10 h-10 text-gray-700/30" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-midnight-light border-midnight-lighter">
+          <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-cream/70 text-sm mb-1">Frais Annuels</p>
-                  <p className="text-2xl font-bold text-cream">{formatCurrency(totalFrais)}</p>
+                  <p className="text-gray-600 text-sm mb-1">Frais Annuels</p>
+                  <p className="text-2xl font-bold text-gray-700">{formatCurrency(totalFrais)}</p>
                 </div>
-                <Shield className="w-10 h-10 text-cream/30" />
+                <Shield className="w-10 h-10 text-gray-700/30" />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Contracts List */}
-        <Card className="bg-midnight-light border-midnight-lighter mb-6">
+        <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200 mb-6">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Building2 className="w-6 h-6 text-gold" />
-                <CardTitle className="text-white">Contrats d'Assurance-Vie ({assessment.assurances_vie.length})</CardTitle>
+                <Building2 className="w-6 h-6 text-blue-600" />
+                <CardTitle className="text-gray-900">Contrats d'Assurance-Vie ({assessment.assurances_vie.length})</CardTitle>
               </div>
               <Button
                 onClick={() => setShowAddContrat(!showAddContrat)}
                 variant="outline"
                 size="sm"
-                className="bg-midnight-lighter border-gold text-gold hover:bg-gold hover:text-midnight"
+                className="bg-gradient-to-br from-blue-50 to-white-lighter border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-midnight"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 Nouveau contrat
@@ -268,55 +268,55 @@ export default function AssuranceViePage() {
           <CardContent>
             {/* Add Contract Form */}
             {showAddContrat && (
-              <Card className="mb-4 bg-midnight border-midnight-lighter">
+              <Card className="mb-4 bg-gradient-to-br from-blue-50 to-white border-gray-200">
                 <CardContent className="pt-4">
-                  <h4 className="font-semibold text-white mb-4">Nouveau Contrat</h4>
+                  <h4 className="font-semibold text-gray-900 mb-4">Nouveau Contrat</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-cream">Établissement *</Label>
+                      <Label className="text-gray-700">Établissement *</Label>
                       <Input
                         value={newContrat.etablissement}
                         onChange={(e) => setNewContrat(prev => ({ ...prev, etablissement: e.target.value }))}
-                        className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                        className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                         placeholder="Ex: AXA, Boursorama"
                       />
                     </div>
                     <div>
-                      <Label className="text-cream">Numéro de contrat *</Label>
+                      <Label className="text-gray-700">Numéro de contrat *</Label>
                       <Input
                         value={newContrat.numero_contrat}
                         onChange={(e) => setNewContrat(prev => ({ ...prev, numero_contrat: e.target.value }))}
-                        className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                        className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                         placeholder="Ex: 123456789"
                       />
                     </div>
                     <div>
-                      <Label className="text-cream">Date de souscription</Label>
+                      <Label className="text-gray-700">Date de souscription</Label>
                       <Input
                         type="date"
                         value={newContrat.date_souscription instanceof Date ? newContrat.date_souscription.toISOString().split('T')[0] : ''}
                         onChange={(e) => setNewContrat(prev => ({ ...prev, date_souscription: new Date(e.target.value) }))}
-                        className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                        className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                       />
                     </div>
                     <div>
-                      <Label className="text-cream">Montant fonds euro (€)</Label>
+                      <Label className="text-gray-700">Montant fonds euro (€)</Label>
                       <Input
                         type="number"
                         value={newContrat.montant_fonds_euro}
                         onChange={(e) => setNewContrat(prev => ({ ...prev, montant_fonds_euro: parseFloat(e.target.value) || 0 }))}
-                        className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                        className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                         placeholder="0"
                       />
                     </div>
                     <div>
-                      <Label className="text-cream">Frais de gestion annuels (%)</Label>
+                      <Label className="text-gray-700">Frais de gestion annuels (%)</Label>
                       <Input
                         type="number"
                         step="0.01"
                         value={newContrat.frais_gestion_annuels}
                         onChange={(e) => setNewContrat(prev => ({ ...prev, frais_gestion_annuels: parseFloat(e.target.value) || 0 }))}
-                        className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                        className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                         placeholder="0"
                       />
                     </div>
@@ -326,14 +326,14 @@ export default function AssuranceViePage() {
                       type="button"
                       variant="outline"
                       onClick={() => setShowAddContrat(false)}
-                      className="bg-midnight-lighter border-midnight-lighter text-cream"
+                      className="bg-gradient-to-br from-blue-50 to-white-lighter border-gray-200 text-gray-700"
                     >
                       Annuler
                     </Button>
                     <Button
                       type="button"
                       onClick={handleAddContrat}
-                      className="bg-gold text-midnight hover:bg-gold/90"
+                      className="bg-blue-600 text-midnight hover:bg-blue-600/90"
                     >
                       Créer le contrat
                     </Button>
@@ -350,20 +350,20 @@ export default function AssuranceViePage() {
                     key={contrat.id} 
                     className={`cursor-pointer transition-all ${
                       selectedContrat === contrat.id 
-                        ? 'bg-gold/20 border-gold' 
-                        : 'bg-midnight border-midnight-lighter hover:border-gold/50'
+                        ? 'bg-blue-600/20 border-blue-600' 
+                        : 'bg-gradient-to-br from-blue-50 to-white border-gray-200 hover:border-blue-600/50'
                     }`}
                     onClick={() => setSelectedContrat(contrat.id)}
                   >
                     <CardContent className="pt-4">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h4 className="font-semibold text-white">{contrat.etablissement}</h4>
-                          <p className="text-sm text-cream/70 font-mono">{contrat.numero_contrat}</p>
-                          <p className="text-xs text-cream/50 mt-1">Souscrit le {formatDate(contrat.date_souscription)}</p>
+                          <h4 className="font-semibold text-gray-900">{contrat.etablissement}</h4>
+                          <p className="text-sm text-gray-600 font-mono">{contrat.numero_contrat}</p>
+                          <p className="text-xs text-gray-700/50 mt-1">Souscrit le {formatDate(contrat.date_souscription)}</p>
                           <div className="mt-3">
-                            <p className="text-lg font-bold text-gold">{formatCurrency(contrat.montant_total)}</p>
-                            <p className="text-xs text-cream/70">
+                            <p className="text-lg font-bold text-blue-600">{formatCurrency(contrat.montant_total)}</p>
+                            <p className="text-xs text-gray-600">
                               Fonds euro: {formatCurrency(contrat.montant_fonds_euro)} | 
                               UC: {formatCurrency(contrat.montant_unites_compte)}
                             </p>
@@ -371,7 +371,7 @@ export default function AssuranceViePage() {
                         </div>
                         <div className="flex flex-col gap-2">
                           {selectedContrat === contrat.id && (
-                            <Badge className="bg-gold text-midnight">Sélectionné</Badge>
+                            <Badge className="bg-blue-600 text-midnight">Sélectionné</Badge>
                           )}
                           <Button
                             variant="ghost"
@@ -394,19 +394,19 @@ export default function AssuranceViePage() {
                 ))}
               </div>
             ) : (
-              <p className="text-cream/50 text-center py-8">Aucun contrat d'assurance-vie ajouté</p>
+              <p className="text-gray-700/50 text-center py-8">Aucun contrat d'assurance-vie ajouté</p>
             )}
           </CardContent>
         </Card>
 
         {/* UC Supports Details */}
         {currentContrat && (
-          <Card className="bg-midnight-light border-midnight-lighter">
+          <Card className="bg-gradient-to-br from-blue-50 to-white-light border-gray-200">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Eye className="w-6 h-6 text-gold" />
-                  <CardTitle className="text-white">
+                  <Eye className="w-6 h-6 text-blue-600" />
+                  <CardTitle className="text-gray-900">
                     Supports UC - {currentContrat.etablissement} ({currentContrat.supports_uc.length})
                   </CardTitle>
                 </div>
@@ -414,7 +414,7 @@ export default function AssuranceViePage() {
                   onClick={() => setShowAddSupport(!showAddSupport)}
                   variant="outline"
                   size="sm"
-                  className="bg-midnight-lighter border-gold text-gold hover:bg-gold hover:text-midnight"
+                  className="bg-gradient-to-br from-blue-50 to-white-lighter border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-midnight"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Ajouter support
@@ -424,34 +424,34 @@ export default function AssuranceViePage() {
             <CardContent>
               {/* Add Support Form */}
               {showAddSupport && (
-                <Card className="mb-4 bg-midnight border-midnight-lighter">
+                <Card className="mb-4 bg-gradient-to-br from-blue-50 to-white border-gray-200">
                   <CardContent className="pt-4">
-                    <h4 className="font-semibold text-white mb-4">Nouveau Support UC</h4>
+                    <h4 className="font-semibold text-gray-900 mb-4">Nouveau Support UC</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       <div>
-                        <Label className="text-cream">Nom du support *</Label>
+                        <Label className="text-gray-700">Nom du support *</Label>
                         <Input
                           value={newSupport.nom_support}
                           onChange={(e) => setNewSupport(prev => ({ ...prev, nom_support: e.target.value }))}
-                          className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                          className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                           placeholder="Ex: Amundi MSCI World"
                         />
                       </div>
                       <div>
-                        <Label className="text-cream">ISIN *</Label>
+                        <Label className="text-gray-700">ISIN *</Label>
                         <Input
                           value={newSupport.isin}
                           onChange={(e) => setNewSupport(prev => ({ ...prev, isin: e.target.value.toUpperCase() }))}
-                          className="mt-1 bg-midnight-light border-midnight-lighter text-white font-mono"
+                          className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900 font-mono"
                           placeholder="FR0000000000"
                         />
                       </div>
                       <div>
-                        <Label className="text-cream">Catégorie</Label>
+                        <Label className="text-gray-700">Catégorie</Label>
                         <Select
                           value={newSupport.categorie}
                           onChange={(e) => setNewSupport(prev => ({ ...prev, categorie: e.target.value as any }))}
-                          className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                          className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                         >
                           <option value="Actions">Actions</option>
                           <option value="Obligations">Obligations</option>
@@ -461,33 +461,33 @@ export default function AssuranceViePage() {
                         </Select>
                       </div>
                       <div>
-                        <Label className="text-cream">Montant investi (€)</Label>
+                        <Label className="text-gray-700">Montant investi (€)</Label>
                         <Input
                           type="number"
                           value={newSupport.montant_investi}
                           onChange={(e) => setNewSupport(prev => ({ ...prev, montant_investi: parseFloat(e.target.value) || 0 }))}
-                          className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                          className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                           placeholder="0"
                         />
                       </div>
                       <div>
-                        <Label className="text-cream">Valeur actuelle (€)</Label>
+                        <Label className="text-gray-700">Valeur actuelle (€)</Label>
                         <Input
                           type="number"
                           value={newSupport.valeur_actuelle}
                           onChange={(e) => setNewSupport(prev => ({ ...prev, valeur_actuelle: parseFloat(e.target.value) || 0 }))}
-                          className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                          className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                           placeholder="0"
                         />
                       </div>
                       <div>
-                        <Label className="text-cream">Frais de gestion (%)</Label>
+                        <Label className="text-gray-700">Frais de gestion (%)</Label>
                         <Input
                           type="number"
                           step="0.01"
                           value={newSupport.frais_gestion}
                           onChange={(e) => setNewSupport(prev => ({ ...prev, frais_gestion: parseFloat(e.target.value) || 0 }))}
-                          className="mt-1 bg-midnight-light border-midnight-lighter text-white"
+                          className="mt-1 bg-gradient-to-br from-blue-50 to-white-light border-gray-200 text-gray-900"
                           placeholder="0"
                         />
                       </div>
@@ -497,14 +497,14 @@ export default function AssuranceViePage() {
                         type="button"
                         variant="outline"
                         onClick={() => setShowAddSupport(false)}
-                        className="bg-midnight-lighter border-midnight-lighter text-cream"
+                        className="bg-gradient-to-br from-blue-50 to-white-lighter border-gray-200 text-gray-700"
                       >
                         Annuler
                       </Button>
                       <Button
                         type="button"
                         onClick={handleAddSupport}
-                        className="bg-gold text-midnight hover:bg-gold/90"
+                        className="bg-blue-600 text-midnight hover:bg-blue-600/90"
                       >
                         Ajouter le support
                       </Button>
@@ -518,37 +518,37 @@ export default function AssuranceViePage() {
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
-                      <TableRow className="border-midnight-lighter">
-                        <TableHead className="text-cream">Support</TableHead>
-                        <TableHead className="text-cream">ISIN</TableHead>
-                        <TableHead className="text-cream">Catégorie</TableHead>
-                        <TableHead className="text-cream text-right">Montant investi</TableHead>
-                        <TableHead className="text-cream text-right">Valeur actuelle</TableHead>
-                        <TableHead className="text-cream text-right">Perf (€)</TableHead>
-                        <TableHead className="text-cream text-right">Perf (%)</TableHead>
-                        <TableHead className="text-cream text-right">Frais</TableHead>
-                        <TableHead className="text-cream text-center">Actions</TableHead>
+                      <TableRow className="border-gray-200">
+                        <TableHead className="text-gray-700">Support</TableHead>
+                        <TableHead className="text-gray-700">ISIN</TableHead>
+                        <TableHead className="text-gray-700">Catégorie</TableHead>
+                        <TableHead className="text-gray-700 text-right">Montant investi</TableHead>
+                        <TableHead className="text-gray-700 text-right">Valeur actuelle</TableHead>
+                        <TableHead className="text-gray-700 text-right">Perf (€)</TableHead>
+                        <TableHead className="text-gray-700 text-right">Perf (%)</TableHead>
+                        <TableHead className="text-gray-700 text-right">Frais</TableHead>
+                        <TableHead className="text-gray-700 text-center">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {currentContrat.supports_uc.map((support) => (
-                        <TableRow key={support.id} className="border-midnight-lighter hover:bg-midnight-lighter/30">
-                          <TableCell className="text-white font-medium">{support.nom_support}</TableCell>
-                          <TableCell className="text-cream/70 font-mono text-sm">{support.isin}</TableCell>
+                        <TableRow key={support.id} className="border-gray-200 hover:bg-gradient-to-br from-blue-50 to-white-lighter/30">
+                          <TableCell className="text-gray-900 font-medium">{support.nom_support}</TableCell>
+                          <TableCell className="text-gray-600 font-mono text-sm">{support.isin}</TableCell>
                           <TableCell>
-                            <Badge variant="outline" className="text-cream border-cream/30">
+                            <Badge variant="outline" className="text-gray-700 border-cream/30">
                               {support.categorie}
                             </Badge>
                           </TableCell>
-                          <TableCell className="text-white text-right">{formatCurrency(support.montant_investi)}</TableCell>
-                          <TableCell className="text-white text-right">{formatCurrency(support.valeur_actuelle)}</TableCell>
+                          <TableCell className="text-gray-900 text-right">{formatCurrency(support.montant_investi)}</TableCell>
+                          <TableCell className="text-gray-900 text-right">{formatCurrency(support.valeur_actuelle)}</TableCell>
                           <TableCell className={`text-right font-semibold ${support.performance_euros >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                             {formatCurrency(support.performance_euros)}
                           </TableCell>
                           <TableCell className={`text-right font-semibold ${support.performance_pct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                             {formatPercentage(support.performance_pct)}
                           </TableCell>
-                          <TableCell className="text-cream/70 text-right">{formatPercentage(support.frais_gestion)}</TableCell>
+                          <TableCell className="text-gray-600 text-right">{formatPercentage(support.frais_gestion)}</TableCell>
                           <TableCell className="text-center">
                             <Button
                               variant="ghost"
@@ -565,7 +565,7 @@ export default function AssuranceViePage() {
                   </Table>
                 </div>
               ) : (
-                <p className="text-cream/50 text-center py-8">Aucun support UC ajouté pour ce contrat</p>
+                <p className="text-gray-700/50 text-center py-8">Aucun support UC ajouté pour ce contrat</p>
               )}
             </CardContent>
           </Card>
@@ -576,13 +576,13 @@ export default function AssuranceViePage() {
           <Button
             variant="outline"
             onClick={() => router.push('/client/patrimoine/liquidites')}
-            className="bg-midnight-lighter border-midnight-lighter text-cream hover:bg-midnight hover:text-white"
+            className="bg-gradient-to-br from-blue-50 to-white-lighter border-gray-200 text-gray-700 hover:bg-gradient-to-br from-blue-50 to-white hover:text-gray-900"
           >
             ← Précédent
           </Button>
           <Button
             onClick={() => router.push('/client/patrimoine/bourse')}
-            className="bg-gold text-midnight hover:bg-gold/90 font-semibold"
+            className="bg-blue-600 text-midnight hover:bg-blue-600/90 font-semibold"
           >
             Suivant →
           </Button>

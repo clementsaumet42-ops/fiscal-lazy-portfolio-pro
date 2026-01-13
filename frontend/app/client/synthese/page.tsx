@@ -49,48 +49,48 @@ export default function SynthesePage() {
   const abattementRestant = Math.max(0, 100000 - totalDonations) // Simplified calculation
 
   return (
-    <div className="min-h-screen bg-midnight">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             📊 Synthèse Patrimoniale
           </h1>
-          <p className="text-cream/70 text-lg">
+          <p className="text-gray-600 text-lg">
             Étape 11/11 - Vue d'ensemble de votre situation
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="w-full bg-midnight-lighter rounded-full h-2">
-            <div className="bg-gold h-2 rounded-full transition-all duration-300" style={{ width: '100%' }}></div>
+          <div className="w-full bg-white-lighter rounded-full h-2">
+            <div className="bg-blue-600 h-2 rounded-full transition-all duration-300" style={{ width: '100%' }}></div>
           </div>
-          <p className="text-cream/70 text-sm mt-2">Progression: 11 sur 11 étapes ✅</p>
+          <p className="text-gray-600 text-sm mt-2">Progression: 11 sur 11 étapes ✅</p>
         </div>
 
         {/* Section 1: Vue d'ensemble */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-gold/30 to-gold/10 border-gold">
+          <Card className="bg-gradient-to-br from-gold/30 to-gold/10 border-blue-600">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-cream/70 text-sm mb-1">Patrimoine Brut</p>
-                  <p className="text-3xl font-bold text-gold">{formatCurrency(patrimoineBrut)}</p>
+                  <p className="text-gray-600 text-sm mb-1">Patrimoine Brut</p>
+                  <p className="text-3xl font-bold text-blue-600">{formatCurrency(patrimoineBrut)}</p>
                 </div>
-                <DollarSign className="w-12 h-12 text-gold/50" />
+                <DollarSign className="w-12 h-12 text-blue-600/50" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-midnight-light border-midnight-lighter">
+          <Card className="bg-white-light border-gray-200">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-cream/70 text-sm mb-1">Passifs (Dettes)</p>
+                  <p className="text-gray-600 text-sm mb-1">Passifs (Dettes)</p>
                   <p className="text-3xl font-bold text-red-400">{formatCurrency(passifs)}</p>
                 </div>
-                <TrendingUp className="w-12 h-12 text-cream/30" />
+                <TrendingUp className="w-12 h-12 text-gray-700/30" />
               </div>
             </CardContent>
           </Card>
@@ -99,7 +99,7 @@ export default function SynthesePage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-cream/70 text-sm mb-1">Patrimoine Net</p>
+                  <p className="text-gray-600 text-sm mb-1">Patrimoine Net</p>
                   <p className="text-3xl font-bold text-green-400">{formatCurrency(patrimoineNet)}</p>
                 </div>
                 <Shield className="w-12 h-12 text-green-400/50" />
@@ -109,13 +109,13 @@ export default function SynthesePage() {
         </div>
 
         {/* Section 2: Graphique d'allocation */}
-        <Card className="bg-midnight-light border-midnight-lighter mb-8">
+        <Card className="bg-white-light border-gray-200 mb-8">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Target className="w-6 h-6 text-gold" />
+            <CardTitle className="text-gray-900 flex items-center gap-2">
+              <Target className="w-6 h-6 text-blue-600" />
               Allocation d'Actifs
             </CardTitle>
-            <CardDescription className="text-cream/70">
+            <CardDescription className="text-gray-600">
               Répartition de votre patrimoine par classe d'actifs
             </CardDescription>
           </CardHeader>
@@ -151,7 +151,7 @@ export default function SynthesePage() {
                     </PieChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-cream/50">
+                  <div className="flex items-center justify-center h-full text-gray-700/50">
                     Aucune donnée patrimoniale disponible
                   </div>
                 )}
@@ -159,27 +159,27 @@ export default function SynthesePage() {
 
               {/* Allocation Table */}
               <div className="space-y-3">
-                <h4 className="font-semibold text-white mb-4">Détail de l'allocation</h4>
+                <h4 className="font-semibold text-gray-900 mb-4">Détail de l'allocation</h4>
                 {allocationData.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-midnight rounded-lg border border-midnight-lighter">
+                  <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
                     <div className="flex items-center gap-3">
                       <div 
                         className="w-4 h-4 rounded" 
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-white">{item.name}</span>
+                      <span className="text-gray-900">{item.name}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-white font-semibold">{formatCurrency(item.value)}</p>
-                      <p className="text-cream/70 text-sm">
+                      <p className="text-gray-900 font-semibold">{formatCurrency(item.value)}</p>
+                      <p className="text-gray-600 text-sm">
                         {formatPercentage(calculatePercentageAllocation(item.value))}
                       </p>
                     </div>
                   </div>
                 ))}
-                <div className="flex items-center justify-between p-3 bg-gold/20 rounded-lg border border-gold mt-4">
-                  <span className="text-white font-semibold">TOTAL</span>
-                  <span className="text-gold font-bold text-lg">{formatCurrency(patrimoineBrut)}</span>
+                <div className="flex items-center justify-between p-3 bg-blue-600/20 rounded-lg border border-blue-600 mt-4">
+                  <span className="text-gray-900 font-semibold">TOTAL</span>
+                  <span className="text-blue-600 font-bold text-lg">{formatCurrency(patrimoineBrut)}</span>
                 </div>
               </div>
             </div>
@@ -187,32 +187,32 @@ export default function SynthesePage() {
         </Card>
 
         {/* Section 3: Résumé fiscal */}
-        <Card className="bg-midnight-light border-midnight-lighter mb-8">
+        <Card className="bg-white-light border-gray-200 mb-8">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <FileText className="w-6 h-6 text-gold" />
+            <CardTitle className="text-gray-900 flex items-center gap-2">
+              <FileText className="w-6 h-6 text-blue-600" />
               Résumé Fiscal
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                <p className="text-cream/70 text-sm mb-2">Âge</p>
-                <p className="text-2xl font-bold text-white">{age} ans</p>
+              <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600 text-sm mb-2">Âge</p>
+                <p className="text-2xl font-bold text-gray-900">{age} ans</p>
               </div>
-              <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                <p className="text-cream/70 text-sm mb-2">TMI</p>
+              <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600 text-sm mb-2">TMI</p>
                 <Badge className={getTMIColor(tmi)}>
                   {tmi}%
                 </Badge>
               </div>
-              <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                <p className="text-cream/70 text-sm mb-2">IR année précédente</p>
-                <p className="text-xl font-bold text-white">{formatCurrency(ir)}</p>
+              <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600 text-sm mb-2">IR année précédente</p>
+                <p className="text-xl font-bold text-gray-900">{formatCurrency(ir)}</p>
               </div>
               {ifi > 0 && (
-                <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                  <p className="text-cream/70 text-sm mb-2">IFI</p>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-gray-600 text-sm mb-2">IFI</p>
                   <p className="text-xl font-bold text-orange-400">{formatCurrency(ifi)}</p>
                 </div>
               )}
@@ -221,40 +221,61 @@ export default function SynthesePage() {
         </Card>
 
         {/* Section 4: Statut successoral */}
-        <Card className="bg-midnight-light border-midnight-lighter mb-8">
+        <Card className="bg-white-light border-gray-200 mb-8">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Shield className="w-6 h-6 text-gold" />
+            <CardTitle className="text-gray-900 flex items-center gap-2">
+              <Shield className="w-6 h-6 text-blue-600" />
               Planification Successorale
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                <p className="text-cream/70 text-sm mb-2">Testament</p>
-                <Badge variant={hasTestament ? "default" : "outline"} className={hasTestament ? "bg-green-500" : "border-cream/30 text-cream"}>
+              <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600 text-sm mb-2">Testament</p>
+                <Badge variant={hasTestament ? "default" : "outline"} className={hasTestament ? "bg-green-500" : "border-cream/30 text-gray-700"}>
                   {hasTestament ? '✓ Oui' : '✗ Non'}
                 </Badge>
               </div>
-              <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                <p className="text-cream/70 text-sm mb-2">Donations réalisées</p>
-                <p className="text-xl font-bold text-white">{donationsCount}</p>
-                <p className="text-sm text-cream/70 mt-1">Total: {formatCurrency(totalDonations)}</p>
+              <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600 text-sm mb-2">Donations réalisées</p>
+                <p className="text-xl font-bold text-gray-900">{donationsCount}</p>
+                <p className="text-sm text-gray-600 mt-1">Total: {formatCurrency(totalDonations)}</p>
               </div>
-              <div className="p-4 bg-midnight rounded-lg border border-midnight-lighter">
-                <p className="text-cream/70 text-sm mb-2">Abattement restant</p>
+              <div className="p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600 text-sm mb-2">Abattement restant</p>
                 <p className="text-xl font-bold text-green-400">{formatCurrency(abattementRestant)}</p>
-                <p className="text-xs text-cream/70 mt-1">Par enfant (estimation)</p>
+                <p className="text-xs text-gray-600 mt-1">Par enfant (estimation)</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
+        {/* CTA vers préconisations */}
+        <Card className="bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-xl mb-8">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-3xl font-bold mb-4">
+              🎯 Prêt pour les préconisations ?
+            </h2>
+            <p className="text-lg mb-6 text-blue-50">
+              Votre bilan est terminé ! Découvrez maintenant l'allocation d'actifs optimale 
+              et les ETF recommandés pour votre profil.
+            </p>
+            <Button 
+              size="lg" 
+              className="bg-white text-blue-600 hover:bg-blue-50 shadow-lg text-lg px-8 py-6"
+              onClick={() => router.push('/client/recommandations')}
+            >
+              <TrendingUp className="w-6 h-6 mr-2" />
+              Voir mes préconisations
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <Button
             variant="outline"
-            className="bg-midnight-lighter border-midnight-lighter text-cream hover:bg-midnight hover:text-white h-16"
+            className="h-16"
             onClick={() => alert('Export PDF à implémenter')}
           >
             <Download className="w-5 h-5 mr-2" />
@@ -262,18 +283,11 @@ export default function SynthesePage() {
           </Button>
           <Button
             variant="outline"
-            className="bg-midnight-lighter border-midnight-lighter text-cream hover:bg-midnight hover:text-white h-16"
+            className="h-16"
             onClick={() => alert('Export Excel à implémenter')}
           >
             <Download className="w-5 h-5 mr-2" />
             Exporter en Excel
-          </Button>
-          <Button
-            className="bg-gold text-midnight hover:bg-gold/90 font-semibold h-16 text-lg"
-            onClick={() => router.push('/client/recommandations')}
-          >
-            <Target className="w-6 h-6 mr-2" />
-            Voir mes recommandations
           </Button>
         </div>
 
@@ -283,13 +297,12 @@ export default function SynthesePage() {
             type="button"
             variant="outline"
             onClick={() => router.push('/client/patrimoine/autres')}
-            className="bg-midnight-lighter border-midnight-lighter text-cream hover:bg-midnight hover:text-white"
           >
             ← Précédent
           </Button>
           <Button
             onClick={() => router.push('/client/recommandations')}
-            className="bg-gold text-midnight hover:bg-gold/90 font-semibold"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
           >
             Recommandations →
           </Button>
