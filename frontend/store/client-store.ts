@@ -203,60 +203,60 @@ export const useClientStore = create<ClientStore>()(
   updatePEAAudit: (id, audit) => set((state) => ({
     bilan: {
       ...state.bilan,
-      patrimoine: {
+      patrimoine: state.bilan.patrimoine ? {
         ...state.bilan.patrimoine,
         placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          pea: state.bilan.patrimoine?.placements_financiers?.pea?.map((p) =>
+          ...(state.bilan.patrimoine.placements_financiers || {}),
+          pea: (state.bilan.patrimoine.placements_financiers?.pea || []).map((p) =>
             p.id === id ? { ...p, ...audit } : p
-          ) || [],
+          ),
         },
-      },
+      } : state.bilan.patrimoine,
     },
   })),
 
   updateCTOAudit: (id, audit) => set((state) => ({
     bilan: {
       ...state.bilan,
-      patrimoine: {
+      patrimoine: state.bilan.patrimoine ? {
         ...state.bilan.patrimoine,
         placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          cto: state.bilan.patrimoine?.placements_financiers?.cto?.map((c) =>
+          ...(state.bilan.patrimoine.placements_financiers || {}),
+          cto: (state.bilan.patrimoine.placements_financiers?.cto || []).map((c) =>
             c.id === id ? { ...c, ...audit } : c
-          ) || [],
+          ),
         },
-      },
+      } : state.bilan.patrimoine,
     },
   })),
 
   updateAVAudit: (id, audit) => set((state) => ({
     bilan: {
       ...state.bilan,
-      patrimoine: {
+      patrimoine: state.bilan.patrimoine ? {
         ...state.bilan.patrimoine,
         placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          assurance_vie: state.bilan.patrimoine?.placements_financiers?.assurance_vie?.map((av) =>
+          ...(state.bilan.patrimoine.placements_financiers || {}),
+          assurance_vie: (state.bilan.patrimoine.placements_financiers?.assurance_vie || []).map((av) =>
             av.id === id ? { ...av, ...audit } : av
-          ) || [],
+          ),
         },
-      },
+      } : state.bilan.patrimoine,
     },
   })),
 
   updatePERAudit: (id, audit) => set((state) => ({
     bilan: {
       ...state.bilan,
-      patrimoine: {
+      patrimoine: state.bilan.patrimoine ? {
         ...state.bilan.patrimoine,
         placements_financiers: {
-          ...state.bilan.patrimoine?.placements_financiers,
-          per: state.bilan.patrimoine?.placements_financiers?.per?.map((p) =>
+          ...(state.bilan.patrimoine.placements_financiers || {}),
+          per: (state.bilan.patrimoine.placements_financiers?.per || []).map((p) =>
             p.id === id ? { ...p, ...audit } : p
-          ) || [],
+          ),
         },
-      },
+      } : state.bilan.patrimoine,
     },
   })),
   
