@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { Tooltip } from '@/components/ui/tooltip'
 import {
   Table,
   TableBody,
@@ -26,6 +27,7 @@ import {
   Download,
 } from 'lucide-react'
 import { processDocumentOCR, validateISIN, formatAmount } from '@/lib/utils/ocr'
+import { validateISINBatch } from '@/lib/services/isin-validator'
 import { ExtractedLine, OCRStatus } from '@/lib/types/ocr'
 import { TypeEnveloppeAudit } from '@/lib/types/audit'
 
@@ -47,6 +49,8 @@ interface DocumentState {
     errors: string[]
   } | null
   error: string | null
+  isValidating?: boolean
+  validationProgress?: { current: number; total: number }
 }
 
 export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentScannerProps) {
@@ -142,6 +146,11 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
             : d
         )
       )
+
+      // Start ISIN validation
+      if (result.lines.length > 0) {
+        await handleValidateDocument(docId)
+      }
     } catch (error) {
       // Update with error
       setDocuments((prev) =>
@@ -151,6 +160,82 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                 ...d,
                 status: 'error' as OCRStatus,
                 error: error instanceof Error ? error.message : 'Erreur inconnue',
+              }
+            : d
+        )
+      )
+    }
+  }
+
+  const handleValidateDocument = async (docId: string) => {
+    const doc = documents.find((d) => d.id === docId)
+    if (!doc?.result) return
+
+    // Mark as validating
+    setDocuments((prev) =>
+      prev.map((d) =>
+        d.id === docId
+          ? {
+              ...d,
+              isValidating: true,
+              validationProgress: { current: 0, total: d.result?.lines.length || 0 },
+            }
+          : d
+      )
+    )
+
+    try {
+      const isins = doc.result.lines.map((line) => line.isin)
+      const validationMap = await validateISINBatch(isins)
+
+      // Enrich lines with validation data
+      const enrichedLines = doc.result.lines.map((line) => {
+        const validation = validationMap.get(line.isin)
+
+        if (!validation) {
+          return line
+        }
+
+        const warnings = [...(line.warnings || [])]
+        if (validation.warning) {
+          warnings.push(validation.warning)
+        }
+
+        return {
+          ...line,
+          validated: validation.isValid,
+          officialName: validation.fundName || line.fundName,
+          assetClass: validation.assetClass,
+          securityType: validation.securityType,
+          eligible_pea: validation.eligible_pea,
+          confidence: Math.min(line.confidence, validation.confidence),
+          warnings: warnings.length > 0 ? warnings : undefined,
+        }
+      })
+
+      // Update with enriched data
+      setDocuments((prev) =>
+        prev.map((d) =>
+          d.id === docId
+            ? {
+                ...d,
+                result: d.result ? { ...d.result, lines: enrichedLines } : null,
+                isValidating: false,
+                validationProgress: undefined,
+              }
+            : d
+        )
+      )
+    } catch (error) {
+      console.error('Validation error:', error)
+      // Keep original data but mark as not validating
+      setDocuments((prev) =>
+        prev.map((d) =>
+          d.id === docId
+            ? {
+                ...d,
+                isValidating: false,
+                validationProgress: undefined,
               }
             : d
         )
@@ -373,6 +458,15 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                     </div>
                   )}
 
+                  {/* Validation Progress */}
+                  {doc.isValidating && doc.validationProgress && (
+                    <div className="flex items-center gap-2 text-sm text-blue-600 justify-center py-2">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Validation des ISIN via OpenFIGI... ({doc.validationProgress.current}/
+                      {doc.validationProgress.total})
+                    </div>
+                  )}
+
                   {/* Error Display */}
                   {doc.status === 'error' && doc.error && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -397,6 +491,7 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                             <TableHead>Nom du fonds</TableHead>
                             <TableHead className="text-right">Montant</TableHead>
                             <TableHead className="text-center">Confiance</TableHead>
+                            <TableHead className="text-center">Statut</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                           </TableRow>
                         </TableHeader>
@@ -437,7 +532,14 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                                       className="h-8"
                                     />
                                   ) : (
-                                    line.fundName
+                                    <div>
+                                      <div>{line.officialName || line.fundName}</div>
+                                      {line.officialName && line.officialName !== line.fundName && (
+                                        <div className="text-xs text-gray-500">
+                                          OCR: {line.fundName}
+                                        </div>
+                                      )}
+                                    </div>
                                   )}
                                 </TableCell>
                                 <TableCell className="text-right">
@@ -470,6 +572,57 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                                   >
                                     {(line.confidence * 100).toFixed(0)}%
                                   </Badge>
+                                </TableCell>
+                                <TableCell className="text-center">
+                                  <div className="flex items-center justify-center gap-1 flex-wrap">
+                                    {line.validated === true && (
+                                      <Tooltip
+                                        content={
+                                          <div className="text-left">
+                                            <div className="font-semibold mb-1">✓ Validé via OpenFIGI</div>
+                                            {line.securityType && (
+                                              <div>• Type: {line.securityType}</div>
+                                            )}
+                                            {line.assetClass && (
+                                              <div>• Classe d&apos;actifs: {line.assetClass}</div>
+                                            )}
+                                            {line.eligible_pea !== undefined && (
+                                              <div>
+                                                • Éligible PEA: {line.eligible_pea ? 'Oui' : 'Non'}
+                                              </div>
+                                            )}
+                                          </div>
+                                        }
+                                      >
+                                        <Badge className="bg-green-100 text-green-800 hover:bg-green-200 cursor-help">
+                                          ✓ Validé
+                                        </Badge>
+                                      </Tooltip>
+                                    )}
+                                    {line.validated === false && (
+                                      <Tooltip
+                                        content={
+                                          line.warnings && line.warnings.length > 0
+                                            ? line.warnings.join(', ')
+                                            : 'ISIN non validé'
+                                        }
+                                      >
+                                        <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-200 cursor-help">
+                                          ⚠️ Non validé
+                                        </Badge>
+                                      </Tooltip>
+                                    )}
+                                    {line.eligible_pea && (
+                                      <Badge className="bg-blue-100 text-blue-800">
+                                        🇪🇺 PEA
+                                      </Badge>
+                                    )}
+                                    {!isValidISIN && line.validated === undefined && (
+                                      <Badge className="bg-orange-100 text-orange-800">
+                                        ⚠️ Format invalide
+                                      </Badge>
+                                    )}
+                                  </div>
                                 </TableCell>
                                 <TableCell className="text-right">
                                   <div className="flex items-center justify-end gap-2">

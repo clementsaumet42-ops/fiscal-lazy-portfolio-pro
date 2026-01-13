@@ -10,6 +10,14 @@ export interface ExtractedLine {
   fundName: string
   amount: number
   confidence: number // OCR confidence score (0-1)
+  
+  // Validation fields (added by ISIN validation service)
+  validated?: boolean
+  officialName?: string
+  assetClass?: string
+  securityType?: string
+  eligible_pea?: boolean
+  warnings?: string[]
 }
 
 // OCR processing result
