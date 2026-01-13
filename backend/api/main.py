@@ -9,7 +9,7 @@ src_path = str(Path(__file__).parent.parent / "src")
 sys.path.insert(0, backend_path)
 sys.path.insert(0, src_path)
 
-from api.routes import clients, portfolios, optimization, backtests, compliance, providers, etfs, audit
+from api.routes import clients, portfolios, optimization, backtests, compliance, providers, etfs, audit, parametres_fiscaux, ged
 
 app = FastAPI(
     title="Fiscal Lazy Portfolio Pro API",
@@ -97,6 +97,8 @@ app.include_router(compliance.router, prefix="/api/compliance", tags=["Complianc
 app.include_router(providers.router, prefix="/api/providers", tags=["Providers"])
 app.include_router(etfs.router, prefix="/api/etfs", tags=["ETFs"])
 app.include_router(audit.router, prefix="/api/audit", tags=["Audit"])
+app.include_router(parametres_fiscaux.router, prefix="/api/parametres-fiscaux", tags=["Paramètres Fiscaux"])
+app.include_router(ged.router, prefix="/api/ged", tags=["GED"])
 
 
 @app.get("/")
