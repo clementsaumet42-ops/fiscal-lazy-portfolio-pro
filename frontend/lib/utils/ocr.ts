@@ -36,10 +36,11 @@ export async function extractTextFromImage(
 
 /**
  * Extract ISIN codes from text
- * Pattern: 2 letters + 10 alphanumeric characters
+ * Pattern: 2 country letters + 9 alphanumeric characters + 1 check digit
+ * Example: FR0010315770
  */
 export function extractISINs(text: string): string[] {
-  const pattern = /\b[A-Z]{2}[A-Z0-9]{10}\b/g
+  const pattern = /\b[A-Z]{2}[A-Z0-9]{9}[0-9]\b/g
   const matches = text.match(pattern) || []
   // Remove duplicates
   return Array.from(new Set(matches))
@@ -212,19 +213,16 @@ export async function processDocumentOCR(
 }
 
 /**
- * Validate ISIN code format
+ * Validate ISIN code format (basic check)
+ * ISIN format: 2 country letters + 9 alphanumeric characters + 1 check digit (total 12 chars)
+ * Example: FR0010315770
+ * Note: For full validation with checksum, use validateISIN from isin-validator service
  */
 export function validateISIN(isin: string): boolean {
-  // Basic format check: 2 letters + 10 alphanumeric
-  const pattern = /^[A-Z]{2}[A-Z0-9]{10}$/
+  // Basic format check: 2 letters + 9 alphanumeric + 1 digit
+  const pattern = /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/
   
-  if (!pattern.test(isin)) {
-    return false
-  }
-  
-  // Check digit validation (simplified)
-  // Full ISIN validation would require more complex checksum calculation
-  return true
+  return pattern.test(isin)
 }
 
 /**

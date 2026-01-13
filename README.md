@@ -96,6 +96,8 @@ NEXT_PUBLIC_OPENFIGI_API_KEY=your_api_key  # Optionnel - augmente les limites
 NEXT_PUBLIC_ISIN_CACHE_TTL=7              # Durée de cache en jours
 ```
 
+**⚠️ Note de sécurité:** L'API key OpenFIGI est exposée côté client (via `NEXT_PUBLIC_`). Pour une application en production avec de gros volumes, il est recommandé de créer un endpoint backend qui appelle OpenFIGI côté serveur pour protéger la clé API. L'API OpenFIGI gratuite ne nécessite pas de clé et fonctionne sans authentification.
+
 **Utilisation:**
 1. Téléchargez un relevé de compte (PDF/PNG/JPG)
 2. Cliquez sur "Analyser" pour lancer l'OCR

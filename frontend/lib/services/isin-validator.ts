@@ -56,6 +56,8 @@ async function getCache(): Promise<ISINCache> {
 
 /**
  * Validate ISIN format using regex
+ * ISIN format: 2 country letters + 9 alphanumeric characters + 1 check digit (total 12 chars)
+ * Example: FR0010315770
  */
 function validateISINFormat(isin: string): boolean {
   return /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(isin)

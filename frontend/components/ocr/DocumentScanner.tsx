@@ -588,14 +588,14 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                                             )}
                                             {line.eligible_pea !== undefined && (
                                               <div>
-                                                • Éligible PEA: {line.eligible_pea ? 'Oui' : 'Non'}
+                                                Éligible PEA: {line.eligible_pea ? 'Oui' : 'Non'}
                                               </div>
                                             )}
                                           </div>
                                         }
                                       >
                                         <Badge className="bg-green-100 text-green-800 hover:bg-green-200 cursor-help">
-                                          ✓ Validé
+                                          <span aria-label="Validé">✓</span> Validé
                                         </Badge>
                                       </Tooltip>
                                     )}
@@ -608,18 +608,18 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                                         }
                                       >
                                         <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-200 cursor-help">
-                                          ⚠️ Non validé
+                                          <span aria-label="Attention">⚠️</span> Non validé
                                         </Badge>
                                       </Tooltip>
                                     )}
                                     {line.eligible_pea && (
-                                      <Badge className="bg-blue-100 text-blue-800">
-                                        🇪🇺 PEA
+                                      <Badge className="bg-blue-100 text-blue-800" aria-label="Éligible PEA">
+                                        <span aria-hidden="true">🇪🇺</span> PEA
                                       </Badge>
                                     )}
                                     {!isValidISIN && line.validated === undefined && (
                                       <Badge className="bg-orange-100 text-orange-800">
-                                        ⚠️ Format invalide
+                                        <span aria-label="Attention">⚠️</span> Format invalide
                                       </Badge>
                                     )}
                                   </div>
