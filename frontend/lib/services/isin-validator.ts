@@ -295,7 +295,6 @@ export async function validateISIN(isin: string): Promise<ISINValidationResult> 
   }
 
   // Call API with retry logic
-  let lastError: Error | null = null
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const result = await validateWithOpenFIGI(normalizedISIN)
@@ -313,7 +312,6 @@ export async function validateISIN(isin: string): Promise<ISINValidationResult> 
       return result
     } catch (error) {
       if (error instanceof Error && error.message === 'RATE_LIMIT') {
-        lastError = error
         // Exponential backoff
         const delay = Math.pow(2, attempt) * 1000
         await new Promise((resolve) => setTimeout(resolve, delay))
