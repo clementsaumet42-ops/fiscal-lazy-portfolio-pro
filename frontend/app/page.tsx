@@ -1,131 +1,208 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { TrendingUp, Shield, FileText } from 'lucide-react'
+'use client';
 
-export default function Home() {
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { 
+  TrendingUp, 
+  Shield, 
+  Sparkles, 
+  ChevronRight,
+  BarChart3,
+  FileText,
+  Briefcase,
+  CheckCircle2
+} from 'lucide-react';
+
+export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-50 to-secondary-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Fiscal Lazy Portfolio Pro
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Optimisation fiscale de portefeuilles pour experts-comptables français
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/client/parcours">
-              <Button size="lg" className="text-lg px-8 py-6">
-                🚀 Démarrer le Parcours Complet
-              </Button>
-            </Link>
-            <Link href="/client/bilan/situation">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                📋 Bilan Patrimonial
-              </Button>
-            </Link>
+      <section className="relative overflow-hidden py-24 sm:py-32">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.primary),transparent)] opacity-20" />
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mx-auto max-w-3xl text-center animate-fade-in">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Plateforme Premium pour Experts-Comptables</span>
+            </div>
+            <h1 className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+              Optimisation Fiscale{' '}
+              <span className="bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text text-transparent">
+                Intelligente
+              </span>
+            </h1>
+            <p className="mb-10 text-xl text-muted-foreground">
+              La solution complète d'allocation d'actifs et d'optimisation fiscale dédiée aux professionnels du conseil patrimonial
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <Link href="/client/parcours">
+                <Button size="lg" className="gap-2 px-8 premium-shadow">
+                  <Sparkles className="h-5 w-5" />
+                  Démarrer une Simulation
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/dashboard">
+                <Button size="lg" variant="outline" className="gap-2 px-8">
+                  <BarChart3 className="h-5 w-5" />
+                  Voir le Dashboard
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Fonctionnalités clés
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <Card>
-              <CardHeader>
-                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                  <TrendingUp className="w-6 h-6 text-primary" />
-                </div>
-                <CardTitle>Bilan patrimonial complet</CardTitle>
-                <CardDescription>
-                  Collectez la situation personnelle, revenus, patrimoine et objectifs
-                  de vos clients en 4 étapes structurées
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 2 */}
-            <Card>
-              <CardHeader>
-                <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-secondary" />
-                </div>
-                <CardTitle>Audit de l'épargne existante</CardTitle>
-                <CardDescription>
-                  Analysez les placements actuels, identifiez les points d'amélioration
-                  et calculez le potentiel d'économie
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 3 */}
-            <Card>
-              <CardHeader>
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                  <FileText className="w-6 h-6 text-orange-600" />
-                </div>
-                <CardTitle>Recommandations personnalisées</CardTitle>
-                <CardDescription>
-                  Plan d'action détaillé avec comparaison avant/après, économies potentielles
-                  et priorisation des actions
-                </CardDescription>
-              </CardHeader>
-            </Card>
+      <section className="py-24 sm:py-32">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mx-auto max-w-2xl text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+              Tout ce dont vous avez besoin
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Une suite complète d'outils pour conseiller vos clients en toute confiance
+            </p>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-primary-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Prêt à optimiser vos portefeuilles ?
-          </h2>
-          <p className="text-xl text-primary-100 mb-8">
-            Auditez l'épargne existante ou créez une nouvelle simulation
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/client/parcours">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-                Parcours Client Complet
-              </Button>
-            </Link>
-            <Link href="/client/profil">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-6 bg-white">
-                Workflow Classique
-              </Button>
-            </Link>
+          
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <FeatureCard
+              icon={<BarChart3 className="h-8 w-8 text-primary" />}
+              title="Bilan Patrimonial"
+              description="Collectez et analysez la situation financière complète de vos clients"
+              features={[
+                "Questionnaire structuré",
+                "Analyse des revenus",
+                "Cartographie du patrimoine"
+              ]}
+            />
+            
+            <FeatureCard
+              icon={<TrendingUp className="h-8 w-8 text-primary" />}
+              title="Optimisation Fiscale"
+              description="Recommandations personnalisées basées sur le CGI 2026"
+              features={[
+                "24 ETFs référencés",
+                "Optimisation PEA/CTO",
+                "Calcul économies fiscales"
+              ]}
+            />
+            
+            <FeatureCard
+              icon={<FileText className="h-8 w-8 text-primary" />}
+              title="Rapports Automatisés"
+              description="Documentation professionnelle prête à livrer à vos clients"
+              features={[
+                "Export PDF haute qualité",
+                "Branding personnalisable",
+                "Conformité réglementaire"
+              ]}
+            />
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <section className="border-y border-border/40 bg-muted/20 py-16">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4 text-center">
             <div>
               <div className="text-4xl font-bold text-primary mb-2">24</div>
-              <div className="text-gray-600">ETFs référencés</div>
+              <div className="text-sm text-muted-foreground">ETFs référencés</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-secondary mb-2">21</div>
-              <div className="text-gray-600">Providers comparés</div>
+              <div className="text-4xl font-bold text-primary mb-2">21</div>
+              <div className="text-sm text-muted-foreground">Providers comparés</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange-600 mb-2">100%</div>
-              <div className="text-gray-600">Conforme CGI</div>
+              <div className="text-4xl font-bold text-primary mb-2">100%</div>
+              <div className="text-sm text-muted-foreground">Conforme CGI</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-primary mb-2">€€€</div>
+              <div className="text-sm text-muted-foreground">Économies générées</div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* CTA Section */}
+      <section className="py-24 sm:py-32">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <Card className="glass-card premium-shadow overflow-hidden">
+            <div className="relative p-12 text-center">
+              <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 to-transparent" />
+              <Briefcase className="mx-auto h-12 w-12 text-primary mb-6" />
+              <h2 className="text-3xl font-bold tracking-tight mb-4">
+                Prêt à transformer votre conseil patrimonial ?
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Rejoignez les experts-comptables qui utilisent déjà Fiscal Lazy Portfolio Pro pour optimiser les portefeuilles de leurs clients
+              </p>
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                <Link href="/client/parcours">
+                  <Button size="lg" className="gap-2 px-8 premium-shadow">
+                    <Sparkles className="h-5 w-5" />
+                    Commencer Maintenant
+                  </Button>
+                </Link>
+                <Link href="/client/profil">
+                  <Button size="lg" variant="outline" className="gap-2 px-8">
+                    Nouveau Client
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border/40 py-8">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold bg-gradient-to-r from-primary to-amber-400 bg-clip-text text-transparent">
+                Fiscal Lazy Portfolio Pro
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © 2026 Fiscal Lazy Portfolio Pro. Tous droits réservés.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
-  )
+  );
+}
+
+interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  features: string[];
+}
+
+function FeatureCard({ icon, title, description, features }: FeatureCardProps) {
+  return (
+    <Card className="relative overflow-hidden transition-all hover:shadow-lg hover:shadow-primary/20">
+      <div className="p-8">
+        <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10">
+          {icon}
+        </div>
+        <h3 className="mb-2 text-xl font-semibold">{title}</h3>
+        <p className="mb-6 text-sm text-muted-foreground">{description}</p>
+        <ul className="space-y-2">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-start gap-2 text-sm">
+              <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Card>
+  );
 }
