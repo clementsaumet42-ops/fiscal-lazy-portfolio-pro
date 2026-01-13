@@ -304,3 +304,131 @@ Plateforme institutionnelle complète pour experts-comptables français avec:
 ---
 
 **Fait avec ❤️ pour les Experts-Comptables Français**
+
+---
+
+## 🎨 Design System
+
+### Premium Midnight Blue + Gold Theme
+
+The application features a sophisticated, premium design system with a dark midnight blue base and luxurious gold accents, providing a professional appearance suitable for financial advisors and expert-comptables.
+
+#### Color Palette
+
+**Primary Colors:**
+- **Midnight Blue** (Primary Background)
+  - Default: `#0F172A` - Main background
+  - Light: `#1E293B` - Card backgrounds
+  - Lighter: `#334155` - Borders, dividers
+  - Dark: `#020617` - Deep backgrounds
+
+- **Gold** (Accent & Emphasis)
+  - Default: `#F59E0B` - Primary accent
+  - Dark: `#D97706` - Hover states
+  - Light: `#FCD34D` - Highlights
+
+- **Cream** (Text on Dark)
+  - Default: `#FFFBEB` - Body text, subtle contrast
+
+**Semantic Colors:**
+- **Success**: `#10B981` - Positive trends, confirmations
+- **Error**: `#EF4444` - Alerts, negative trends
+
+#### Typography
+
+- **Headings**: Font weight 700, tracking-tight, white with gold accents
+- **Body Text**: Font weight 400-500, cream/white color
+- **Accent Text**: Gold color for emphasis
+- **Large Titles**: text-4xl to text-6xl with optional gradient effects
+
+#### Component Patterns
+
+##### Buttons
+```tsx
+// Primary Gold Button
+<Button variant="gold">Primary Action</Button>
+
+// Outline Button
+<Button variant="outline">Secondary Action</Button>
+
+// Ghost Button
+<Button variant="ghost">Subtle Action</Button>
+```
+
+##### Cards
+```tsx
+// Dark card with hover effect
+<Card className="card-hover">
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    Content
+  </CardContent>
+</Card>
+```
+
+##### Input Fields
+```tsx
+// Dark background with gold focus ring
+<Input 
+  className="bg-midnight border-midnight-lighter focus:border-gold"
+  placeholder="Enter value..."
+/>
+```
+
+##### Navigation
+- **Sticky header** with backdrop blur (`backdrop-blur-lg`)
+- **Gold active states** for current page
+- **Hover effects** with gold borders
+
+#### Custom Components
+
+##### StatCard
+Used for displaying key metrics with icons and optional trend indicators:
+```tsx
+<StatCard
+  value="€2.5M+"
+  label="Patrimoine Optimisé"
+  icon={DollarSign}
+  trend={{ value: 12, isPositive: true }}
+/>
+```
+
+##### FeatureCard
+Used for showcasing features with icons and descriptions:
+```tsx
+<FeatureCard
+  icon={TrendingUp}
+  title="Optimisation Fiscale"
+  description="Placement optimal des actifs selon les enveloppes fiscales"
+/>
+```
+
+#### Utility Classes
+
+```css
+/* Gold gradient text */
+.text-gradient-gold
+
+/* Gold gradient background */
+.gold-gradient
+
+/* Card hover effect with gold border */
+.card-hover
+```
+
+#### Box Shadows
+
+- `shadow-gold` - Subtle gold glow
+- `shadow-gold-lg` - Prominent gold glow  
+- `shadow-premium` - Deep shadow for elevation
+
+#### Accessibility
+
+- **WCAG AA compliant** color contrast ratios
+- **Focus indicators** with gold rings on all interactive elements
+- **Semantic HTML** with proper ARIA labels
+
+---
