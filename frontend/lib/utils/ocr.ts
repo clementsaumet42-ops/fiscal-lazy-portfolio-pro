@@ -2,7 +2,7 @@
  * OCR utility functions using Tesseract.js
  */
 
-import Tesseract, { createWorker } from 'tesseract.js'
+import { createWorker } from 'tesseract.js'
 import { ExtractedLine, OCRResult } from '@/lib/types/ocr'
 
 /**

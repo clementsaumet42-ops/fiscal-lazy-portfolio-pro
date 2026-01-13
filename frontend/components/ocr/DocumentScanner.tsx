@@ -293,9 +293,9 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
               onChange={handleFileInput}
               className="hidden"
             />
-            <label htmlFor="file-upload">
-              <Button variant="outline" className="cursor-pointer" asChild>
-                <span>Sélectionner des fichiers</span>
+            <label htmlFor="file-upload" className="cursor-pointer">
+              <Button variant="outline" type="button">
+                Sélectionner des fichiers
               </Button>
             </label>
             <p className="text-sm text-gray-500 mt-4">
@@ -374,7 +374,7 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                   )}
 
                   {/* Error Display */}
-                  {doc.error && (
+                  {doc.status === 'error' && doc.error && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                       <p className="text-sm text-red-800">{doc.error}</p>
                     </div>
@@ -554,7 +554,7 @@ export function DocumentScanner({ onImportComplete, typeEnveloppe }: DocumentSca
                 <li>Utilisez des documents de bonne qualité (scan haute résolution)</li>
                 <li>Assurez-vous que le texte est lisible et non flouté</li>
                 <li>Évitez les documents avec des fonds colorés ou des motifs complexes</li>
-                <li>Vérifiez et corrigez les données extraites avant l'import</li>
+                <li>Vérifiez et corrigez les données extraites avant l&apos;import</li>
               </ul>
             </div>
           </div>

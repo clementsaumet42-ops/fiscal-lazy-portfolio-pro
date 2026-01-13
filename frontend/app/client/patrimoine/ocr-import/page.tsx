@@ -57,11 +57,20 @@ export default function OCRImportPage() {
   const [showSuccess, setShowSuccess] = useState(false)
 
   const handleImportComplete = (lines: ExtractedLine[]) => {
+    // Map enveloppe type to placement type
+    const typeMap: Record<TypeEnveloppeAudit, 'pea' | 'cto' | 'per' | 'assurance_vie'> = {
+      PEA: 'pea',
+      CTO: 'cto',
+      PER: 'per',
+      AV: 'assurance_vie',
+      IS: 'cto', // Map IS to CTO for now
+    }
+    
     // Add each line as a placement
     lines.forEach((line) => {
       const placement = {
         id: `${selectedType}-${line.isin}-${Date.now()}`,
-        type: selectedType.toLowerCase() as any,
+        type: typeMap[selectedType],
         nom: line.fundName,
         etablissement: 'Importé via OCR',
         montant: line.amount,
@@ -97,7 +106,7 @@ export default function OCRImportPage() {
         </Button>
         
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Import par OCR - Relevés d'Investissement
+          Import par OCR - Relevés d&apos;Investissement
         </h1>
         <p className="text-gray-600">
           Scannez automatiquement vos relevés de situation pour extraire les données (ISIN, noms de fonds, montants).
@@ -128,9 +137,9 @@ export default function OCRImportPage() {
       {/* Type Selection */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Type d'enveloppe</CardTitle>
+          <CardTitle>Type d&apos;enveloppe</CardTitle>
           <CardDescription>
-            Sélectionnez le type d'enveloppe fiscale correspondant à vos relevés
+            Sélectionnez le type d&apos;enveloppe fiscale correspondant à vos relevés
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -182,7 +191,7 @@ export default function OCRImportPage() {
       {/* Info Card */}
       <Card className="mt-6 border-gray-200">
         <CardHeader>
-          <CardTitle className="text-lg">À propos de l'extraction OCR</CardTitle>
+          <CardTitle className="text-lg">À propos de l&apos;extraction OCR</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4 text-sm text-gray-600">
