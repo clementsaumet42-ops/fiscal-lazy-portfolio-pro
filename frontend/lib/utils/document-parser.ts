@@ -1,27 +1,57 @@
 /**
  * Parseur de documents pour l'extraction de données de relevés
- * Version MVP avec données de démonstration
+ * Version MVP avec données de démonstration + OCR
  */
 
 import { ReleveParse, PositionExtraite, TypeEnveloppeAudit } from '../types/audit';
+import { processDocumentOCR } from './ocr';
 
 /**
  * Parse un document uploadé (PDF ou image)
- * Pour le MVP, génère des données de démonstration
- * TODO V2: Intégrer extraction PDF réelle (pdf-parse) et OCR (Tesseract.js)
+ * Peut utiliser OCR (Tesseract.js) ou générer des données de démonstration
  * 
  * @param file - Fichier à parser
  * @param type_enveloppe - Type d'enveloppe fiscale
+ * @param useOCR - Si true, utilise OCR réel, sinon génère données démo (default: false)
  * @returns Données extraites du relevé
  */
 export async function parseDocument(
   file: File, 
-  type_enveloppe: TypeEnveloppeAudit
+  type_enveloppe: TypeEnveloppeAudit,
+  useOCR: boolean = false
 ): Promise<ReleveParse> {
-  // Simuler un délai de parsing
+  if (useOCR && (file.type.startsWith('image/') || file.type === 'application/pdf')) {
+    try {
+      // Use real OCR
+      const ocrResult = await processDocumentOCR(file);
+      
+      // Convert OCR result to ReleveParse format
+      const positions: PositionExtraite[] = ocrResult.lines.map(line => ({
+        nom_support: line.fundName,
+        isin: line.isin,
+        montant: line.amount,
+        frais: 0, // Will need to be filled manually
+        categorie: 'Non classé',
+      }));
+      
+      const montant_total = positions.reduce((sum, pos) => sum + pos.montant, 0);
+      
+      return {
+        type_enveloppe,
+        date_valorisation: new Date(),
+        montant_total,
+        positions,
+        frais_detectes: generateDemoFrais(type_enveloppe),
+      };
+    } catch (error) {
+      console.error('OCR failed, falling back to demo data:', error);
+      // Fall back to demo data on error
+    }
+  }
+  
+  // Default: Generate demo data
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Générer des positions de démo selon le type d'enveloppe
   const positions = generateDemoPositions(type_enveloppe);
   const montant_total = positions.reduce((sum, pos) => sum + pos.montant, 0);
   
