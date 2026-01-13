@@ -19,7 +19,7 @@ export default function AuditEnveloppePage() {
   
   const { bilan, updatePEAAudit, updateCTOAudit, updateAVAudit, updatePERAudit } = useClientStore()
 
-  const [document, setDocument] = useState<DocumentAudit | null>(null)
+  const [uploadedDocument, setUploadedDocument] = useState<DocumentAudit | null>(null)
   const [lignes, setLignes] = useState<LigneAudit[]>([])
   const [showManualEntry, setShowManualEntry] = useState(false)
 
@@ -40,7 +40,7 @@ export default function AuditEnveloppePage() {
 
       if (enveloppe) {
         setLignes(enveloppe.lignes || [])
-        setDocument(enveloppe.document || null)
+        setUploadedDocument(enveloppe.document || null)
         if (enveloppe.lignes && enveloppe.lignes.length > 0) {
           setShowManualEntry(true)
         }
@@ -51,11 +51,11 @@ export default function AuditEnveloppePage() {
   // Cleanup blob URLs to prevent memory leaks
   useEffect(() => {
     return () => {
-      if (document?.url.startsWith('blob:')) {
-        URL.revokeObjectURL(document.url)
+      if (uploadedDocument?.url.startsWith('blob:')) {
+        URL.revokeObjectURL(uploadedDocument.url)
       }
     }
-  }, [document])
+  }, [uploadedDocument])
 
   const handleFileUpload = async (file: File) => {
     const newDocument: DocumentAudit = {
@@ -69,7 +69,7 @@ export default function AuditEnveloppePage() {
       enveloppe_id: id,
     }
     
-    setDocument(newDocument)
+    setUploadedDocument(newDocument)
     setShowManualEntry(true)
   }
 
@@ -111,7 +111,7 @@ export default function AuditEnveloppePage() {
     
     const audit = {
       lignes,
-      document: document || undefined,
+      document: uploadedDocument || undefined,
       tco,
     }
 
@@ -171,7 +171,7 @@ export default function AuditEnveloppePage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {!document ? (
+            {!uploadedDocument ? (
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors">
                 <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                 <p className="mb-4 text-gray-600">
@@ -200,9 +200,9 @@ export default function AuditEnveloppePage() {
                 <div className="flex items-center gap-3">
                   <FileText className="w-8 h-8 text-green-600" />
                   <div>
-                    <p className="font-medium">{document.nom}</p>
+                    <p className="font-medium">{uploadedDocument.nom}</p>
                     <p className="text-sm text-gray-500">
-                      Uploadé le {new Date(document.date_upload).toLocaleDateString('fr-FR')}
+                      Uploadé le {new Date(uploadedDocument.date_upload).toLocaleDateString('fr-FR')}
                     </p>
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export default function AuditEnveloppePage() {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    setDocument(null)
+                    setUploadedDocument(null)
                   }}
                 >
                   <X className="w-4 h-4" />
@@ -218,7 +218,7 @@ export default function AuditEnveloppePage() {
               </div>
             )}
 
-            {!showManualEntry && !document && (
+            {!showManualEntry && !uploadedDocument && (
               <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded flex items-start gap-3">
                 <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
                 <div className="text-sm text-blue-900">
