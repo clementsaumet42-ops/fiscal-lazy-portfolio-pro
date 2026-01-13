@@ -2,6 +2,8 @@
  * Types pour l'audit intégré de l'épargne dans le bilan patrimonial
  */
 
+import type { ReferenceCGI } from '@/lib/constants/references-cgi'
+
 // Types pour chaque ligne de placement
 export interface LigneAudit {
   id: string
@@ -32,12 +34,39 @@ export interface DocumentAudit {
   enveloppe_id: string
 }
 
-// Calcul TCO
+// Calcul TCO (simplifié - rétrocompatibilité)
 export interface TCOCalculation {
   frais_totaux_annuels: number
   drag_fiscal_annuel: number
   cout_opportunite: number
   tco_total: number
+}
+
+// Calcul TCO détaillé avec explications et références CGI
+export interface TCODetailed extends TCOCalculation {
+  // Métriques complémentaires
+  ter_moyen_pondere: number // Total Expense Ratio moyen pondéré
+  taux_fiscalite_effective: number // Taux effectif de fiscalité appliqué
+  ratio_frais_valorisation: number // Ratio frais / valorisation totale
+  
+  // Explications détaillées
+  explications: {
+    frais: string
+    fiscalite: string
+    opportunite: string
+  }
+  
+  // Références légales CGI
+  references_cgi: ReferenceCGI[]
+  
+  // Détails fiscaux
+  details_fiscaux?: {
+    tmi_appliquee?: number
+    ps_appliques: number
+    taux_ir?: number
+    abattement_applique?: number
+    anciennete_annees?: number
+  }
 }
 
 // Enveloppes enrichies avec audit

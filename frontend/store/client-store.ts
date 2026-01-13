@@ -5,6 +5,7 @@ import { AuditState, DocumentImporte, AnalyseExistant, OptimisationProposee, Pla
 import { BilanPatrimonial, SituationPersonnelle, RevenusCharges, PatrimoineExistant, ObjectifsPatrimoniaux } from '@/lib/types/bilan'
 import { RecommandationsState, ComparaisonAllocation, PlanAction } from '@/lib/types/recommandations'
 import type { LigneAudit, DocumentAudit, TCOCalculation } from '@/lib/types/bilan-audit'
+import type { SituationFiscale } from '@/lib/types/situation-fiscale'
 import { 
   ClientAssessment, 
   PriseConnaissance, 
@@ -67,6 +68,10 @@ interface ClientStore extends ClientState {
   validerAction: (actionId: string) => void
   realiserAction: (actionId: string) => void
   resetRecommandations: () => void
+  
+  // Situation fiscale (pour calculs TCO professionnels)
+  situationFiscale: SituationFiscale | null
+  setSituationFiscale: (situation: SituationFiscale) => void
   
   // Professional Assessment Workflow
   assessment: ClientAssessment
@@ -142,6 +147,9 @@ const initialAssessmentState: ClientAssessment = {
   autres_actifs: null,
 }
 
+// Situation fiscale par défaut (TMI 30%, célibataire)
+const initialSituationFiscale: SituationFiscale | null = null
+
 export const useClientStore = create<ClientStore>()(
   persist(
     (set, get) => ({
@@ -150,6 +158,7 @@ export const useClientStore = create<ClientStore>()(
       bilan: initialBilanState,
       recommandations: initialRecommandationsState,
       assessment: initialAssessmentState,
+      situationFiscale: initialSituationFiscale,
   
   // Workflow classique
   setProfil: (profil) => set({ profil }),
@@ -353,6 +362,9 @@ export const useClientStore = create<ClientStore>()(
   })),
   
   resetRecommandations: () => set({ recommandations: initialRecommandationsState }),
+  
+  // Situation fiscale
+  setSituationFiscale: (situation) => set({ situationFiscale: situation }),
   
   // Professional Assessment Workflow
   setPriseConnaissance: (data) => set((state) => ({

@@ -6,22 +6,28 @@ import { useClientStore } from '@/store/client-store'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Upload, Plus, Trash2, Save, AlertCircle, FileText, CheckCircle, X, ArrowLeft } from 'lucide-react'
+import { Label } from '@/components/ui/label'
+import { Upload, Plus, Trash2, Save, AlertCircle, FileText, X, ArrowLeft, ExternalLink } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 import { generateId } from '@/lib/utils/assessment/helpers'
-import { calculateTCO } from '@/lib/utils/tco-calculator'
-import type { LigneAudit, DocumentAudit } from '@/lib/types/bilan-audit'
+import { calculateTCO, calculateTCODetailed } from '@/lib/utils/tco-calculator'
+import SituationFiscaleForm from '@/components/bilan/SituationFiscaleForm'
+import type { LigneAudit, DocumentAudit, TCODetailed } from '@/lib/types/bilan-audit'
+import type { ReferenceCGI } from '@/lib/constants/references-cgi'
 
 export default function AuditEnveloppePage() {
   const router = useRouter()
   const params = useParams()
   const { type, id } = params as { type: string, id: string }
   
-  const { bilan, updatePEAAudit, updateCTOAudit, updateAVAudit, updatePERAudit } = useClientStore()
+  const { bilan, situationFiscale, updatePEAAudit, updateCTOAudit, updateAVAudit, updatePERAudit } = useClientStore()
 
   const [uploadedDocument, setUploadedDocument] = useState<DocumentAudit | null>(null)
   const [lignes, setLignes] = useState<LigneAudit[]>([])
   const [showManualEntry, setShowManualEntry] = useState(false)
+  const [dateOuverture, setDateOuverture] = useState<string>('')
+  const [pourcentageFondsEuros, setPourcentageFondsEuros] = useState<number>(30)
+  const [showSituationFiscale, setShowSituationFiscale] = useState(false)
 
   // Charger les données existantes si disponibles
   useEffect(() => {
@@ -43,6 +49,16 @@ export default function AuditEnveloppePage() {
         setUploadedDocument(enveloppe.document || null)
         if (enveloppe.lignes && enveloppe.lignes.length > 0) {
           setShowManualEntry(true)
+        }
+        
+        // Charger la date d'ouverture si disponible
+        if (enveloppe.date_ouverture) {
+          setDateOuverture(enveloppe.date_ouverture)
+        }
+        
+        // Charger le pourcentage fonds euros pour AV
+        if (type === 'av' && enveloppe.fonds_euros_pourcentage !== undefined) {
+          setPourcentageFondsEuros(enveloppe.fonds_euros_pourcentage * 100)
         }
       }
     }
@@ -107,7 +123,21 @@ export default function AuditEnveloppePage() {
   }
 
   const handleSave = () => {
-    const tco = calculateTCO(lignes, type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER')
+    // Utiliser le calcul professionnel si la situation fiscale est disponible
+    let tco
+    if (situationFiscale && dateOuverture && lignes.length > 0) {
+      const tcoDetailed = calculateTCODetailed(
+        lignes,
+        type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER',
+        situationFiscale,
+        dateOuverture,
+        type === 'av' ? pourcentageFondsEuros / 100 : undefined
+      )
+      tco = tcoDetailed
+    } else {
+      // Fallback vers le calcul simplifié
+      tco = calculateTCO(lignes, type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER')
+    }
     
     const audit = {
       lignes,
@@ -129,9 +159,21 @@ export default function AuditEnveloppePage() {
     router.back()
   }
 
-  const tco = lignes.length > 0 
-    ? calculateTCO(lignes, type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER')
-    : null
+  // Calculer le TCO en temps réel
+  let tco: TCODetailed | any = null
+  if (lignes.length > 0) {
+    if (situationFiscale && dateOuverture) {
+      tco = calculateTCODetailed(
+        lignes,
+        type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER',
+        situationFiscale,
+        dateOuverture,
+        type === 'av' ? pourcentageFondsEuros / 100 : undefined
+      )
+    } else {
+      tco = calculateTCO(lignes, type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER')
+    }
+  }
 
   const typeLabels = {
     pea: 'PEA',
@@ -241,12 +283,103 @@ export default function AuditEnveloppePage() {
           </CardContent>
         </Card>
 
-        {/* Étape 2: Saisie manuelle */}
+        {/* Informations fiscales */}
+        {showManualEntry && (
+          <>
+            {/* Situation fiscale */}
+            {!situationFiscale && (
+              <Card className="mb-6 border-yellow-200 bg-yellow-50">
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium text-yellow-900 mb-2">
+                        ⚠️ Situation fiscale non renseignée
+                      </p>
+                      <p className="text-sm text-yellow-800 mb-3">
+                        Pour un calcul précis du TCO conforme au CGI, veuillez renseigner votre situation fiscale.
+                      </p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowSituationFiscale(!showSituationFiscale)}
+                      >
+                        {showSituationFiscale ? 'Masquer' : 'Renseigner ma situation fiscale'}
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {showSituationFiscale && (
+              <div className="mb-6">
+                <SituationFiscaleForm />
+              </div>
+            )}
+
+            {/* Date d'ouverture et paramètres */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</span>
+                  Informations de l'enveloppe
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {(type === 'pea' || type === 'av') && (
+                    <div className="space-y-2">
+                      <Label htmlFor="date-ouverture" className="font-medium">
+                        Date d'ouverture {type === 'pea' && '(importante pour la fiscalité après 5 ans)'}
+                      </Label>
+                      <Input
+                        id="date-ouverture"
+                        type="date"
+                        value={dateOuverture}
+                        onChange={(e) => setDateOuverture(e.target.value)}
+                        max={new Date().toISOString().split('T')[0]}
+                      />
+                      {dateOuverture && (
+                        <p className="text-xs text-gray-500">
+                          Ouvert depuis {Math.floor((new Date().getTime() - new Date(dateOuverture).getTime()) / (1000 * 60 * 60 * 24 * 365.25))} ans
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  
+                  {type === 'av' && (
+                    <div className="space-y-2">
+                      <Label htmlFor="fonds-euros" className="font-medium">
+                        Pourcentage en fonds euros (pour calcul PS annuels)
+                      </Label>
+                      <div className="flex items-center gap-3">
+                        <Input
+                          id="fonds-euros"
+                          type="number"
+                          min="0"
+                          max="100"
+                          step="5"
+                          value={pourcentageFondsEuros}
+                          onChange={(e) => setPourcentageFondsEuros(parseFloat(e.target.value) || 0)}
+                          className="w-32"
+                        />
+                        <span className="text-sm text-gray-600">%</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </>
+        )}
+
+        {/* Étape 3: Saisie manuelle */}
         {showManualEntry && (
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</span>
+                <span className="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</span>
                 Détail des positions
               </CardTitle>
             </CardHeader>
@@ -364,13 +497,13 @@ export default function AuditEnveloppePage() {
           </Card>
         )}
 
-        {/* Étape 3: TCO calculé automatiquement */}
+        {/* Étape 4: TCO calculé automatiquement */}
         {tco && (
           <Card className="mb-6 bg-blue-50 border-blue-200">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</span>
-                Total Cost of Ownership (TCO) - Calculé automatiquement
+                <span className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">4</span>
+                Total Cost of Ownership (TCO) {situationFiscale && dateOuverture ? '- Calcul professionnel CGI' : '- Calcul simplifié'}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -378,29 +511,126 @@ export default function AuditEnveloppePage() {
                 <div className="p-4 bg-white rounded-lg shadow-sm">
                   <p className="text-sm text-gray-600 mb-1">Frais de gestion annuels</p>
                   <p className="text-2xl font-bold text-gray-900">{formatCurrency(tco.frais_totaux_annuels)}</p>
+                  {'explications' in tco && (
+                    <p className="text-xs text-gray-500 mt-1">{tco.explications.frais}</p>
+                  )}
                 </div>
                 <div className="p-4 bg-white rounded-lg shadow-sm">
                   <p className="text-sm text-gray-600 mb-1">Drag fiscal annuel</p>
                   <p className="text-2xl font-bold text-gray-900">{formatCurrency(tco.drag_fiscal_annuel)}</p>
+                  {'explications' in tco && (
+                    <p className="text-xs text-gray-500 mt-1">{tco.explications.fiscalite}</p>
+                  )}
                 </div>
                 <div className="p-4 bg-white rounded-lg shadow-sm">
                   <p className="text-sm text-gray-600 mb-1">Coût d'opportunité</p>
                   <p className="text-2xl font-bold text-gray-900">{formatCurrency(tco.cout_opportunite)}</p>
+                  {'explications' in tco && (
+                    <p className="text-xs text-gray-500 mt-1">{tco.explications.opportunite}</p>
+                  )}
                 </div>
                 <div className="p-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md">
                   <p className="text-sm text-blue-100 mb-1">TCO Total annuel</p>
                   <p className="text-3xl font-bold text-white">{formatCurrency(tco.tco_total)}</p>
                 </div>
               </div>
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <div className="flex items-start gap-2">
-                  <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                  <div className="text-sm text-yellow-900">
-                    <p className="font-medium mb-1">💡 À propos du calcul TCO</p>
-                    <p>Les taux utilisés sont des moyennes du marché. Le calcul peut être affiné selon votre établissement et votre TMI (Tranche Marginale d'Imposition).</p>
+
+              {/* Métriques détaillées si calcul professionnel */}
+              {'ter_moyen_pondere' in tco && (
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="p-3 bg-white rounded-lg">
+                    <p className="text-xs text-gray-600 mb-1">TER moyen</p>
+                    <p className="text-lg font-bold text-gray-900">{(tco.ter_moyen_pondere * 100).toFixed(2)}%</p>
+                  </div>
+                  <div className="p-3 bg-white rounded-lg">
+                    <p className="text-xs text-gray-600 mb-1">Taux fiscal effectif</p>
+                    <p className="text-lg font-bold text-gray-900">{(tco.taux_fiscalite_effective * 100).toFixed(2)}%</p>
+                  </div>
+                  <div className="p-3 bg-white rounded-lg">
+                    <p className="text-xs text-gray-600 mb-1">Ratio frais/valorisation</p>
+                    <p className="text-lg font-bold text-gray-900">{(tco.ratio_frais_valorisation * 100).toFixed(2)}%</p>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* Références CGI */}
+              {'references_cgi' in tco && tco.references_cgi.length > 0 && (
+                <div className="p-4 bg-white border border-blue-200 rounded-lg">
+                  <h4 className="font-medium mb-3 text-sm flex items-center gap-2">
+                    📖 Références légales (Code Général des Impôts)
+                  </h4>
+                  <div className="space-y-2">
+                    {tco.references_cgi.map((ref: ReferenceCGI, idx: number) => (
+                      <div key={idx} className="text-sm">
+                        <a
+                          href={ref.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-blue-600 hover:underline inline-flex items-center gap-1"
+                        >
+                          {ref.article} - {ref.titre}
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                        <p className="text-gray-600 text-xs mt-0.5">{ref.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Détails fiscaux */}
+              {'details_fiscaux' in tco && tco.details_fiscaux && (
+                <div className="mt-4 p-4 bg-blue-100 border border-blue-200 rounded-lg">
+                  <h4 className="font-medium mb-2 text-sm">Détails du calcul fiscal</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                    {tco.details_fiscaux.anciennete_annees !== undefined && (
+                      <div>
+                        <span className="text-gray-600">Ancienneté:</span>{' '}
+                        <span className="font-medium">{tco.details_fiscaux.anciennete_annees} ans</span>
+                      </div>
+                    )}
+                    {tco.details_fiscaux.tmi_appliquee !== undefined && (
+                      <div>
+                        <span className="text-gray-600">TMI appliquée:</span>{' '}
+                        <span className="font-medium">{(tco.details_fiscaux.tmi_appliquee * 100).toFixed(0)}%</span>
+                      </div>
+                    )}
+                    {tco.details_fiscaux.taux_ir !== undefined && (
+                      <div>
+                        <span className="text-gray-600">Taux IR:</span>{' '}
+                        <span className="font-medium">{(tco.details_fiscaux.taux_ir * 100).toFixed(1)}%</span>
+                      </div>
+                    )}
+                    {tco.details_fiscaux.ps_appliques !== undefined && (
+                      <div>
+                        <span className="text-gray-600">PS:</span>{' '}
+                        <span className="font-medium">{(tco.details_fiscaux.ps_appliques * 100).toFixed(1)}%</span>
+                      </div>
+                    )}
+                    {tco.details_fiscaux.abattement_applique !== undefined && (
+                      <div>
+                        <span className="text-gray-600">Abattement:</span>{' '}
+                        <span className="font-medium">{formatCurrency(tco.details_fiscaux.abattement_applique)}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Avertissement si calcul simplifié */}
+              {!('ter_moyen_pondere' in tco) && (
+                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
+                    <div className="text-sm text-yellow-900">
+                      <p className="font-medium mb-1">💡 Calcul simplifié utilisé</p>
+                      <p>
+                        Pour un calcul précis conforme au CGI, veuillez renseigner votre situation fiscale et la date d'ouverture de l'enveloppe.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
