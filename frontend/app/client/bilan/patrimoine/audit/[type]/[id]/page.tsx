@@ -6,18 +6,19 @@ import { useClientStore } from '@/store/client-store'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Upload, Plus, Trash2, Save, AlertCircle, FileText, CheckCircle, X, ArrowLeft } from 'lucide-react'
+import { Upload, Plus, Trash2, Save, AlertCircle, FileText, CheckCircle, X, ArrowLeft, ExternalLink, BookOpen } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 import { generateId } from '@/lib/utils/assessment/helpers'
-import { calculateTCO } from '@/lib/utils/tco-calculator'
+import { calculateTCO, calculateTCOPEA, calculateTCOCTO, calculateTCOAV, calculateTCOPER, type TCODetailed } from '@/lib/utils/tco-calculator'
 import type { LigneAudit, DocumentAudit } from '@/lib/types/bilan-audit'
+import { SituationFiscaleForm } from '@/components/bilan/SituationFiscaleForm'
 
 export default function AuditEnveloppePage() {
   const router = useRouter()
   const params = useParams()
   const { type, id } = params as { type: string, id: string }
   
-  const { bilan, updatePEAAudit, updateCTOAudit, updateAVAudit, updatePERAudit } = useClientStore()
+  const { bilan, situationFiscale, setSituationFiscale, updatePEAAudit, updateCTOAudit, updateAVAudit, updatePERAudit } = useClientStore()
 
   const [uploadedDocument, setUploadedDocument] = useState<DocumentAudit | null>(null)
   const [lignes, setLignes] = useState<LigneAudit[]>([])
@@ -129,6 +130,47 @@ export default function AuditEnveloppePage() {
     router.back()
   }
 
+  // Calcul TCO détaillé avec situation fiscale
+  const getDetailedTCO = (): TCODetailed | null => {
+    if (lignes.length === 0) return null
+    
+    try {
+      let enveloppe: any = null
+      
+      if (type === 'pea') {
+        enveloppe = bilan.patrimoine?.placements_financiers?.pea?.find((p: any) => p.id === id)
+      } else if (type === 'cto') {
+        enveloppe = bilan.patrimoine?.placements_financiers?.cto?.find((c: any) => c.id === id)
+      } else if (type === 'av') {
+        enveloppe = bilan.patrimoine?.placements_financiers?.assurance_vie?.find((av: any) => av.id === id)
+      } else if (type === 'per') {
+        enveloppe = bilan.patrimoine?.placements_financiers?.per?.find((p: any) => p.id === id)
+      }
+
+      const valorisationTotale = lignes.reduce((sum, l) => sum + l.valorisation, 0)
+      
+      if (type === 'pea' && enveloppe?.date_ouverture) {
+        return calculateTCOPEA(lignes, enveloppe.date_ouverture, situationFiscale)
+      } else if (type === 'cto') {
+        return calculateTCOCTO(lignes, situationFiscale)
+      } else if (type === 'av' && enveloppe) {
+        const montantVerse = enveloppe.montant || valorisationTotale * 0.8 // Estimation si non fourni
+        const repartitionFE = enveloppe.fonds_euros_pourcentage || 30 // 30% par défaut
+        const dateOuverture = enveloppe.date_ouverture || new Date(Date.now() - 10 * 365 * 24 * 60 * 60 * 1000).toISOString() // 10 ans par défaut
+        return calculateTCOAV(lignes, dateOuverture, montantVerse, repartitionFE, situationFiscale)
+      } else if (type === 'per') {
+        const montantVerse = enveloppe?.montant || valorisationTotale * 0.9 // Estimation
+        const revenus = bilan.revenus?.revenus.salaires_nets_mensuels ? bilan.revenus.revenus.salaires_nets_mensuels * 12 : 50000
+        return calculateTCOPER(lignes, montantVerse, revenus, situationFiscale)
+      }
+    } catch (error) {
+      console.error('Error calculating detailed TCO:', error)
+    }
+    
+    return null
+  }
+
+  const tcoDetailed = getDetailedTCO()
   const tco = lignes.length > 0 
     ? calculateTCO(lignes, type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER')
     : null
@@ -161,6 +203,13 @@ export default function AuditEnveloppePage() {
             Importez votre relevé et détaillez vos positions pour calculer le TCO
           </p>
         </div>
+
+        {/* Situation Fiscale */}
+        <SituationFiscaleForm
+          value={situationFiscale}
+          onChange={setSituationFiscale}
+          revenus={bilan.revenus?.revenus.salaires_nets_mensuels ? bilan.revenus.revenus.salaires_nets_mensuels * 12 : undefined}
+        />
 
         {/* Étape 1: Upload PDF */}
         <Card className="mb-6">
@@ -364,40 +413,102 @@ export default function AuditEnveloppePage() {
           </Card>
         )}
 
-        {/* Étape 3: TCO calculé automatiquement */}
-        {tco && (
+        {/* Étape 3: TCO calculé automatiquement avec détails fiscaux */}
+        {tcoDetailed && (
           <Card className="mb-6 bg-blue-50 border-blue-200">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <span className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</span>
-                Total Cost of Ownership (TCO) - Calculé automatiquement
+                Total Cost of Ownership (TCO) - Calculé avec votre situation fiscale
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="p-4 bg-white rounded-lg shadow-sm">
                   <p className="text-sm text-gray-600 mb-1">Frais de gestion annuels</p>
-                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(tco.frais_totaux_annuels)}</p>
+                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(tcoDetailed.frais_totaux_annuels)}</p>
+                  <p className="text-xs text-gray-500 mt-1">TER moyen: {(tcoDetailed.metrics.terMoyen * 100).toFixed(2)}%</p>
                 </div>
                 <div className="p-4 bg-white rounded-lg shadow-sm">
                   <p className="text-sm text-gray-600 mb-1">Drag fiscal annuel</p>
-                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(tco.drag_fiscal_annuel)}</p>
+                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(tcoDetailed.drag_fiscal_annuel)}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Taux effectif: {(tcoDetailed.metrics.tauxFiscaliteEffective * 100).toFixed(1)}%
+                  </p>
                 </div>
                 <div className="p-4 bg-white rounded-lg shadow-sm">
                   <p className="text-sm text-gray-600 mb-1">Coût d'opportunité</p>
-                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(tco.cout_opportunite)}</p>
+                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(tcoDetailed.cout_opportunite)}</p>
+                  <p className="text-xs text-gray-500 mt-1">Écart vs allocation optimale</p>
                 </div>
                 <div className="p-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md">
                   <p className="text-sm text-blue-100 mb-1">TCO Total annuel</p>
-                  <p className="text-3xl font-bold text-white">{formatCurrency(tco.tco_total)}</p>
+                  <p className="text-3xl font-bold text-white">{formatCurrency(tcoDetailed.tco_total)}</p>
+                  <p className="text-xs text-blue-100 mt-1">
+                    {((tcoDetailed.tco_total / valorisationTotale) * 100).toFixed(2)}% de la valorisation
+                  </p>
                 </div>
               </div>
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <div className="flex items-start gap-2">
-                  <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                  <div className="text-sm text-yellow-900">
-                    <p className="font-medium mb-1">💡 À propos du calcul TCO</p>
-                    <p>Les taux utilisés sont des moyennes du marché. Le calcul peut être affiné selon votre établissement et votre TMI (Tranche Marginale d'Imposition).</p>
+
+              {/* Explications détaillées */}
+              <div className="space-y-3 mb-4">
+                <h4 className="font-semibold text-gray-900">📋 Détail des calculs</h4>
+                {tcoDetailed.explications.map((explication, idx) => (
+                  <div key={idx} className="p-3 bg-white rounded-lg border border-gray-200">
+                    <p className="text-sm text-gray-700">{explication}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Références CGI */}
+              {tcoDetailed.references.length > 0 && (
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <BookOpen className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-green-900">
+                      <p className="font-medium mb-2">📖 Références légales (Code Général des Impôts)</p>
+                      <ul className="space-y-1">
+                        {tcoDetailed.references.map((ref, idx) => (
+                          <li key={idx} className="flex items-center gap-2">
+                            <span className="font-mono text-xs">{ref}</span>
+                            <a 
+                              href={`https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006069577/`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-green-700 hover:text-green-800 inline-flex items-center gap-1"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              <span className="text-xs">Voir sur Légifrance</span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Métriques avancées */}
+              <div className="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                <h4 className="font-semibold text-gray-900 mb-3">📊 Métriques avancées</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-xs text-gray-600">Ratio frais de gestion</p>
+                    <p className="text-lg font-bold text-purple-900">
+                      {(tcoDetailed.metrics.ratioFraisGestion * 100).toFixed(2)}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-600">TER moyen pondéré</p>
+                    <p className="text-lg font-bold text-purple-900">
+                      {(tcoDetailed.metrics.terMoyen * 100).toFixed(2)}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-600">Impact fiscal annuel</p>
+                    <p className="text-lg font-bold text-purple-900">
+                      {formatCurrency(tcoDetailed.drag_fiscal_annuel)}
+                    </p>
                   </div>
                 </div>
               </div>

@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { AlertCircle, Info } from 'lucide-react'
 import type { SituationFiscale, TMI } from '@/lib/types/situation-fiscale'
-import { BAREMES_IR_2024, PLAFONDS_2024 } from '@/lib/constants/references-cgi'
+import { BAREMES_IR_2024 } from '@/lib/types/situation-fiscale'
+import { PLAFONDS_2024 } from '@/lib/constants/references-cgi'
 
 interface SituationFiscaleFormProps {
   value: SituationFiscale
