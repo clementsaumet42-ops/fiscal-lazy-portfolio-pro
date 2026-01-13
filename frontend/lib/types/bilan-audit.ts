@@ -12,7 +12,7 @@ export interface LigneAudit {
   cours_actuel: number
   valorisation: number
   plus_value_latente: number
-  date_achat?: Date
+  date_achat?: string // ISO 8601 string for serialization
   // TCO
   frais_entree?: number
   frais_gestion_annuels?: number
@@ -26,7 +26,7 @@ export interface DocumentAudit {
   nom: string
   type: 'pdf' | 'jpg' | 'png' | 'excel' | 'csv'
   url: string
-  date_upload: Date
+  date_upload: string // ISO 8601 string for serialization
   statut: 'en_attente' | 'traite' | 'erreur'
   enveloppe_type: 'PEA' | 'CTO' | 'AV' | 'PER'
   enveloppe_id: string

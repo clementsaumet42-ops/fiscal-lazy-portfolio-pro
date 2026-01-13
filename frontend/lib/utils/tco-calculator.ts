@@ -1,5 +1,11 @@
 import type { LigneAudit, TCOCalculation } from '@/lib/types/bilan-audit'
 
+// Constants for TCO calculation
+const FONDS_EUROS_RATE = 0.015 // 1.5% rendement moyen fonds euros
+const PRELEVEMENTS_SOCIAUX_RATE = 0.172 // 17.2% prélèvements sociaux
+const DIVIDENDE_MOYEN_RATE = 0.02 // 2% rendement dividende moyen
+const PFU_RATE = 0.30 // 30% PFU (12.8% IR + 17.2% PS)
+
 /**
  * Calcul du Total Cost of Ownership pour les enveloppes
  */
@@ -22,11 +28,11 @@ export function calculateTCO(
   // Drag fiscal (simplifié - à affiner selon TMI)
   let dragFiscal = 0
   if (type === 'CTO') {
-    // Flat tax 30% sur dividendes estimés (2% rendement moyen)
-    dragFiscal = valorisationTotale * 0.02 * 0.30
+    // PFU 30% (12.8% IR + 17.2% PS) sur dividendes estimés (2% rendement moyen)
+    dragFiscal = valorisationTotale * DIVIDENDE_MOYEN_RATE * PFU_RATE
   } else if (type === 'AV') {
     // Prélèvements sociaux sur fonds euros (17.2%)
-    dragFiscal = valorisationTotale * 0.015 * 0.172
+    dragFiscal = valorisationTotale * FONDS_EUROS_RATE * PRELEVEMENTS_SOCIAUX_RATE
   }
 
   // Coût d'opportunité: différence de performance vs ETF optimal

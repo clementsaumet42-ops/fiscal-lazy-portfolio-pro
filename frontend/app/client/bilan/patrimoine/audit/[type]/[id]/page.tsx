@@ -48,13 +48,22 @@ export default function AuditEnveloppePage() {
     }
   }, [bilan, type, id])
 
+  // Cleanup blob URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (document?.url.startsWith('blob:')) {
+        URL.revokeObjectURL(document.url)
+      }
+    }
+  }, [document])
+
   const handleFileUpload = async (file: File) => {
     const newDocument: DocumentAudit = {
       id: generateId(),
       nom: file.name,
       type: file.name.split('.').pop() as any,
       url: URL.createObjectURL(file),
-      date_upload: new Date(),
+      date_upload: new Date().toISOString(),
       statut: 'en_attente',
       enveloppe_type: type.toUpperCase() as 'PEA' | 'CTO' | 'AV' | 'PER',
       enveloppe_id: id,
