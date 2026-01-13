@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge'
 import { EnveloppeBourse, SupportBourse } from '@/lib/types/assessment'
 import { formatCurrency, formatPercentage, formatDate, generateId, calculatePerformance, calculatePositionValue, isValidISIN } from '@/lib/utils/assessment/helpers'
-import { TrendingUp, Plus, Trash2, Building2, BarChart3, Wallet } from 'lucide-react'
+import { TrendingUp, Plus, Trash2, Building2, BarChart3, Wallet, Scan } from 'lucide-react'
 
 export default function EnveloppeBoursePage() {
   const router = useRouter()
@@ -180,7 +180,7 @@ export default function EnveloppeBoursePage() {
         </div>
 
         {/* Envelope Selector */}
-        <div className="mb-6 flex gap-4 flex-wrap">
+        <div className="mb-6 flex gap-4 flex-wrap items-center">
           {assessment.enveloppes_bourse.map(env => (
             <Button
               key={env.id}
@@ -199,6 +199,14 @@ export default function EnveloppeBoursePage() {
           >
             <Plus className="w-4 h-4 mr-2" />
             Nouvelle enveloppe
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => router.push('/client/patrimoine/ocr-import')}
+            className="border-green-600 text-green-700 hover:bg-green-50"
+          >
+            <Scan className="w-4 h-4 mr-2" />
+            Import OCR
           </Button>
         </div>
 
