@@ -3,6 +3,7 @@
  */
 
 import type { LigneAudit, DocumentAudit, TCOCalculation } from './bilan-audit'
+import type { SituationFiscale } from './situation-fiscale'
 
 // Situation personnelle
 export interface SituationPersonnelle {
@@ -17,6 +18,7 @@ export interface SituationPersonnelle {
     statut: 'proprietaire' | 'locataire'
     valeur?: number // si propriétaire
   }
+  fiscalite?: SituationFiscale
 }
 
 // Revenus et charges
